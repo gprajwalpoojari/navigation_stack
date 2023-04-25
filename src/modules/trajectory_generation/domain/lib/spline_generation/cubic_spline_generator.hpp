@@ -1,7 +1,7 @@
 #ifndef CUBIC_SPLINE_GENERATOR_HPP
 #define CUBIC_SPLINE_GENERATOR_HPP
 
-#include <i_spline_generator.hpp>
+#include <spline_generation/i_spline_generator.hpp>
 
 namespace trajectory_generation {
     class CubicSplineGenerator : public ISplineGenerator{

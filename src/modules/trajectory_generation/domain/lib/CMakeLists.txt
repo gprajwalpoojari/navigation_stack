@@ -1,1 +1,1 @@
-add_subdirectory(lib_spline_generation)
+add_subdirectory(spline_generation)
