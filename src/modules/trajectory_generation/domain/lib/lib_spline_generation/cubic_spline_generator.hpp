@@ -1,10 +1,10 @@
 #ifndef CUBIC_SPLINE_GENERATOR_HPP
 #define CUBIC_SPLINE_GENERATOR_HPP
 
-#include <spline_generation/ISplineGenerator.hpp>
+#include <i_spline_generator.hpp>
 
 namespace trajectory_generation {
-    class CubicSplineGenerator {
+    class CubicSplineGenerator : public ISplineGenerator{
         public:
             /*
                 Generate splines as per given end posture
