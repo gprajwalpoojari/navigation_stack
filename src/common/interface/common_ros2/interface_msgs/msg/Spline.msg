@@ -1,0 +1,1 @@
+Posture[] spline_points
