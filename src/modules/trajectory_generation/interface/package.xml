@@ -14,7 +14,6 @@
   <test_depend>ament_lint_common</test_depend>
   
   <depend>rclcpp</depend>
-  <depend>rclpy</depend>
   <depend>common_ros2</depend>
 
   <export>

@@ -17,9 +17,7 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(ament_cmake_python REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(rclpy REQUIRED)
 find_package(common_ros2 REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
