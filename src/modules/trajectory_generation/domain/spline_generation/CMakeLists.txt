@@ -1,6 +1,6 @@
-file(GLOB spline_gen "*.cpp")
+file(GLOB spline_gen_cpp_files "*.cpp")
 
-add_library(lib_spline_generation ${spline_gen})
+add_library(lib_spline_generation ${spline_gen_cpp_files})
 
 target_link_libraries(lib_spline_generation lib_core_datastructures)
 
