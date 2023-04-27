@@ -17,7 +17,9 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(rclpy REQUIRED)
 find_package(common_ros2 REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
@@ -27,8 +29,8 @@ add_executable(talker src/trajectory_publisher.cpp)
 ament_target_dependencies(talker rclcpp common_ros2 std_msgs)
 
 install(TARGETS 
-  talker
-  DESTINATION lib/${PROJECT_NAME}
+talker
+DESTINATION lib/${PROJECT_NAME}
 )
 
 if(BUILD_TESTING)

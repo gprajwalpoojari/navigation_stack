@@ -1,3 +1,0 @@
-
-add_subdirectory(domain/core_datastructures)
-add_subdirectory(interface/common_ros2)
