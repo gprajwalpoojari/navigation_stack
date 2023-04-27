@@ -1,0 +1,2 @@
+add_subdirectory(trajectory_generation/domain)
+add_subdirectory(trajectory_generation/interface)
