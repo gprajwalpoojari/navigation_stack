@@ -1,6 +1,0 @@
-cmake_minimum_required(VERSION 3.16.3)
-
-project(navigation_stack)
-
-add_subdirectory(src/common)
-add_subdirectory(src/modules)
