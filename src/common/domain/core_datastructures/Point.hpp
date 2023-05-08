@@ -1,5 +1,5 @@
-#ifndef POINT_HPP
-#define POINT_HPP
+#ifndef CORE_DATASTRUCTURES__POINT_HPP
+#define CORE_DATASTRUCTURES__POINT_HPP
 
 namespace core_datastructures {
     struct Point {
@@ -9,4 +9,4 @@ namespace core_datastructures {
     };
 }
 
-#endif  /*POINT_HPP*/
+#endif  /*CORE_DATASTRUCTURES__POINT_HPP*/
