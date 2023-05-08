@@ -1,5 +1,5 @@
-#ifndef POSE_HPP
-#define POSE_HPP
+#ifndef CORE_DATASTRUCTURES__POSE_HPP
+#define CORE_DATASTRUCTURES__POSE_HPP
 
 namespace core_datastructures {
     struct Pose {
@@ -9,4 +9,4 @@ namespace core_datastructures {
     };
 }
 
-#endif  /*POSE_HPP*/
+#endif  /*CORE_DATASTRUCTURES__POSE_HPP*/
