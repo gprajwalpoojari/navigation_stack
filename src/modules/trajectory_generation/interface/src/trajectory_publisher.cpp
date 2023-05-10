@@ -7,7 +7,8 @@
 #include <std_msgs/msg/string.hpp>
 #include <common_ros2/msg/posture.hpp>
 #include <common_ros2/msg/spline.hpp>
-
+#include <core_datastructures/Posture.hpp>
+#include <spline_generation/cubic_spline_generator.hpp>
 
 using namespace std::chrono_literals;
 
