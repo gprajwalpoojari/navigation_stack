@@ -19,12 +19,21 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(common_ros2 REQUIRED)
+find_package(trajectory_generation_domain REQUIRED)
+find_package(common_domain)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
 add_executable(talker src/trajectory_publisher.cpp)
-ament_target_dependencies(talker rclcpp common_ros2 std_msgs)
+
+ament_target_dependencies(talker rclcpp common_ros2 std_msgs trajectory_generation_domain)
+
+find_path(CORE_DATASTRUCTURES_INCLUDE_DIR core_datastructures)
+find_path(SPLINE_GENERATION_INCLUDE_DIR spline_generation)
+target_include_directories(talker PUBLIC ${CORE_DATASTRUCTURES_INCLUDE_DIR} ${SPLINE_GENERATION_INCLUDE_DIR})
+
+
 
 install(TARGETS 
 talker

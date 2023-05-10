@@ -7,7 +7,8 @@
 #include <std_msgs/msg/string.hpp>
 #include <common_ros2/msg/posture.hpp>
 #include <common_ros2/msg/spline.hpp>
-
+#include <Posture.hpp>
+#include <cubic_spline_generator.hpp>
 
 using namespace std::chrono_literals;
 
@@ -56,6 +57,9 @@ int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
   rclcpp::spin(std::make_shared<TrajectoryPublisher>());
+  core_datastructures::Posture start{0,0,0,0};
+  core_datastructures::Posture end{1,1,1,1};
+  trajectory_generation::CubicSplineGenerator spl(start, end);
   rclcpp::shutdown();
   return 0;
 }
