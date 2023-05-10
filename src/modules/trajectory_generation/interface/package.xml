@@ -3,9 +3,11 @@
 <package format="3">
   <name>trajectory_generation_ros2</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="tanmay@todo.todo">tanmay</maintainer>
-  <license>TODO: License declaration</license>
+  <description>Trajectory Generation Node to publish Trajectories to controls module</description>
+  <maintainer email="tanmaydhasade1@gmail.com">tanmay</maintainer>
+  <maintainer email="gprajwalpoojari@gmail.com">Prajwal</maintainer>
+  
+  <license>Tensor Robotics</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(trajectory_generation_ros2)
+project(localization_ros2)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -18,16 +18,14 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(common_ros2 REQUIRED)
-find_package(trajectory_generation_domain REQUIRED)
-find_package(common_domain)
 
-add_executable(talker src/trajectory_publisher.cpp)
+add_executable(temp src/localization_publisher.cpp)
 
-ament_target_dependencies(talker rclcpp common_ros2 std_msgs trajectory_generation_domain)
+ament_target_dependencies(temp rclcpp std_msgs)
+
 
 install(TARGETS 
-talker
+temp
 DESTINATION lib/${PROJECT_NAME}
 )
 
