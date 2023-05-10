@@ -1,7 +1,7 @@
 #ifndef I_SPLINE_GENERATOR_HPP
 #define I_SPLINE_GENERATOR_HPP
 
-#include <Posture.hpp>
+#include <core_datastructures/Posture.hpp>
 #include <vector>
 
 namespace trajectory_generation {
