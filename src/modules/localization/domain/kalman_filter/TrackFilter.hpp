@@ -9,7 +9,7 @@ class Tracker{
    
     bool is_initialized;
     int64_t previous_timestamp;
-    KalmanFilter kf;
+    Kalman_Filter::KalmanFilter kf;
     int noise_ax;
     int noise_ay;
     
