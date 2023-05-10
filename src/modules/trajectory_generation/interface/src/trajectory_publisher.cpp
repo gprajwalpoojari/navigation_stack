@@ -7,10 +7,12 @@
 #include <std_msgs/msg/string.hpp>
 #include <common_ros2/msg/posture.hpp>
 #include <common_ros2/msg/spline.hpp>
-#include <core_datastructures/Posture.hpp>
-#include <spline_generation/cubic_spline_generator.hpp>
 
+#include <spline_generation/cubic_spline_generator.hpp>
+#include <core_datastructures/Posture.hpp>
+#include <iostream>
 using namespace std::chrono_literals;
+using trajectory_generation::CubicSplineGenerator;
 
 /* This example creates a subclass of Node and uses std::bind() to register a
 * member function as a callback from the timer. */
@@ -29,26 +31,14 @@ class TrajectoryPublisher : public rclcpp::Node
   private:
     void timer_callback()
     {
-    //   auto message = std_msgs::msg::String();
-    //   message.data = "Hello, world! " + std::to_string(count_++);
-    //   RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", message.data.c_str());
-    //   publisher_->publish(message);
-        
-        auto message = common_ros2::msg::Spline();
-        // message.splin_points
-        for(int i=0; i<10; i++){
-            common_ros2::msg::Posture temp;
-            temp.x =i;
-            temp.y = i;
-            message.spline_points.push_back(temp);
-        }
-        // common_ros2::msg::Spline s;
-        // s.spline_points = test;
-        RCLCPP_INFO(this->get_logger(), "Published");
-        publisher_->publish(message);
-
-
+             
+      auto message = common_ros2::msg::Spline();
+     
+      RCLCPP_INFO(this->get_logger(), "Published");
+      publisher_->publish(message);
     }
+
+    
     rclcpp::TimerBase::SharedPtr timer_;
     rclcpp::Publisher<common_ros2::msg::Spline>::SharedPtr publisher_;
     size_t count_;
@@ -56,6 +46,12 @@ class TrajectoryPublisher : public rclcpp::Node
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
+  core_datastructures::Posture start{0,0,0,0}, goal{4,4,0,0};
+
+      
+  trajectory_generation::CubicSplineGenerator spl(start,goal);
+  std::cout<<spl.get_delta(start, goal)<<std::endl;
+      
   rclcpp::spin(std::make_shared<TrajectoryPublisher>());
   rclcpp::shutdown();
   return 0;
