@@ -3,30 +3,30 @@ project(common_domain)
 
 find_package(ament_cmake REQUIRED)
 
-set(CORE_DATASTRUCTURES_LIB core_datastructures)
+set(LIB_DIR core_datastructures)
 
-file(GLOB cpp_files "${CORE_DATASTRUCTURES_LIB}/*.cpp")
-file(GLOB hpp_files "${CORE_DATASTRUCTURES_LIB}/*.hpp")
+file(GLOB cpp_files "${LIB_DIR}/*.cpp")
+file(GLOB hpp_files "${LIB_DIR}/*.hpp")
 
 
-add_library(${CORE_DATASTRUCTURES_LIB} ${cpp_files})
+add_library(${LIB_DIR} ${cpp_files})
 
-ament_export_targets(${CORE_DATASTRUCTURES_LIB}Targets HAS_LIBRARY_TARGET)
+ament_export_targets(${LIB_DIR}Targets HAS_LIBRARY_TARGET)
 
-target_include_directories(${CORE_DATASTRUCTURES_LIB} PUBLIC  
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/${CORE_DATASTRUCTURES_LIB}>  
-    $<INSTALL_INTERFACE:include/${CORE_DATASTRUCTURES_LIB}>  # <prefix>/include/mylib
+target_include_directories(${LIB_DIR} PUBLIC  
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/${LIB_DIR}>  
+    $<INSTALL_INTERFACE:include/${LIB_DIR}>  # <prefix>/include/mylib
 )
 
 
 
 install(
         FILES ${hpp_files}
-        DESTINATION include/${CORE_DATASTRUCTURES_LIB}
+        DESTINATION include/${LIB_DIR}
 )
 
-install(TARGETS ${CORE_DATASTRUCTURES_LIB}
-        EXPORT ${CORE_DATASTRUCTURES_LIB}Targets
+install(TARGETS ${LIB_DIR}
+        EXPORT ${LIB_DIR}Targets
         LIBRARY DESTINATION lib/
         INCLUDES DESTINATION include/
 )
