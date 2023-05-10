@@ -1,43 +1,35 @@
-#include "kalman_filter/Kalman_Filter.h"
-#include "kalman_filter/Dynamics.h"
-#include "kalman_filter/TrackFilter.h"
+#include "kalman_filter/Kalman_Filter.hpp"
+#include "kalman_filter/Dynamics.hpp"
+#include "kalman_filter/TrackFilter.hpp"
 #include <iostream>
 #include <sstream>
 #include <fstream>
 #include <string>
 #include <vector>
 
-using Eigen::MatrixXd;
-using Eigen::VectorXd;
-using std::cout;
-using std::endl;
-using std::ifstream;
-using std::istringstream;
-using std::string;
-using std::vector;
 
 
 int main(){
 
 
-    vector<MeasurementPackage> measure_pack_list;
+    std::vector<MeasurementPackage> measure_pack_list;
 
-    string filename = "kalman_filter/obj_pose-laser-radar-synthetic-input.txt";
+    std::string filename = "kalman_filter/obj_pose-laser-radar-synthetic-input.txt";
 
-    ifstream ifs;
-    ifs.open(filename.c_str(),ifstream::in);
+    std::ifstream ifs;
+    ifs.open(filename.c_str(),std::ifstream::in);
 
     if (!ifs.is_open()) {
-    cout << "Cannot open input file: " <<filename<< endl;
+    std::cout << "Cannot open input file: " <<filename<< std::endl;
     }
 
-    string line;
+    std::string line;
     int i =0;
 
     while(getline(ifs,line) && i<=7){
         MeasurementPackage packet;
-        istringstream iss(line);
-        string sensor_type;
+        std::istringstream iss(line);
+        std::string sensor_type;
         iss >> sensor_type;
         int64_t timestamp;
 

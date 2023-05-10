@@ -1,6 +1,6 @@
-#include "Dynamics.h"
+#include "Dynamics.hpp"
 
-Dynamics::Dynamics(){}
+// Dynamics(){}
 
 void Dynamics::set_matrix_values(VectorXd &x, MatrixXd &F, MatrixXd &P, MatrixXd &Q, MatrixXd &H, MatrixXd &R){
     // Set Matrix Values
@@ -35,6 +35,6 @@ void Dynamics::set_matrix_values(VectorXd &x, MatrixXd &F, MatrixXd &P, MatrixXd
         Q = MatrixXd(4,4);
 }
 
-Dynamics::~Dynamics(){
+// Dynamics::~Dynamics(){
 
-}
+// }

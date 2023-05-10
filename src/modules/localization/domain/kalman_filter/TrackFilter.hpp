@@ -1,8 +1,8 @@
-#ifndef TRACKER_H
-#define TRACKER_H
+#ifndef KALMAN_FILTER_TRACKER_H
+#define KALMAN_FILTER_TRACKER_H
 
-#include "Measurement_Package.h"
-#include "Kalman_Filter.h"
+#include "Measurement_Package.hpp"
+#include "Kalman_Filter.hpp"
 
 class Tracker{
   public:
@@ -15,7 +15,7 @@ class Tracker{
     
     Tracker();
 
-    virtual ~Tracker();
+    // virtual ~Tracker();
 
     void measurement_update(const MeasurementPackage &measurement_pack);
 

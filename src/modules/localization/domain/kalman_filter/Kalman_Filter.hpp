@@ -6,6 +6,8 @@
 using Eigen::VectorXd;
 using Eigen::MatrixXd;
 
+namespace Kalman_Filter{
+
 class KalmanFilter{
 
      // State Vector
@@ -27,6 +29,7 @@ class KalmanFilter{
     MatrixXd R_;
     
     public:
+    
     KalmanFilter();
 
     void init_state(VectorXd start); 
@@ -39,11 +42,10 @@ class KalmanFilter{
 
     void update(const VectorXd &z);
 
-    virtual ~KalmanFilter();
-
-    
+    // virtual ~KalmanFilter();
 
 };
 
+}
 
 #endif // end of KALMAN_FILTER_H

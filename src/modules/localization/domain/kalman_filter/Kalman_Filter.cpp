@@ -1,7 +1,8 @@
 #include <iostream>
-#include "Kalman_Filter.h"
-#include "Dynamics.h"
+#include "Kalman_Filter.hpp"
+#include "Dynamics.hpp"
 
+using Kalman_Filter::KalmanFilter;
 
 KalmanFilter::KalmanFilter(){
     Dynamics model;
@@ -60,6 +61,6 @@ void KalmanFilter::update(const VectorXd &z){
 
 }
 
-KalmanFilter::~KalmanFilter(){
+// KalmanFilter::~KalmanFilter(){
 
-}
+// }
