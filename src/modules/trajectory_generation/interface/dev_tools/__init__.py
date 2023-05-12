@@ -1,0 +1,1 @@
+import subscriber_member_function

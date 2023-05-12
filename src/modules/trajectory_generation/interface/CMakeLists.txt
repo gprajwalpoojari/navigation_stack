@@ -17,10 +17,11 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(common_ros2 REQUIRED)
 find_package(common_domain REQUIRED)
-
+find_package(rclpy REQUIRED)
 find_package(trajectory_generation_domain REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
@@ -50,6 +51,13 @@ target_include_directories(
     ${CORE_DATASTRUCTURES_INCLUDE_DIRS}
 )
 
+ament_python_install_package(dev_tools)
+
+install(PROGRAMS
+  dev_tools/subscriber_member_function.py
+  DESTINATION lib/${PROJECT_NAME}
+
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

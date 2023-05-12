@@ -24,12 +24,12 @@ class TrajectoryPlotter(Node):
     def listener_callback(self, msg):
         # self.get_logger().info('I heard: "%s"' % msg.data)
         plt.figure(figsize=(8,3))
+        print(len(msg.spline_points))
         for state in msg.spline_points:
             # print(state.x,state.y)
             plt.plot(state.x, state.y, 'ro')
 
         plt.show()
-
 
 
 
@@ -48,4 +48,5 @@ def main(args=None):
 
 
 if __name__ == '__main__':
+    print("Listening.....")
     main()

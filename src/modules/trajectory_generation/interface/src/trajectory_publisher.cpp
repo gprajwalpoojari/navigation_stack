@@ -34,8 +34,23 @@ class TrajectoryPublisher : public rclcpp::Node
              
       auto message = common_ros2::msg::Spline();
      
+      core_datastructures::Posture start{0,0,0,0}, goal{4,0,0,0};
+
+      
+      trajectory_generation::CubicSplineGenerator spl(start,goal);
+      std::vector<core_datastructures::Posture> spline = spl.get_spline();
+      std::cout<<spline.size()<<std::endl;
+      for(unsigned int i=0; i<spline.size(); i++){
+        auto temp = common_ros2::msg::Posture();
+        temp.x = spline[i].x;
+        temp.y = spline[i].y;
+        message.spline_points.push_back(temp);
+      }
+          
+
       RCLCPP_INFO(this->get_logger(), "Published");
       publisher_->publish(message);
+
     }
 
     
@@ -46,12 +61,7 @@ class TrajectoryPublisher : public rclcpp::Node
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
-  core_datastructures::Posture start{0,0,0,0}, goal{4,4,0,0};
-
-      
-  trajectory_generation::CubicSplineGenerator spl(start,goal);
-  std::cout<<spl.get_delta(start, goal)<<std::endl;
-      
+  
   rclcpp::spin(std::make_shared<TrajectoryPublisher>());
   rclcpp::shutdown();
   return 0;

@@ -10,16 +10,20 @@
   <license>Tensor Robotics</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_python</buildtool_depend>
 
   <build_depend>common_domain</build_depend>
   <build_depend>trajectory_generation_domain</build_depend>
-  <build_depend>common_domain</build_depend>
+  <!-- <build_depend>common_domain</build_depend> -->
+  <depend>rclpy</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
+  <test_depend>python3-pytest</test_depend>
   
   <depend>rclcpp</depend>
   <depend>common_ros2</depend>
+
 
   <export>
     <build_type>ament_cmake</build_type>
