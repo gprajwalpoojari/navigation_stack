@@ -3,6 +3,7 @@ project(trajectory_generation_domain)
 
 find_package(ament_cmake REQUIRED)
 find_package(common_domain REQUIRED)
+find_package(Eigen3 REQUIRED)
 
 # set variable name (optional)
 set(LIB_DIR spline_generation)

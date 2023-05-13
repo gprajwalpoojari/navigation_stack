@@ -34,12 +34,12 @@ class TrajectoryPublisher : public rclcpp::Node
              
       auto message = common_ros2::msg::Spline();
      
-      core_datastructures::Posture start{0,0,0,0}, goal{4,0,0,0};
+      core_datastructures::Posture start{0,0,0,0}, goal{10,8,M_PI,0};
 
       
       trajectory_generation::CubicSplineGenerator spl(start,goal);
       std::vector<core_datastructures::Posture> spline = spl.get_spline();
-      std::cout<<spline.size()<<std::endl;
+      // std::cout<<spline.size()<<std::endl;
       for(unsigned int i=0; i<spline.size(); i++){
         auto temp = common_ros2::msg::Posture();
         temp.x = spline[i].x;

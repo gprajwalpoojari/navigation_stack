@@ -32,13 +32,14 @@ namespace trajectory_generation {
             double calculate_x(std::vector<double>& params, double s);
 
             double calculate_y(std::vector<double>& params, double s);
-                
+
         private:
             double P0;
             double P1;
             double P2;
             double P3;
             double SG;
+            
             Eigen::Vector3d q_thresh;
             core_datastructures::Posture start;
             core_datastructures::Posture goal;

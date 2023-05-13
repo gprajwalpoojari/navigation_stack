@@ -8,7 +8,12 @@
     ],
     "cmake.sourceDirectory": "/home/tanmay/Documents/navigation_stack/build/navigation_stack/src/common/interface/common_ros2/common_ros2__py",
     "files.associations": {
-        "cmath": "cpp"
+        "cmath": "cpp",
+        "ostream": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "vector": "cpp",
+        "iostream": "cpp"
     },
     "cmake.configureArgs": []
 }
