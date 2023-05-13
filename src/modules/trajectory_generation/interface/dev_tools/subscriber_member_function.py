@@ -30,6 +30,8 @@ class TrajectoryPlotter(Node):
             plt.plot(state.x, state.y, 'ro')
 
         plt.show()
+        wait = input()
+        plt.close()
 
 
 
