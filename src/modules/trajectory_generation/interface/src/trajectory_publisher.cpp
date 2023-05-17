@@ -12,11 +12,7 @@
 #include <core_datastructures/Posture.hpp>
 #include <iostream>
 
-using namespace std::chrono_literals;
-using trajectory_generation::CubicSplineGenerator;
 
-/* This example creates a subclass of Node and uses std::bind() to register a
-* member function as a callback from the timer. */
 
 class TrajectoryPublisher : public rclcpp::Node
 {
@@ -25,8 +21,7 @@ class TrajectoryPublisher : public rclcpp::Node
     : Node("trajectory_publisher"), count_(0), start_(start), goal_(goal)
     {
       publisher_ = this->create_publisher<common_ros2::msg::Spline>("/trajectory", 10);
-      timer_ = this->create_wall_timer(
-      500ms, std::bind(&TrajectoryPublisher::timer_callback, this));
+      timer_ = this->create_wall_timer(std::chrono::milliseconds(500), std::bind(&TrajectoryPublisher::timer_callback, this));
 
     }
 
@@ -37,9 +32,6 @@ class TrajectoryPublisher : public rclcpp::Node
              
       auto message = common_ros2::msg::Spline();
      
-      // core_datastructures::Posture start{0,0,0,0}, goal{3,8,M_PI/2,0};
-
-      
       trajectory_generation::CubicSplineGenerator spl(start_,goal_);
       std::vector<core_datastructures::Posture> spline = spl.get_spline();
       for(unsigned int i=0; i<spline.size(); i++){
@@ -76,7 +68,10 @@ int main(int argc, char * argv[])
     goal.theta = atof(argv[7]);
     goal.kappa = atof(argv[8]);
   }
-  std::cout << start.x << "," << start.y << "," << goal.x << "," << goal.y << std::endl;
+  std::string values = "\nStart: x:" + std::to_string(start.x) + " y:" + std::to_string(start.y) + " theta:" + std::to_string(start.theta) + " kappa:" + std::to_string(start.kappa) +
+                       "\nGoal:  x:" + std::to_string(goal.x) + " y:" + std::to_string(goal.y) + " theta:" + std::to_string(goal.theta) + " kappa:" + std::to_string(goal.kappa);
+  
+  RCLCPP_INFO(rclcpp::get_logger("Spline Requested"),"%s", values.c_str());
   rclcpp::spin(std::make_shared<TrajectoryPublisher>(start,goal));
   rclcpp::shutdown();
   return 0;

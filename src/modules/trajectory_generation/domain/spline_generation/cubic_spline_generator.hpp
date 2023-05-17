@@ -43,7 +43,7 @@ namespace trajectory_generation {
              * @param s 
              * @return core_datastructures::Posture return next state given spline params
              */
-            core_datastructures::Posture get_next_state(std::vector<double>& params, double s);
+            core_datastructures::Posture get_next_state(const std::vector<double>& params, double s);
 
 
             /**
@@ -75,7 +75,7 @@ namespace trajectory_generation {
              * @param s 
              * @return double Curvature
              */
-            double calculate_kappa(std::vector<double>& params, double s);
+            double calculate_kappa(const std::vector<double>& params, double s);
 
             /**
              * @brief Computes theta given params and arc length
@@ -84,7 +84,7 @@ namespace trajectory_generation {
              * @param s 
              * @return double theta value in radians
              */
-            double calculate_theta(std::vector<double>& params, double s);
+            double calculate_theta(const std::vector<double>& params, double s);
 
             // double calculate_x();
             /**
@@ -94,7 +94,7 @@ namespace trajectory_generation {
              * @param s 
              * @return double 
              */
-            double calculate_x(std::vector<double>& params, double s);
+            double calculate_x(const std::vector<double>& params, double s);
 
             /**
              * @brief Computes y given params and arc length
@@ -103,7 +103,7 @@ namespace trajectory_generation {
              * @param s 
              * @return double 
              */
-            double calculate_y(std::vector<double>& params, double s);
+            double calculate_y(const std::vector<double>& params, double s);
 
             /**
              * @brief Gets the euclidian distance given two postures

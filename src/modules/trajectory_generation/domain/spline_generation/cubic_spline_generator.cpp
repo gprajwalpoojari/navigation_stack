@@ -8,19 +8,14 @@
 
 namespace trajectory_generation{
 
-    CubicSplineGenerator::CubicSplineGenerator(core_datastructures::Posture& start, core_datastructures::Posture& goal){
-        this->start = start;
-        this->goal = goal;
-        
+    CubicSplineGenerator::CubicSplineGenerator(core_datastructures::Posture& start, core_datastructures::Posture& goal){       
         P0 = start.kappa;
         P3 = goal.kappa;
         SG = get_distance(start, goal);
 
         P1=0.1;
         P2=0.1;
-        q_thresh(0) =0.01;
-        q_thresh(1) = 0.01;
-        q_thresh(2)=0.01;
+        q_thresh << 0.01, 0.01, 0.01;
     }
 
 
@@ -39,7 +34,7 @@ namespace trajectory_generation{
         return {a,b,c,d};
     }
 
-    core_datastructures::Posture CubicSplineGenerator::get_next_state(std::vector<double>& params, double s){
+    core_datastructures::Posture CubicSplineGenerator::get_next_state(const std::vector<double>& params, double s){
         core_datastructures::Posture next_state;
         next_state.kappa = calculate_kappa(params,s);
         next_state.theta = calculate_theta(params,s);
@@ -49,11 +44,11 @@ namespace trajectory_generation{
         return next_state;
     }
 
-    double CubicSplineGenerator::calculate_kappa(std::vector<double>& params, double s){
+    double CubicSplineGenerator::calculate_kappa(const std::vector<double>& params, double s){
         return params[0] + params[1]*s + params[2]*pow(s,2) + params[3]*pow(s,3);
     }
 
-    double CubicSplineGenerator::calculate_theta(std::vector<double>& params, double s){
+    double CubicSplineGenerator::calculate_theta(const std::vector<double>& params, double s){
         return params[0]*s + params[1]*pow(s,2)/2 + params[2]*pow(s,3)/3 + params[3]*pow(s,4)/4;
     }
     
@@ -78,7 +73,7 @@ namespace trajectory_generation{
     }
 
 
-    double CubicSplineGenerator::calculate_x(std::vector<double>& params, double s){
+    double CubicSplineGenerator::calculate_x(const std::vector<double>& params, double s){
         double prev_theta = calculate_theta(params, 0);
         double prev_x = cos(prev_theta);
         double total_area{0};
@@ -92,7 +87,7 @@ namespace trajectory_generation{
         return total_area;
     }
 
-    double CubicSplineGenerator::calculate_y(std::vector<double>& params, double s){
+    double CubicSplineGenerator::calculate_y(const std::vector<double>& params, double s){
         double prev_theta = calculate_theta(params, 0);
         double prev_y = sin(prev_theta);
         double total_area{0};
