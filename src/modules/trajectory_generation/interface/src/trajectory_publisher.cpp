@@ -11,22 +11,20 @@
 #include <spline_generation/cubic_spline_generator.hpp>
 #include <core_datastructures/Posture.hpp>
 #include <iostream>
-using namespace std::chrono_literals;
-using trajectory_generation::CubicSplineGenerator;
 
-/* This example creates a subclass of Node and uses std::bind() to register a
-* member function as a callback from the timer. */
+
 
 class TrajectoryPublisher : public rclcpp::Node
 {
   public:
-    TrajectoryPublisher()
-    : Node("trajectory_publisher"), count_(0)
+    TrajectoryPublisher(core_datastructures::Posture& start, core_datastructures::Posture& goal )
+    : Node("trajectory_publisher"), count_(0), start_(start), goal_(goal)
     {
       publisher_ = this->create_publisher<common_ros2::msg::Spline>("/trajectory", 10);
-      timer_ = this->create_wall_timer(
-      500ms, std::bind(&TrajectoryPublisher::timer_callback, this));
+      timer_ = this->create_wall_timer(std::chrono::milliseconds(500), std::bind(&TrajectoryPublisher::timer_callback, this));
+
     }
+
 
   private:
     void timer_callback()
@@ -34,12 +32,8 @@ class TrajectoryPublisher : public rclcpp::Node
              
       auto message = common_ros2::msg::Spline();
      
-      core_datastructures::Posture start{0,0,0,0}, goal{10,8,M_PI,0};
-
-      
-      trajectory_generation::CubicSplineGenerator spl(start,goal);
+      trajectory_generation::CubicSplineGenerator spl(start_,goal_);
       std::vector<core_datastructures::Posture> spline = spl.get_spline();
-      // std::cout<<spline.size()<<std::endl;
       for(unsigned int i=0; i<spline.size(); i++){
         auto temp = common_ros2::msg::Posture();
         temp.x = spline[i].x;
@@ -57,12 +51,28 @@ class TrajectoryPublisher : public rclcpp::Node
     rclcpp::TimerBase::SharedPtr timer_;
     rclcpp::Publisher<common_ros2::msg::Spline>::SharedPtr publisher_;
     size_t count_;
+    core_datastructures::Posture start_;
+    core_datastructures::Posture goal_;
 };
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
+  core_datastructures::Posture start{0,0,0,0}, goal{3,8,0,0};
+  if(argc == 9){
+    start.x = atof(argv[1]);
+    start.y = atof(argv[2]);
+    start.theta = atof(argv[3]);
+    start.kappa = atof(argv[4]);
+    goal.x = atof(argv[5]);
+    goal.y = atof(argv[6]);
+    goal.theta = atof(argv[7]);
+    goal.kappa = atof(argv[8]);
+  }
+  std::string values = "\nStart: x:" + std::to_string(start.x) + " y:" + std::to_string(start.y) + " theta:" + std::to_string(start.theta) + " kappa:" + std::to_string(start.kappa) +
+                       "\nGoal:  x:" + std::to_string(goal.x) + " y:" + std::to_string(goal.y) + " theta:" + std::to_string(goal.theta) + " kappa:" + std::to_string(goal.kappa);
   
-  rclcpp::spin(std::make_shared<TrajectoryPublisher>());
+  RCLCPP_INFO(rclcpp::get_logger("Spline Requested"),"%s", values.c_str());
+  rclcpp::spin(std::make_shared<TrajectoryPublisher>(start,goal));
   rclcpp::shutdown();
   return 0;
 }
