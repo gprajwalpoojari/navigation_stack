@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 project(localization_domain)
 
 find_package(ament_cmake REQUIRED)
+find_package(Eigen3 REQUIRED)
 
 # set variable name (optional)
 set(LIB_DIR kalman_filter)
@@ -15,12 +16,12 @@ file(GLOB hpp_files "${LIB_DIR}/*.hpp")
 add_library(${LIB_DIR} ${cpp_files})
 
 # # Add all dependencies of this library
-# ament_target_dependencies(${LIB_DIR} common_domain)
+ament_target_dependencies(${LIB_DIR} Eigen3)
 
 # # Export target and also its dependencies so that you don't have to call 
 # # find_package() for each of the dependencies
 ament_export_targets(${LIB_DIR}Targets HAS_LIBRARY_TARGET)
-# ament_export_dependencies(common_domain)
+ament_export_dependencies(common_domain Eigen3)
 
 # # Specify the include directories to enable cmake to build and install
 target_include_directories(${LIB_DIR} PUBLIC  
@@ -41,14 +42,5 @@ install(TARGETS ${LIB_DIR}
         LIBRARY DESTINATION lib/
         INCLUDES DESTINATION include/
 )
-
-add_executable(main main.cpp kalman_filter/Dynamics.cpp kalman_filter/Kalman_Filter.cpp kalman_filter/TrackFilter.cpp)
-# ament_target_dependencies(main ${LIB_DIR})
-
-install(TARGETS 
-main
-DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
 
 ament_package()

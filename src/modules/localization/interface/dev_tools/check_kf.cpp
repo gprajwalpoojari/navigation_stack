@@ -1,20 +1,16 @@
-#include "kalman_filter/Kalman_Filter.hpp"
-#include "kalman_filter/Dynamics.hpp"
-#include "kalman_filter/TrackFilter.hpp"
+#include <kalman_filter/kalman_filter.hpp>
+#include <kalman_filter/dynamics.hpp>
+#include <kalman_filter/track_filter.hpp>
 #include <iostream>
-#include <sstream>
 #include <fstream>
-#include <string>
 #include <vector>
 
 
 
 int main(){
+    std::vector<kalman_filter::MeasurementPackage> measure_pack_list;
 
-
-    std::vector<MeasurementPackage> measure_pack_list;
-
-    std::string filename = "kalman_filter/obj_pose-laser-radar-synthetic-input.txt";
+    std::string filename = "obj_pose-laser-radar-synthetic-input.txt";
 
     std::ifstream ifs;
     ifs.open(filename.c_str(),std::ifstream::in);
@@ -27,15 +23,15 @@ int main(){
     int i =0;
 
     while(getline(ifs,line) && i<=7){
-        MeasurementPackage packet;
+        kalman_filter::MeasurementPackage packet;
         std::istringstream iss(line);
         std::string sensor_type;
         iss >> sensor_type;
         int64_t timestamp;
 
         if(sensor_type.compare("L") == 0){
-            packet.sensor_type = MeasurementPackage::LASER;
-            packet.raw_measurements_ = VectorXd(2);
+            packet.sensor_type = kalman_filter::MeasurementPackage::LASER;
+            packet.raw_measurements_ = Eigen::VectorXd(2);
             float x,y;
             iss>>x;
             iss>>y;
@@ -51,7 +47,7 @@ int main(){
     }
 
     size_t N = measure_pack_list.size();
-    Tracker t;
+    kalman_filter::Tracker t;
 
     for(size_t k = 0;k<N;++k){
         t.measurement_update(measure_pack_list[k]);
@@ -60,10 +56,6 @@ int main(){
     if(ifs.is_open()){
         ifs.close();
     }
-
-
-
-
-
+    
     return 0;
 }
