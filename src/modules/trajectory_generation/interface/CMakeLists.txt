@@ -21,26 +21,29 @@ find_package(rclcpp REQUIRED)
 find_package(common_ros2 REQUIRED)
 find_package(common_domain REQUIRED)
 find_package(trajectory_generation_domain REQUIRED)
-find_path(SPLINE_GENERATION_INCLUDE_DIRS spline_generation)
-find_path(CORE_DATASTRUCTURES_INCLUDE_DIRS core_datastructures)
 
-add_executable(talker src/trajectory_publisher.cpp )
-ament_target_dependencies(talker rclcpp common_ros2 std_msgs trajectory_generation_domain)
+
+add_executable(main src/main.cpp src/trajectory_publisher.cpp)
+
+# Specify where the files to build are and where the include directory is
+target_include_directories(main PUBLIC  
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>  
+    $<INSTALL_INTERFACE:include/>  # <prefix>/include/mylib
+)
+ament_target_dependencies(main rclcpp common_ros2 std_msgs trajectory_generation_domain)
 
 
 install(TARGETS 
-  talker
+  main
   DESTINATION lib/${PROJECT_NAME}
 )
-target_include_directories(
-    talker PUBLIC
-    ${SPLINE_GENERATION_INCLUDE_DIRS}
-    ${CORE_DATASTRUCTURES_INCLUDE_DIRS}
+install(
+    FILES src/trajectory_publisher.hpp
+    DESTINATION include/
 )
 
 install(PROGRAMS
   DESTINATION lib/${PROJECT_NAME}
-
 )
 
 if(BUILD_TESTING)

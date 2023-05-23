@@ -17,21 +17,54 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-
 find_package(rosidl_default_generators REQUIRED)
+find_package(common_domain REQUIRED)
+
+#Generate ROS messages
 rosidl_generate_interfaces(${PROJECT_NAME}
   "interface_msgs/msg/Posture.msg"
   "interface_msgs/msg/Spline.msg"
 )
 
+# Export message so that other packages can find it
+ament_export_dependencies(rosidl_default_runtime)
+
+set(LIB_DIR converters)
+
+file(GLOB cpp_files "${LIB_DIR}/*.cpp")
+file(GLOB hpp_files "${LIB_DIR}/*.hpp")
+
+add_library(${LIB_DIR} ${cpp_files})
+
+# Add the generated messages as a dependency to this library
+rosidl_target_interfaces(${LIB_DIR}
+  ${PROJECT_NAME} "rosidl_typesupport_cpp")
+
+target_include_directories(${LIB_DIR} PUBLIC  
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/${LIB_DIR}>  
+    $<INSTALL_INTERFACE:include/${LIB_DIR}>  # <prefix>/include/mylib
+)
+
+ament_export_targets(${LIB_DIR}Targets HAS_LIBRARY_TARGET)
+
+ament_target_dependencies(${LIB_DIR} common_domain)
+
+
+install(
+        FILES ${hpp_files}
+        DESTINATION include/${LIB_DIR}
+)
+
+install(TARGETS ${LIB_DIR}
+        EXPORT ${LIB_DIR}Targets
+        LIBRARY DESTINATION lib/
+        INCLUDES DESTINATION include/
+)
+
+
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
-  # the following line skips the linter which checks for copyrights
-  # uncomment the line when a copyright and license is not present in all source files
-  #set(ament_cmake_copyright_FOUND TRUE)
-  # the following line skips cpplint (only works in a git repo)
-  # uncomment the line when this package is not in a git repo
-  #set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
 
