@@ -29,9 +29,9 @@ namespace trajectory_generation {
             /**
              * @brief Computes the spline parameters given [P1, P2, SG] values
              * 
-             * @param p1 
-             * @param p2 
-             * @param s 
+             * @param[in] p1    The perturbation parameter p1
+             * @param[in] p2    The perturbation parameter p2
+             * @param[in] s     The perturbation parameter s
              * @return std::vector<double> the spline parameters {a, b, c, d}
              */
             std::vector<double> calculate_parameters(double p1, double p2, double s);
@@ -39,20 +39,20 @@ namespace trajectory_generation {
             /**
              * @brief Get the next state object
              * 
-             * @param params 
-             * @param s 
+             * @param[in] coeffs    The spline coefficients {a, b, c, d}
+             * @param[in] s         The arc length
              * @return core_datastructures::Posture return next state given spline params
              */
-            core_datastructures::Posture get_next_state(const std::vector<double>& params, double s);
+            core_datastructures::Posture get_next_state(const std::vector<double>& coeffs, double s);
 
 
             /**
              * @brief Computes Jacobian matrix for the given params
              * 
-             * @param params 
-             * @return Eigen::Matrix3d Jacobian Matrix
+             * @param[in] coeffs    The spline coefficients {a, b, c, d}
+             * @return              Eigen::Matrix3d Jacobian Matrix
              */
-            Eigen::Matrix3d calculate_Jacobian(std::vector<double>& params);
+            Eigen::Matrix3d calculate_Jacobian(const std::vector<double>& coeffs);
 
 
             /**
@@ -71,46 +71,46 @@ namespace trajectory_generation {
             /**
              * @brief Computes curvature given params and arc length
              * 
-             * @param params 
-             * @param s 
+             * @param  coeffs   The spline coefficients {a, b, c, d}
+             * @param s         The arc length
              * @return double Curvature
              */
-            double calculate_kappa(const std::vector<double>& params, double s);
+            double calculate_kappa(const std::vector<double>& coeffs, double s);
 
             /**
-             * @brief Computes theta given params and arc length
+             * @brief Computes theta given coeffs and arc length
              * 
-             * @param params 
-             * @param s 
+             * @param coeffs    The spline coefficients {a, b, c, d}
+             * @param s         The arc length
              * @return double theta value in radians
              */
-            double calculate_theta(const std::vector<double>& params, double s);
+            double calculate_theta(const std::vector<double>& coeffs, double s);
 
             // double calculate_x();
             /**
-             * @brief computes x given params and arc length
+             * @brief computes x given coeffs and arc length
              * 
-             * @param params 
-             * @param s 
+             * @param coeffs    The spline coefficients {a, b, c, d}
+             * @param s         The arc length
              * @return double 
              */
-            double calculate_x(const std::vector<double>& params, double s);
+            double calculate_x(const std::vector<double>& coeffs, double s);
 
             /**
-             * @brief Computes y given params and arc length
+             * @brief Computes y given coeffs and arc length
              * 
-             * @param params 
-             * @param s 
+             * @param coeffs    The spline coefficients {a, b, c, d}
+             * @param s         The arc length
              * @return double 
              */
-            double calculate_y(const std::vector<double>& params, double s);
+            double calculate_y(const std::vector<double>& coeffs, double s);
 
             /**
              * @brief Gets the euclidian distance given two postures
              * 
-             * @param start 
-             * @param goal 
-             * @return double eucilidian distance
+             * @param start     The start state
+             * @param goal      The goal state
+             * @return          double eucilidian distance
              */
             double get_distance(const core_datastructures::Posture& start, const core_datastructures::Posture& goal);
 
@@ -135,11 +135,8 @@ namespace trajectory_generation {
 
         private:
             double P0;
-            double P1;
-            double P2;
             double P3;
-            double SG;
-            
+            Eigen::Vector3d perturb_params; // {P1, P2, SG}
             /**
              * @brief Spline convergence threshold value
              * 
