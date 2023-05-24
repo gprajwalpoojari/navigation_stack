@@ -147,13 +147,7 @@ namespace trajectory_generation {
             Eigen::Vector3d q_thresh;
 
             /**
-             * @brief Start posture for spline generation
-             * 
-             */
-            core_datastructures::Posture start;
-
-            /**
-             * @brief Goal posture for spline generation
+             * @brief Relative Goal posture for spline generation
              * 
              */
             core_datastructures::Posture goal;

@@ -3,7 +3,7 @@
 #include <spline_generation/cubic_spline_generator.hpp>
 #include <common_ros2/msg/spline.hpp>
 
-TrajectoryPublisher::TrajectoryPublisher(core_datastructures::Posture& start, core_datastructures::Posture& goal )
+TrajectoryPublisher::TrajectoryPublisher(core_datastructures::Posture& start, core_datastructures::Posture& goal)
     : Node("trajectory_publisher"), count_(0), start_(start), goal_(goal) {
       publisher_ = this->create_publisher<common_ros2::msg::Spline>("/trajectory", 10);
       timer_ = this->create_wall_timer(std::chrono::milliseconds(500), std::bind(&TrajectoryPublisher::timer_callback, this));

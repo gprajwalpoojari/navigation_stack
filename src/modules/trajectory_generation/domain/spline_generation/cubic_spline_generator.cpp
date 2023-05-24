@@ -8,11 +8,15 @@
 
 namespace trajectory_generation{
 
-    CubicSplineGenerator::CubicSplineGenerator(core_datastructures::Posture& start, core_datastructures::Posture& goal){       
+    CubicSplineGenerator::CubicSplineGenerator(core_datastructures::Posture& start, core_datastructures::Posture& goal) {       
+        this->goal.x = goal.x - start.x;
+        this->goal.y = goal.y - start.y;
+        this->goal.theta = goal.theta - start.theta;
+        this->goal.kappa = goal.kappa - start.kappa;
+        
         P0 = start.kappa;
         P3 = goal.kappa;
         SG = get_distance(start, goal);
-
         P1=0.1;
         P2=0.1;
         q_thresh << 0.01, 0.01, 0.01;

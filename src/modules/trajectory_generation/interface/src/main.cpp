@@ -1,6 +1,5 @@
 #include <trajectory_publisher.hpp>
 #include <string>
-// #include <rclcpp/rclcpp.hpp>
 
 int main(int argc, char * argv[])
 {
