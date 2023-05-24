@@ -8,7 +8,8 @@
 
 namespace trajectory_generation{
 
-    CubicSplineGenerator::CubicSplineGenerator(const core_datastructures::Posture& start, const core_datastructures::Posture& goal) {       
+    CubicSplineGenerator::CubicSplineGenerator(const core_datastructures::Posture& start, 
+                                                    const core_datastructures::Posture& goal) {       
         this->goal.x = goal.x - start.x;
         this->goal.y = goal.y - start.y;
         this->goal.theta = goal.theta - start.theta;
@@ -40,7 +41,8 @@ namespace trajectory_generation{
         return {a,b,c,d};
     }
 
-    const core_datastructures::Posture CubicSplineGenerator::get_next_state(const std::vector<double>& coeffs, double s) const {
+    const core_datastructures::Posture CubicSplineGenerator::get_next_state(const std::vector<double>& coeffs, 
+                                                                                                double s) const {
         core_datastructures::Posture next_state;
         next_state.kappa = calculate_kappa(coeffs,s);
         next_state.theta = calculate_theta(coeffs,s);

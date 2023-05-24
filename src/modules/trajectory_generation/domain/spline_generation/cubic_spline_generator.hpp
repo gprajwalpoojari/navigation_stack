@@ -17,7 +17,8 @@ namespace trajectory_generation {
              * @param start core_datastructures::Posture spline start posture
              * @param goal core_datastructures::Posture spline end posture
              */
-            CubicSplineGenerator(const core_datastructures::Posture& start, const core_datastructures::Posture& goal);
+            CubicSplineGenerator(const core_datastructures::Posture& start, 
+                                        const core_datastructures::Posture& goal);
             
             /**
              * @brief Get the spline object
@@ -109,7 +110,8 @@ namespace trajectory_generation {
              * @param goal      The goal state
              * @return          double eucilidian distance
              */
-            double get_distance(const core_datastructures::Posture& start, const core_datastructures::Posture& goal) const;
+            double get_distance(const core_datastructures::Posture& start, 
+                                    const core_datastructures::Posture& goal) const;
 
             
             /**
@@ -119,7 +121,8 @@ namespace trajectory_generation {
              * @param goal      The goal state
              * @return          Eigen::Vector3d 
              */
-            Eigen::Vector3d get_diff(const core_datastructures::Posture& start, const core_datastructures::Posture& goal) const;
+            Eigen::Vector3d get_diff(const core_datastructures::Posture& start, 
+                                        const core_datastructures::Posture& goal) const;
             
             /**
              * @brief checks if qiven vector is less than threhold
