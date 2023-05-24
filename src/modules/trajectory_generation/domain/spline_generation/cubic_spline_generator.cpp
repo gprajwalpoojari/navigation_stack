@@ -136,7 +136,7 @@ namespace trajectory_generation{
         return v;
     }
 
-    bool CubicSplineGenerator::is_less_than_threshold(Eigen::Vector3d& v1) const{
+    bool CubicSplineGenerator::is_less_than_threshold(Eigen::Vector3d& q_delta) const{
         if(v1[0] > q_thresh[0] || v1[1] > q_thresh[1] || v1[2] > q_thresh[2]) {
             return false;
         }
