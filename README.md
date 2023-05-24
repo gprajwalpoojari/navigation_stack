@@ -1,4 +1,12 @@
 # navigation_stack
+The goal of this project is to build a navigation stack from ground up consisting of perception, prediction, localization, planning and controls modules. 
+Each of these modules consists of two individual packages -> domain and interface. The domain package holds all the core logic whereas the interface packageis responsible for communication between modules.
+
+This project is being implemented in ROS2.
+
+At its current stage, the stack can generate cubic splines for an autonomous vehicle as well as localize itself using kalman filter.
+
+The directory tree inside the src/ directory of the navigation stack looks like the following:
 
 ```
 .
