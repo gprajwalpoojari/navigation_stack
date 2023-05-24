@@ -17,7 +17,7 @@ namespace trajectory_generation {
              * @param start core_datastructures::Posture spline start posture
              * @param goal core_datastructures::Posture spline end posture
              */
-            CubicSplineGenerator(core_datastructures::Posture& start, core_datastructures::Posture& goal);
+            CubicSplineGenerator(const core_datastructures::Posture& start, const core_datastructures::Posture& goal);
             
             /**
              * @brief Get the spline object
@@ -29,18 +29,18 @@ namespace trajectory_generation {
             /**
              * @brief Computes the spline coefficients given [P1, P2, SG] storted in perturb_params variable
              * 
-             * @return std::vector<double> the spline coefficients {a, b, c, d}
+             * @return const std::vector<double> the spline coefficients {a, b, c, d}
              */
-            std::vector<double> calculate_spline_coefficients();
+            const std::vector<double> calculate_spline_coefficients() const;
 
             /**
              * @brief Get the next state object
              * 
              * @param[in] coeffs    The spline coefficients {a, b, c, d}
              * @param[in] s         The arc length
-             * @return core_datastructures::Posture return next state given spline params
+             * @return const core_datastructures::Posture return next state given spline params
              */
-            core_datastructures::Posture get_next_state(const std::vector<double>& coeffs, double s);
+            const core_datastructures::Posture get_next_state(const std::vector<double>& coeffs, double s) const;
 
 
             /**
@@ -63,7 +63,7 @@ namespace trajectory_generation {
              * 
              * @return std::vector<core_datastructures::Posture> 
              */
-            std::vector<core_datastructures::Posture> generate_splines();
+            const std::vector<core_datastructures::Posture> generate_splines() const;
 
             /**
              * @brief Computes curvature given params and arc length
@@ -72,7 +72,7 @@ namespace trajectory_generation {
              * @param s         The arc length
              * @return double Curvature
              */
-            double calculate_kappa(const std::vector<double>& coeffs, double s);
+            double calculate_kappa(const std::vector<double>& coeffs, double s) const;
 
             /**
              * @brief Computes theta given coeffs and arc length
@@ -81,7 +81,7 @@ namespace trajectory_generation {
              * @param s         The arc length
              * @return double theta value in radians
              */
-            double calculate_theta(const std::vector<double>& coeffs, double s);
+            double calculate_theta(const std::vector<double>& coeffs, double s) const;
 
             // double calculate_x();
             /**
@@ -91,7 +91,7 @@ namespace trajectory_generation {
              * @param s         The arc length
              * @return double 
              */
-            double calculate_x(const std::vector<double>& coeffs, double s);
+            double calculate_x(const std::vector<double>& coeffs, double s) const;
 
             /**
              * @brief Computes y given coeffs and arc length
@@ -100,7 +100,7 @@ namespace trajectory_generation {
              * @param s         The arc length
              * @return double 
              */
-            double calculate_y(const std::vector<double>& coeffs, double s);
+            double calculate_y(const std::vector<double>& coeffs, double s) const;
 
             /**
              * @brief Gets the euclidian distance given two postures
@@ -109,7 +109,7 @@ namespace trajectory_generation {
              * @param goal      The goal state
              * @return          double eucilidian distance
              */
-            double get_distance(const core_datastructures::Posture& start, const core_datastructures::Posture& goal);
+            double get_distance(const core_datastructures::Posture& start, const core_datastructures::Posture& goal) const;
 
             
             /**
@@ -119,7 +119,7 @@ namespace trajectory_generation {
              * @param goal      The goal state
              * @return          Eigen::Vector3d 
              */
-            Eigen::Vector3d diff(const core_datastructures::Posture& start, const core_datastructures::Posture& goal);
+            Eigen::Vector3d get_diff(const core_datastructures::Posture& start, const core_datastructures::Posture& goal) const;
             
             /**
              * @brief checks if qiven vector is less than threhold
@@ -128,7 +128,7 @@ namespace trajectory_generation {
              * @return              true if values less than of threhold
              * @return              false if values greater than the threshold
              */
-            bool is_less_than_threshold(Eigen::Vector3d& q_delta);
+            bool is_less_than_threshold(Eigen::Vector3d& q_delta) const;
 
         private:
             double P0;
