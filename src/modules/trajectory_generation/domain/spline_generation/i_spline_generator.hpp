@@ -7,7 +7,7 @@
 namespace trajectory_generation {
     class ISplineGenerator {
         public:
-            virtual std::vector<core_datastructures::Posture> generate_splines(core_datastructures::Posture posture) = 0;
+            virtual std::vector<core_datastructures::Posture> generate_splines() = 0;
     };
 }
 
