@@ -18,21 +18,14 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(localization_domain REQUIRED)
 
-add_executable(localization_publisher src/localization_publisher.cpp)
-add_executable(check_kf dev_tools/check_kf.cpp)
-ament_target_dependencies(check_kf localization_domain)
+add_executable(temp src/localization_publisher.cpp)
 
-ament_target_dependencies(localization_publisher rclcpp std_msgs)
+ament_target_dependencies(temp rclcpp std_msgs)
+
 
 install(TARGETS 
-check_kf
-DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/dev_tools
-)
-
-install(TARGETS 
-localization_publisher
+temp
 DESTINATION lib/${PROJECT_NAME}
 )
 
