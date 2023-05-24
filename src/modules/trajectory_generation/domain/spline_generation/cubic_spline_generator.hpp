@@ -27,14 +27,11 @@ namespace trajectory_generation {
             std::vector<core_datastructures::Posture> get_spline();
 
             /**
-             * @brief Computes the spline parameters given [P1, P2, SG] values
+             * @brief Computes the spline coefficients given [P1, P2, SG] storted in perturb_params variable
              * 
-             * @param[in] p1    The perturbation parameter p1
-             * @param[in] p2    The perturbation parameter p2
-             * @param[in] s     The perturbation parameter s
-             * @return std::vector<double> the spline parameters {a, b, c, d}
+             * @return std::vector<double> the spline coefficients {a, b, c, d}
              */
-            std::vector<double> calculate_parameters(double p1, double p2, double s);
+            std::vector<double> calculate_spline_coefficients();
 
             /**
              * @brief Get the next state object
@@ -118,20 +115,20 @@ namespace trajectory_generation {
             /**
              * @brief return new vector | goal - start |
              * 
-             * @param start 
-             * @param goal 
-             * @return Eigen::Vector3d 
+             * @param start     The start state
+             * @param goal      The goal state
+             * @return          Eigen::Vector3d 
              */
             Eigen::Vector3d diff(const core_datastructures::Posture& start, const core_datastructures::Posture& goal);
             
             /**
-             * @brief checks if qiven vector is greater than threhold
+             * @brief checks if qiven vector is less than threhold
              * 
-             * @param v1  
-             * @return true if values within range of threhold
-             * @return false if values greater than the threshold
+             * @param q_delta       The error difference for goal state
+             * @return              true if values less than of threhold
+             * @return              false if values greater than the threshold
              */
-            bool comp(Eigen::Vector3d& v1);
+            bool is_less_than_threshold(Eigen::Vector3d& q_delta);
 
         private:
             double P0;

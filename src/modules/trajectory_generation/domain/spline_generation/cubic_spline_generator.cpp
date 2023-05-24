@@ -28,11 +28,14 @@ namespace trajectory_generation{
         return generate_splines();
     }
 
-    std::vector<double> CubicSplineGenerator::calculate_parameters(double p1, double p2, double s){
+    std::vector<double> CubicSplineGenerator::calculate_spline_coefficients(){
+        double P1 = perturb_params[0];
+        double P2 = perturb_params[1];
+        double SG = perturb_params[2];
         double a = P0;
-        double b = -(11*P0 - 18*p1 + 9*p2 - 2*P3)/(2*s);
-        double c = 9*(2*P0 -5*p1 + 4*p2 - P3)/(2*pow(s,2));
-        double d = -9*(P0 -3*p1 + 3*p2 -P3)/(2*pow(s,3));
+        double b = -(11*P0 - 18*P1 + 9*P2 - 2*P3)/(2*SG);
+        double c = 9*(2*P0 -5*P1 + 4*P2 - P3)/(2*pow(SG,2));
+        double d = -9*(P0 -3*P1 + 3*P2 -P3)/(2*pow(SG,3));
 
         return {a,b,c,d};
     }
@@ -59,11 +62,10 @@ namespace trajectory_generation{
         Eigen::Matrix3d J;
         core_datastructures::Posture state = get_next_state(coeffs, perturb_params[2]);
         double delta = 0.1;
-        std::vector<double> param = calculate_parameters(perturb_params[0],perturb_params[1],perturb_params[2]);
         for(int j=0; j<J.rows(); j++){
             perturb_params[j] += delta;
-            std::vector<double> new_param = calculate_parameters(perturb_params[0],perturb_params[1],perturb_params[2]);
-            core_datastructures::Posture next_state = get_next_state(new_param, perturb_params[2]);
+            std::vector<double> coeffs = calculate_spline_coefficients();
+            core_datastructures::Posture next_state = get_next_state(coeffs, perturb_params[2]);
             
             J(0, j) = (next_state.x - state.x)/delta;
             J(1, j) = (next_state.y - state.y)/delta;
@@ -85,7 +87,6 @@ namespace trajectory_generation{
             total_area += (prev_x+curr_x)*0.5*0.1;
             prev_x=curr_x;
         }
-
         return total_area;
     }
 
@@ -99,7 +100,6 @@ namespace trajectory_generation{
             total_area += (prev_y+curr_y)*0.5*0.1;
             prev_y=curr_y;
         }
-
         return total_area;
     }
 
@@ -107,17 +107,13 @@ namespace trajectory_generation{
         Eigen::Vector3d q_delta(std::numeric_limits<int>::max(), std::numeric_limits<int>::max(), 
                                 std::numeric_limits<int>::max());
         int iter = 0;
-        // while ((delta_p[0] > 1e-2 || delta_p[1] > 1e-2 || delta_p[2] > 1e-4) && iter < 1000) {
-        while(!comp(q_delta) && iter < 1000){
+        while(!is_less_than_threshold(q_delta) && iter < 1000){
             iter++;
-            std::vector<double> coeffs = calculate_parameters(perturb_params[0], perturb_params[1], perturb_params[2]);
+            std::vector<double> coeffs = calculate_spline_coefficients();
             core_datastructures::Posture estimate_goal = get_next_state(coeffs,perturb_params[2]);
             Eigen::Matrix3d J = calculate_Jacobian(coeffs);
-
-
             q_delta = diff(estimate_goal, goal);
             Eigen::Vector3d delta_p = J.completeOrthogonalDecomposition().pseudoInverse() * q_delta;
-            
             perturb_params += delta_p;
         }
         
@@ -125,7 +121,7 @@ namespace trajectory_generation{
 
     std::vector<core_datastructures::Posture> CubicSplineGenerator::generate_splines(){
         std::vector<core_datastructures::Posture> spline_points;
-        std::vector<double> coeffs = calculate_parameters(perturb_params[0],perturb_params[1],perturb_params[2]);
+        std::vector<double> coeffs = calculate_spline_coefficients();
         
         for(double i=0; i<=perturb_params[2]; i+=0.1){
             core_datastructures::Posture state = get_next_state(coeffs, i);
@@ -134,18 +130,22 @@ namespace trajectory_generation{
         return spline_points;
     }
 
-    Eigen::Vector3d CubicSplineGenerator::diff(const core_datastructures::Posture& start, const core_datastructures::Posture& goal){
+    Eigen::Vector3d CubicSplineGenerator::diff(const core_datastructures::Posture& start, 
+                                                const core_datastructures::Posture& goal){
         Eigen::Vector3d v(goal.x - start.x, goal.y - start.y, goal.theta - start.theta);
         return v;
     }
 
-    bool CubicSplineGenerator::comp(Eigen::Vector3d& v1){
-        if(v1[0] > q_thresh[0] || v1[1] > q_thresh[1] || v1[2] > q_thresh[2]) return false;
+    bool CubicSplineGenerator::is_less_than_threshold(Eigen::Vector3d& v1){
+        if(v1[0] > q_thresh[0] || v1[1] > q_thresh[1] || v1[2] > q_thresh[2]) {
+            return false;
+        }
         return true;
     }
 
-    double CubicSplineGenerator::get_distance(const core_datastructures::Posture& start, const core_datastructures::Posture& goal){
-        return std::sqrt( std::pow( goal.x - start.x,2) + std::pow(goal.y - start.y, 2));
+    double CubicSplineGenerator::get_distance(const core_datastructures::Posture& start, 
+                                                const core_datastructures::Posture& goal){
+        return std::sqrt(std::pow(goal.x - start.x,2) + std::pow(goal.y - start.y, 2));
     }
 
 
