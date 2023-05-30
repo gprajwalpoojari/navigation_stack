@@ -1,23 +1,24 @@
-#ifndef CUBIC_SPLINE_GENERATOR_HPP
-#define CUBIC_SPLINE_GENERATOR_HPP
+#ifndef TRAJECTORY_GENERATION__SPLINE_GENERATION__CUBIC_SPLINE_GENERATOR_HPP
+#define TRAJECTORY_GENERATION__SPLINE_GENERATION__CUBIC_SPLINE_GENERATOR_HPP
 
 #include <i_spline_generator.hpp>
 #include <eigen3/Eigen/Dense>
 
-namespace trajectory_generation {
+namespace trajectory_generation::spline_generation {
     /**
      * @brief CubicSplineGenerator Class for generating cubic splines given two postures
      * 
      */
-    class CubicSplineGenerator {
+    class CubicSplineGenerator : public ISplineGenerator {
         public:
             /**
-             * @brief Construct a new Cubic Spline Generator object
+             * @brief Reinitializes all spline parameters
+             *
+             * @param[in] start core_datastructures::Posture spline start posture
+             * @param[in] goal core_datastructures::Posture spline end posture
              * 
-             * @param start core_datastructures::Posture spline start posture
-             * @param goal core_datastructures::Posture spline end posture
-             */
-            CubicSplineGenerator(const core_datastructures::Posture& start, 
+            */
+            void reinitialize(const core_datastructures::Posture& start, 
                                         const core_datastructures::Posture& goal);
             
             /**
@@ -25,7 +26,8 @@ namespace trajectory_generation {
              * 
              * @return std::vector<core_datastructures::Posture> containing spline points
              */
-            std::vector<core_datastructures::Posture> get_spline();
+            std::vector<core_datastructures::Posture> get_spline(const core_datastructures::Posture& start, 
+                                        const core_datastructures::Posture& goal);
 
             /**
              * @brief Computes the spline coefficients given [P1, P2, SG] storted in perturb_params variable
@@ -102,17 +104,6 @@ namespace trajectory_generation {
              * @return double 
              */
             double calculate_y(const std::vector<double>& coeffs, double s) const;
-
-            /**
-             * @brief Gets the euclidian distance given two postures
-             * 
-             * @param start     The start state
-             * @param goal      The goal state
-             * @return          double eucilidian distance
-             */
-            double get_distance(const core_datastructures::Posture& start, 
-                                    const core_datastructures::Posture& goal) const;
-
             
             /**
              * @brief return new vector | goal - start |
@@ -148,8 +139,9 @@ namespace trajectory_generation {
              * 
              */
             core_datastructures::Posture goal;
+            core_datastructures::Posture initial_state;
     };
 }
 
 
-#endif  /*CUBIC_SPLINE_GENERATOR_HPP*/
+#endif  /*TRAJECTORY_GENERATION__SPLINE_GENERATION__CUBIC_SPLINE_GENERATOR_HPP*/

@@ -24,6 +24,7 @@ find_package(common_domain REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "interface_msgs/msg/Posture.msg"
   "interface_msgs/msg/Spline.msg"
+  "interface_msgs/msg/Splines.msg"
 )
 
 # Export message so that other packages can find it

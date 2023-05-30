@@ -4,12 +4,14 @@
 #include <cmath>
 #include <eigen3/Eigen/Dense>
 #include <iostream>
+#include <math_utils/geometry.hpp>
 
 
-namespace trajectory_generation{
+namespace trajectory_generation::spline_generation{
 
-    CubicSplineGenerator::CubicSplineGenerator(const core_datastructures::Posture& start, 
-                                                    const core_datastructures::Posture& goal) {       
+    void CubicSplineGenerator::reinitialize(const core_datastructures::Posture& start, 
+                                                    const core_datastructures::Posture& goal) {
+        this->initial_state = start;
         this->goal.x = goal.x - start.x;
         this->goal.y = goal.y - start.y;
         this->goal.theta = goal.theta - start.theta;
@@ -18,14 +20,14 @@ namespace trajectory_generation{
         P0 = start.kappa;
         P3 = goal.kappa;
 
-        perturb_params << 0.1, 0.1, get_distance(start, goal);
+        perturb_params << 0.1, 0.1, common::math_utils::get_distance(start, goal);
         q_thresh << 0.01, 0.01, 0.01;
     }
 
-
-    std::vector<core_datastructures::Posture> CubicSplineGenerator::get_spline(){
+    std::vector<core_datastructures::Posture> CubicSplineGenerator::get_spline(const core_datastructures::Posture& start, 
+                                                    const core_datastructures::Posture& goal){
+        reinitialize(start, goal);
         run_gradient_descent();   
-        std::cout << "Final Spline Parmaeters : " << perturb_params[0] << " " << perturb_params[1] << std::endl;
         return generate_splines();
     }
 
@@ -109,7 +111,7 @@ namespace trajectory_generation{
         Eigen::Vector3d q_delta(std::numeric_limits<int>::max(), std::numeric_limits<int>::max(), 
                                 std::numeric_limits<int>::max());
         int iter = 0;
-        while(!is_less_than_threshold(q_delta) && iter < 1000){
+        while(!is_less_than_threshold(q_delta) && iter < 500){
             iter++;
             std::vector<double> coeffs = calculate_spline_coefficients();
             core_datastructures::Posture estimate_goal = get_next_state(coeffs,perturb_params[2]);
@@ -127,6 +129,10 @@ namespace trajectory_generation{
         
         for(double i=0; i<=perturb_params[2]; i+=0.1){
             core_datastructures::Posture state = get_next_state(coeffs, i);
+            state.x += initial_state.x;
+            state.y += initial_state.y;
+            state.theta += initial_state.theta;
+            state.kappa += initial_state.kappa;
             spline_points.push_back(state);
         }
         return spline_points;
@@ -143,11 +149,6 @@ namespace trajectory_generation{
             return false;
         }
         return true;
-    }
-
-    double CubicSplineGenerator::get_distance(const core_datastructures::Posture& start, 
-                                                const core_datastructures::Posture& goal) const{
-        return std::sqrt(std::pow(goal.x - start.x,2) + std::pow(goal.y - start.y, 2));
     }
 
 }
