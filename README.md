@@ -1,7 +1,7 @@
 # navigation_stack
 
 ## Demo
-Here are some preliminary results for motion planning based on state lattice and parametric curve in the form of cubic splines:
+Here are some preliminary results for motion planning based on state lattice in Frenet frame and parametric curve in the form of cubic splines:
 
 ![spline_with_lattice](https://github.com/Tensor-Robotics/navigation_stack/assets/53962958/ba3d15e8-a010-451f-8978-22912e787a23)
 
