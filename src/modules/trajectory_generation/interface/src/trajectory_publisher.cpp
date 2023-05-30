@@ -7,7 +7,7 @@ TrajectoryPublisher::TrajectoryPublisher(core_datastructures::Posture& start, co
                                         : Node("trajectory_publisher"), start_(start), goal_(goal) {
       
       
-      auto spline_generator = std::make_shared<trajectory_generation::spline_generation::CubicSplineGenerator>();
+      auto spline_generator = std::make_shared<trajectory_generation::spline_generation::CubicSplineGenerator>(start, goal);
       auto road_center = spline_generator->get_spline(start_, goal_);
       graph_generator_ = std::make_shared<trajectory_generation::graph_generation::GraphGenerator>(spline_generator, road_center);                        
       publisher_ = this->create_publisher<common_ros2::msg::Splines>("/trajectory", 10);

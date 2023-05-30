@@ -11,6 +11,13 @@ namespace trajectory_generation::spline_generation {
      */
     class CubicSplineGenerator : public ISplineGenerator {
         public:
+
+            /**
+             * @brief Constructor for @p CubicSplineGenerator object
+            */
+            CubicSplineGenerator(const core_datastructures::Posture& start, 
+                                                    const core_datastructures::Posture& goal);
+
             /**
              * @brief Reinitializes all spline parameters
              *
@@ -28,6 +35,14 @@ namespace trajectory_generation::spline_generation {
              */
             std::vector<core_datastructures::Posture> get_spline(const core_datastructures::Posture& start, 
                                         const core_datastructures::Posture& goal);
+
+
+            /**
+             * @brief Calculates relative posture
+             * 
+             * @return core_datastructures::Posture The relative posture 
+            */
+            core_datastructures::Posture get_relative_goal() const;
 
             /**
              * @brief Computes the spline coefficients given [P1, P2, SG] storted in perturb_params variable
@@ -139,7 +154,7 @@ namespace trajectory_generation::spline_generation {
              * 
              */
             core_datastructures::Posture goal;
-            core_datastructures::Posture initial_state;
+            core_datastructures::Posture start;
     };
 }
 
