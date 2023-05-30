@@ -1,4 +1,13 @@
 # navigation_stack
+
+## Demo
+Here are some preliminary results for motion planning based on state lattice and parametric curve in the form of cubic splines:
+
+![spline_with_lattice](https://github.com/Tensor-Robotics/navigation_stack/assets/53962958/ba3d15e8-a010-451f-8978-22912e787a23)
+
+
+
+## Goal
 The goal of this project is to build a navigation stack from ground up consisting of perception, prediction, localization, planning and controls modules. 
 Each of these modules consists of two individual packages -> domain and interface. The domain package holds all the core logic whereas the interface packageis responsible for communication between modules.
 
