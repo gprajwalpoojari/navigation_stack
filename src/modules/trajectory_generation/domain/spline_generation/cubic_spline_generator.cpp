@@ -1,5 +1,5 @@
 #include <cubic_spline_generator.hpp>
-#include <core_datastructures/posture.hpp>
+#include <core_datastructures/Posture.hpp>
 #include <vector>
 #include <cmath>
 #include <eigen3/Eigen/Dense>

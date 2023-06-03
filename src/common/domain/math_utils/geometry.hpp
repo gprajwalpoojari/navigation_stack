@@ -1,7 +1,7 @@
 #ifndef COMMON__MATH_UTILS__GEOMETRY_HPP
 #define COMMON__MATH_UTILS__GEOMETRY_HPP
 
-#include <posture.hpp>
+#include <Posture.hpp>
 
 
 namespace common::math_utils {
