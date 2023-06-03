@@ -2,12 +2,17 @@
 #include <converters/converters.hpp>
 #include <spline_generation/cubic_spline_generator.hpp>
 #include <common_ros2/msg/spline.hpp>
+#include <trajectory_generation/lattice_trajectory_generator.hpp>
+#include <core_datastructures/DynamicPosture.hpp>
 
 TrajectoryPublisher::TrajectoryPublisher(core_datastructures::Posture& start, core_datastructures::Posture& goal)
                                         : Node("trajectory_publisher"), start_(start), goal_(goal) {
       
       
       auto spline_generator = std::make_shared<trajectory_generation::spline_generation::CubicSplineGenerator>(start, goal);
+      auto trajectory_generation::trajectory::generation::LatticeTrajectoryGenerator temp(start, goal);
+      core_datastructures::DynamicPosture
+      auto var = temp.generate_trajectory()
       auto road_center = spline_generator->get_spline(start_, goal_);
       graph_generator_ = std::make_shared<trajectory_generation::graph_generation::GraphGenerator>(spline_generator, road_center);                        
       publisher_ = this->create_publisher<common_ros2::msg::Splines>("/trajectory", 10);

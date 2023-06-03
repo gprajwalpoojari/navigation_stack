@@ -1,7 +1,7 @@
 #ifndef TRAJECTORY_GENERATION__GRAPH_GENERATION__GRAPH_GENERATOR_HPP
 #define TRAJECTORY_GENERATION__GRAPH_GENERATION__GRAPH_GENERATOR_HPP
 
-#include <core_datastructures/Posture.hpp>
+#include <core_datastructures/posture.hpp>
 #include <vector>
 #include <unordered_map>
 #include <i_spline_generator.hpp>
