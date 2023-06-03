@@ -23,6 +23,7 @@ find_package(common_domain REQUIRED)
 #Generate ROS messages
 rosidl_generate_interfaces(${PROJECT_NAME}
   "interface_msgs/msg/Posture.msg"
+  "interface_msgs/msg/DynamicPosture.msg"
   "interface_msgs/msg/Spline.msg"
   "interface_msgs/msg/Splines.msg"
 )

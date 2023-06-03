@@ -3,9 +3,7 @@
 
 #include <common_ros2/msg/posture.hpp>
 #include <common_ros2/msg/spline.hpp>
-// #include <core_datastructures/Point.hpp>
-#include <core_datastructures/Posture.hpp>
-// #include <core_datastructures/Pose.hpp>
+#include <core_datastructures/posture.hpp>
 
 namespace converters{
     /**

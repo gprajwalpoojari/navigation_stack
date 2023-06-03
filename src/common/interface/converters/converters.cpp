@@ -1,8 +1,6 @@
 #include <converters.hpp>
 
-#include <core_datastructures/Point.hpp>
-#include <core_datastructures/Posture.hpp>
-#include <core_datastructures/Pose.hpp>
+#include <core_datastructures/posture.hpp>
 
 namespace converters{
     core_datastructures::Posture to_domain(const common_ros2::msg::Posture& posture){
