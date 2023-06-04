@@ -22,19 +22,16 @@ namespace trajectory_generation::trajectory_generation{
         if (start_velocity == 0 && acceleration == 0) {
             throw std::runtime_error("Cannot generate trajectory when start velocity and acceleration both are zeros");
         }
-        double s = 0;
         for (int i = 1; i < spline.size(); i++) {
             double delta_s = common::math_utils::get_distance(spline[i-1], spline[i]);
-            s += delta_s;
             // v^2 = u^2 + 2*a*s
             double next_velocity = std::sqrt(std::pow(trajectory[i-1].v, 2) + 2 * acceleration * delta_s);
             // s = u*t + 0.5 * a * t^2
-            auto pair = common::math_utils::solve_quadratic_equation(0.5*acceleration, trajectory[i-1].v, -s);
+            auto pair = common::math_utils::solve_quadratic_equation(0.5*acceleration, trajectory[i-1].v, -delta_s);
             double delta_t = std::max({0.0, pair.first, pair.second});
-            double next_time = start_time + delta_t;
+            double next_time = trajectory[i-1].t + delta_t;
             trajectory.push_back(core_datastructures::DynamicPosture{spline[i].x, spline[i].y, spline[i].theta, 
                                                                         spline[i].kappa, next_velocity, next_time});
-            std::cout << next_velocity <<  " " << next_time << std::endl;
         }
         return trajectory;
     }
