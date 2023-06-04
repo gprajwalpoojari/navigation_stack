@@ -1,5 +1,5 @@
-#ifndef TRAJECTORY_PUBLISHER_HPP
-#define TRAJECTORY_PUBLISHER_HPP
+#ifndef RVIZ_VISUALIZE_HPP
+#define RVIZ_VISUALIZE_HPP
 
 #include <rclcpp/rclcpp.hpp>
 #include <common_ros2/msg/splines.hpp>
@@ -8,7 +8,6 @@
 #include <graph_generation/graph_generator.hpp>
 #include <visualization_msgs/msg/marker.hpp>
 #include <string>
-#include <iostream>
 
 
 /**
@@ -40,7 +39,8 @@ private:
  * @brief Trajectory Publisher class for publishing trajectories
  * 
 */
-class TrajectoryPublisher : public rclcpp::Node{
+class TrajectoryPublisher : public rclcpp::Node
+{
   public:
     /** @brief Constructor for the class
      * 
@@ -72,4 +72,4 @@ class TrajectoryPublisher : public rclcpp::Node{
 
 
 
-#endif /*TRAJECTORY_PUBLISHER_HPP*/
+#endif /*RVIZ_VISUALIZE_HPP*/

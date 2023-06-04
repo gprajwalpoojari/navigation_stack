@@ -8,25 +8,16 @@
 TrajectoryPublisher::TrajectoryPublisher(core_datastructures::Posture& start, core_datastructures::Posture& goal)
                                         : Node("trajectory_publisher"), start_(start), goal_(goal),
                                           rviz(RvizPublisher(this, "map", 0.05, 0.01))
-                                          // , my_point_color, my_line_color));
- {
-      
-      
-      auto spline_generator = std::make_shared<trajectory_generation::spline_generation::CubicSplineGenerator>(start, goal);
-      // auto trajectory_generation::trajectory_generation::LatticeTrajectoryGenerator temp(start, goal);
-      // core_datastructures::DynamicPosture
-      // auto var = temp.generate_trajectory()
-      auto road_center = spline_generator->get_spline(start_, goal_);
-      graph_generator_ = std::make_shared<trajectory_generation::graph_generation::GraphGenerator>(spline_generator, road_center);                        
-      publisher_ = this->create_publisher<common_ros2::msg::Splines>("/trajectory", 10);
-      // visualize_path_ = this->create_publisher<visualization_msgs::msg::Marker>("visualization_path",0);
-      
-      
-      timer_ = this->create_wall_timer(std::chrono::milliseconds(500), std::bind(&TrajectoryPublisher::timer_callback, this));
-      // timer_ = this->create_wall_timer(std::chrono::milliseconds(500), [this, &rviz]() {
-      //   timer_callback(rviz);
-      // });
-    }
+{
+  auto spline_generator = std::make_shared<trajectory_generation::spline_generation::CubicSplineGenerator>(start, goal);
+
+  auto road_center = spline_generator->get_spline(start_, goal_);
+  graph_generator_ = std::make_shared<trajectory_generation::graph_generation::GraphGenerator>(spline_generator, road_center);                        
+  publisher_ = this->create_publisher<common_ros2::msg::Splines>("/trajectory", 10);      
+  
+  timer_ = this->create_wall_timer(std::chrono::milliseconds(500), std::bind(&TrajectoryPublisher::timer_callback, this));
+
+}
 
 
 void TrajectoryPublisher::timer_callback() {
@@ -65,9 +56,6 @@ RvizPublisher::RvizPublisher(rclcpp::Node* node,
                   std::string frame_id,
                   float point_scale,
                   float line_scale)
-                  // ,
-                  // float* point_color,
-                  // float* line_color)
 {
   rclcpp::Clock clock;
 
@@ -86,9 +74,6 @@ RvizPublisher::RvizPublisher(rclcpp::Node* node,
   line_strip.type = visualization_msgs::msg::Marker::LINE_STRIP;
 
   points.scale.x =  points.scale.y = point_scale;
-  // float point_color[3] = {1.0f, 0.0f, 0.0f};
-  // float line_color[3] = {0.0f, 1.0f, 0.0f};
-
 
   line_strip.scale.x = line_strip.scale.y = line_scale;
 
@@ -99,14 +84,11 @@ RvizPublisher::RvizPublisher(rclcpp::Node* node,
   line_strip.color.a = 0.5;
 
   visualize_ = node->create_publisher<visualization_msgs::msg::Marker>("/visualization_marker",10);
-  // executed = false;
-  // timer_ = this->create_wall_timer(std::chrono::milliseconds(500), std::bind(&RvizPublisher::timer_callback, this));
 
 }
 
 void RvizPublisher::publish()
 {
-  std::cout << "Pusblishing to Rviz... : " << line_strip.points.size() << std::endl;
   visualize_->publish(line_strip);
   visualize_->publish(points);
   line_strip.points.clear();
@@ -123,13 +105,3 @@ void RvizPublisher::add_point(const geometry_msgs::msg::Point& p)
 void RvizPublisher::add_line(const geometry_msgs::msg::Point& p){
   line_strip.points.push_back(p);
 }
-
-// void RvizPublisher::timer_callback(){
-//   while(!executed){
-//     if(visualize_.use_count()>0){
-//       publish();
-//       // executed = true;
-//     }
-//   }
-//   // executed = false;
-// }
