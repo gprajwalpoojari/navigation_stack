@@ -26,6 +26,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "interface_msgs/msg/DynamicPosture.msg"
   "interface_msgs/msg/Spline.msg"
   "interface_msgs/msg/Splines.msg"
+  "interface_msgs/msg/Trajectory.msg"
 )
 
 # Export message so that other packages can find it
