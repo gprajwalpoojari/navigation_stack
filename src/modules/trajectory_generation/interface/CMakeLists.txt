@@ -21,7 +21,6 @@ find_package(rclcpp REQUIRED)
 find_package(common_ros2 REQUIRED)
 find_package(common_domain REQUIRED)
 find_package(trajectory_generation_domain REQUIRED)
-find_package(visualization_msgs REQUIRED)
 
 add_executable(main src/main.cpp src/trajectory_publisher.cpp)
 
@@ -30,7 +29,7 @@ target_include_directories(main PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>  
     $<INSTALL_INTERFACE:include/>  # <prefix>/include/mylib
 )
-ament_target_dependencies(main rclcpp common_ros2 std_msgs trajectory_generation_domain visualization_msgs)
+ament_target_dependencies(main rclcpp common_ros2 std_msgs trajectory_generation_domain)
 
 
 install(TARGETS 
