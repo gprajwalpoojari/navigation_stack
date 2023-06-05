@@ -9,9 +9,6 @@ namespace common::core_datastructures {
         double y;   // raw measurement y
 
         Eigen::Matrix2d R;  // The measurement covariance
-        R << 0.0225, 0,
-             0, 0.0225;
-
     };
 }
 

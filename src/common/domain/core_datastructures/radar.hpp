@@ -9,10 +9,12 @@ namespace common::core_datastructures {
         double phi;   // raw measurement phi
         double rho_dot; // raw measurement rho_dot
 
-        Eigen::Matrix2d R;  // The measurement covariance
-        R << 0.0225, 0, 0,
-             0, 0.0225, 0,
-             0, 0, 0.0225;
+        Eigen::Matrix3d R;  // The measurement covarince
+        // Eigen::Matrix3d R((Eigen::Matrix3d() <<  0.0225, 0, 0, 0, 0.0225, 0, 0, 0, 0.0225).finished());  // The measurement covariance
+        // R << 0.0225, 0, 0,
+        //      0, 0.0225, 0,
+        //      0, 0, 0.0225;
+
     };
 }
 
