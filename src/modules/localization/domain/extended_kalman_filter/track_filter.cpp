@@ -38,8 +38,6 @@ namespace localization::extended_kalman_filter {
             previous_timestamp = measurement_pack.timestamp_;
             kf.init_state(initial_state);
             is_initialized = true;
-            std::cout << kf.x_ << std::endl;
-            std::cout << std::endl;
             return;
         }
         float dt = (measurement_pack.timestamp_-previous_timestamp)/1000000.0;
@@ -50,8 +48,5 @@ namespace localization::extended_kalman_filter {
         Eigen::MatrixXd H = kf.get_H(measurement_pack.sensor_type);
         Eigen::MatrixXd R = kf.get_R(measurement_pack.sensor_type);
         kf.update(measurement_pack.raw_measurements_, H, R);
-
-        std::cout << kf.x_ << std::endl;
-        std::cout << std::endl;
     }
 }

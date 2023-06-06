@@ -92,9 +92,9 @@ class ExtendedKalmanFilter{
         */
         Eigen::MatrixXd get_R(SensorType sensor_type) const;
 
+    private:
         // State Vector
         Eigen::VectorXd x_;
-    private:
 
         // State Transition Matrix
         Eigen::MatrixXd F_;

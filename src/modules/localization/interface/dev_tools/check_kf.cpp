@@ -22,7 +22,7 @@ int main(){
     std::string line;
     int i =0;
 
-    while(getline(ifs,line) && i<=7){
+    while(getline(ifs,line)){
         kalman_filter::MeasurementPackage packet;
         std::istringstream iss(line);
         std::string sensor_type;
