@@ -3,7 +3,7 @@
 <package format="3">
   <name>localization_domain</name>
   <version>0.0.0</version>
-  <description>Core Logic for Sensor Fusion</description>
+  <description>Core Logic for localization</description>
   <maintainer email="pinakjani99@gmail.com">Pinak</maintainer>
   <maintainer email="gprajwalpoojari@gmail.com">Prajwal</maintainer>
   <license>Tensor Robotics</license>
