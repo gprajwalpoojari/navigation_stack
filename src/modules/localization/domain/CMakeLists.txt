@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(sensor_fusion_domain)
+project(localization_domain)
 
 find_package(ament_cmake REQUIRED)
 find_package(common_domain REQUIRED)

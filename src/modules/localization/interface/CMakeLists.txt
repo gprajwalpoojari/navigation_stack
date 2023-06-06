@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(sensor_fusion_ros2)
+project(localization_ros2)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -18,15 +18,15 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(sensor_fusion_domain REQUIRED)
+find_package(localization_domain REQUIRED)
 
-add_executable(sensor_fusion_publisher src/sensor_fusion_publisher.cpp)
+add_executable(localization_publisher src/localization_publisher.cpp)
 add_executable(check_kf dev_tools/check_kf.cpp)
 add_executable(check_ekf dev_tools/check_ekf.cpp)
-ament_target_dependencies(check_kf sensor_fusion_domain)
-ament_target_dependencies(check_ekf sensor_fusion_domain)
+ament_target_dependencies(check_kf localization_domain)
+ament_target_dependencies(check_ekf localization_domain)
 
-ament_target_dependencies(sensor_fusion_publisher rclcpp std_msgs)
+ament_target_dependencies(localization_publisher rclcpp std_msgs)
 
 install(TARGETS 
 check_kf
@@ -39,7 +39,7 @@ DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/dev_tools
 )
 
 install(TARGETS 
-sensor_fusion_publisher
+localization_publisher
 DESTINATION lib/${PROJECT_NAME}
 )
 

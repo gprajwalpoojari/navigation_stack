@@ -1,9 +1,9 @@
-#ifndef SENSOR_FUSION__EXTENDED_KALMAN_FILTER__DYNAMICS_HPP
-#define SENSOR_FUSION__EXTENDED_KALMAN_FILTER__DYNAMICS_HPP
+#ifndef LOCALIZATION__EXTENDED_KALMAN_FILTER__DYNAMICS_HPP
+#define LOCALIZATION__EXTENDED_KALMAN_FILTER__DYNAMICS_HPP
 
 #include<eigen3/Eigen/Dense>
 
-namespace sensor_fusion::extended_kalman_filter {
+namespace localization::extended_kalman_filter {
     class Dynamics{
         public:
 

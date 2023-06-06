@@ -3,7 +3,7 @@
 #include <track_filter.hpp>
 #include <iostream>
 
-namespace sensor_fusion::extended_kalman_filter {
+namespace localization::extended_kalman_filter {
 
     Tracker::Tracker(){
         is_initialized = false;

@@ -1,19 +1,21 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>sensor_fusion_domain</name>
+  <name>localization_ros2</name>
   <version>0.0.0</version>
-  <description>Core Logic for Sensor Fusion</description>
-  <maintainer email="pinakjani99@gmail.com">Pinak</maintainer>
+  <description>Sensor Fusion Node</description>
   <maintainer email="gprajwalpoojari@gmail.com">Prajwal</maintainer>
+  <maintainer email="pinakjani99@gmail.com">Pinak</maintainer>
   <license>Tensor Robotics</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
-
-  <depend>common_domain</depend>
+  
+  <depend>rclcpp</depend>
+  <depend>common_ros2</depend>
+  <depend>localization_domain</depend>
 
   <export>
     <build_type>ament_cmake</build_type>

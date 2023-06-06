@@ -1,9 +1,9 @@
-#ifndef SENSOR_FUSION__EXTENDED_KALMAN_FILTER_TRACKER_HPP
-#define SENSOR_FUSION__EXTENDED_KALMAN_FILTER_TRACKER_HPP
+#ifndef LOCALIZATION__EXTENDED_KALMAN_FILTER_TRACKER_HPP
+#define LOCALIZATION__EXTENDED_KALMAN_FILTER_TRACKER_HPP
 
 #include <extended_kalman_filter.hpp>
 
-namespace sensor_fusion::extended_kalman_filter {
+namespace localization::extended_kalman_filter {
   class Tracker{
     public:
     

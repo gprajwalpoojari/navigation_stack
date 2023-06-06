@@ -1,12 +1,11 @@
-#ifndef SENSOR_FUSION__EXTENDED_KALMAN_FILTER__EXTENDED_KALMAN_FILTER_HPP
-#define SENSOR_FUSION__EXTENDED_KALMAN_FILTER__EXTENDED_KALMAN_FILTER_HPP
+#ifndef LOCALIZATION__EXTENDED_KALMAN_FILTER__EXTENDED_KALMAN_FILTER_HPP
+#define LOCALIZATION__EXTENDED_KALMAN_FILTER__EXTENDED_KALMAN_FILTER_HPP
 
 #include<eigen3/Eigen/Dense>
 #include <measurement_package.hpp>
 
 
-namespace sensor_fusion::extended_kalman_filter{
-// using sensor_fusion::extended_kalman_filter::SensorType;
+namespace localization::extended_kalman_filter{
 
 /** @brief Kalman Filter is a linear filter that localizes the object
  *         given a sequence of sensor data inputs
@@ -110,4 +109,4 @@ class ExtendedKalmanFilter{
 
 }
 
-#endif // SENSOR_FUSION__EXTENDED_KALMAN_FILTER__EXTENDED_KALMAN_FILTER_HPP
+#endif // LOCALIZATION__EXTENDED_KALMAN_FILTER__EXTENDED_KALMAN_FILTER_HPP

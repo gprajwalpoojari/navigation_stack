@@ -3,7 +3,7 @@
 #include <dynamics.hpp>
 
 
-namespace sensor_fusion::extended_kalman_filter {
+namespace localization::extended_kalman_filter {
 
     ExtendedKalmanFilter::ExtendedKalmanFilter(){
         Dynamics model;

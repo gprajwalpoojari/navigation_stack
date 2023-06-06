@@ -1,6 +1,6 @@
 #include <dynamics.hpp>
 
-namespace sensor_fusion::extended_kalman_filter {
+namespace localization::extended_kalman_filter {
      void Dynamics::set_matrix_values(Eigen::VectorXd &x, Eigen::MatrixXd &F, Eigen::MatrixXd &P, Eigen::MatrixXd &Q){
      // Set Matrix Values
 
