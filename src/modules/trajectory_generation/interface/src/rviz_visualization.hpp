@@ -17,59 +17,58 @@
 class RvizPublisher 
 {
 public:
-  RvizPublisher(rclcpp::Node* node,
-                  std::string frame_id,
-                  float point_scale,
-                  float line_scale);
-
-  void publish();
-
-  void add_point(const geometry_msgs::msg::Point& p);
-
-  void add_line(const geometry_msgs::msg::Point& p);
-
-private:
-  rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr visualize_;
-  visualization_msgs::msg::Marker points;
-  visualization_msgs::msg::Marker line_strip;
-};
-
-
-/** 
- * @brief Trajectory Publisher class for publishing trajectories
- * 
-*/
-class TrajectoryPublisher : public rclcpp::Node
-{
-  public:
-    /** @brief Constructor for the class
+    /**
+     * @brief Construct a new Rviz Publisher object
      * 
-     * @param[in] start
-     * @param[in] goal 
-     *  
-    */
-    TrajectoryPublisher(core_datastructures::Posture& start, core_datastructures::Posture& goal);
-    
-  private:
+     * @param node pointer to the current node
+     * @param frame_id frame_id name to be selected in Rviz
+     * @param point_scale visualization scale for points
+     * @param line_scale visualization scale for line
+     */
+    RvizPublisher(rclcpp::Node* node,
+                    std::string frame_id,
+                    float point_scale,
+                    float line_scale);
 
     /**
-     * @brief callback that specifies the logic for each iteration
-    */
-    void timer_callback();
-    
-    rclcpp::TimerBase::SharedPtr timer_;
-    // TODO(PP) - Remove graph generator and replace it with a trajectory generator.
-    std::shared_ptr<trajectory_generation::graph_generation::GraphGenerator> graph_generator_;
-    // TODO(PP) - Convert "Splines" Publisher into trajectory publisher.
-    // TODO(PP) - Remove "Splines.msg" file from common as it is required only for debugging
-    rclcpp::Publisher<common_ros2::msg::Splines>::SharedPtr publisher_;
-    
-    core_datastructures::Posture start_;
-    core_datastructures::Posture goal_;
-    bool callback_executed = false;
-    RvizPublisher rviz;
-};
+     * @brief publish to the Marker topic
+     * 
+     */
+    void publish() const;
 
+    /**
+     * @brief adds the passed point to Marker.points to be published
+     * 
+     * @param p 
+     */
+    void add_point(const geometry_msgs::msg::Point& p);
+
+    /**
+     * @brief adds the passed point to Marker.line to be published
+     * 
+     * @param p 
+     */
+    void add_line(const geometry_msgs::msg::Point& p);
+
+    private:
+    /**
+     * @brief Publisher for visualization_msgs::msg::Marker topic
+     * 
+     */
+    rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr visualize_;
+
+    /**
+     * @brief points conatiner to store visulaizing points
+     * 
+     */
+    visualization_msgs::msg::Marker points;
+
+    /**
+     * @brief line containe to store points for visualizing line
+     * 
+     */
+    visualization_msgs::msg::Marker line_strip;
+};
 
 
 #endif /*RVIZ_VISUALIZE_HPP*/
