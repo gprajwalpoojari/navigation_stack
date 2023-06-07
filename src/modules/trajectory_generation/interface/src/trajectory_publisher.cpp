@@ -33,7 +33,7 @@ void TrajectoryPublisher::timer_callback() {
       }
       splines_ros.splines.push_back(spline_ros);
     }
-      publisher_->publish(splines_ros);
+      publisher_->publish();
       RCLCPP_INFO(this->get_logger(), "Published");
       callback_executed = false;
   }
