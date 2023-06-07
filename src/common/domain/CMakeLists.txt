@@ -37,6 +37,7 @@ set(MATH_UTILS math_utils)
 file(GLOB cpp_files "${MATH_UTILS}/*.cpp")
 file(GLOB hpp_files "${MATH_UTILS}/*.hpp")
 add_library(${MATH_UTILS} ${cpp_files})
+
 target_link_libraries(${MATH_UTILS} ${CORE_DATASTRUCTURES})
 
 ament_export_targets(${MATH_UTILS}Targets HAS_LIBRARY_TARGET)

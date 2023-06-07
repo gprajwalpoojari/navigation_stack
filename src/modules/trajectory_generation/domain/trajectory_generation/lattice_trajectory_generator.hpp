@@ -2,7 +2,8 @@
 #define TRAJECTORY_GENERATION__TRAJECTORY_GENERATION__LATTICE_TRAJECTORY_GENERATOR_HPP
 
 #include <i_trajectory_generator.hpp>
-#include <i_spline_generator.hpp>
+#include <cubic_spline_generator.hpp>
+#include <memory>
 
 namespace trajectory_generation::trajectory_generation {
     /**
@@ -11,13 +12,17 @@ namespace trajectory_generation::trajectory_generation {
      */
     class LatticeTrajectoryGenerator : public ITrajectoryGenerator {
         public:
-        TrajectoryGenerator(std::shared_ptr<trajectory_generation::spline_generation::ISplineGenerator> spline_generator);
+        LatticeTrajectoryGenerator(const core_datastructures::Posture& start, 
+                                                const core_datastructures::Posture& goal);
         
-        std::vector<core_datastructures::DynamicPosture> generate_trajectory(double acceleration);
+        std::vector<core_datastructures::DynamicPosture> generate_trajectory(const core_datastructures::DynamicPosture& start_dyn_posture, 
+                                                            const core_datastructures::Posture& goal,double acceleration);
         
+        std::vector<core_datastructures::DynamicPosture> apply_acceleration(std::vector<core_datastructures::Posture>& spline, double acceleration);
+
         
         private:
-        std::shared_ptr<trajectory_generation::spline_generation::ISplineGenerator> spline_generator;
+        std::shared_ptr<spline_generation::CubicSplineGenerator> spline_generator;
         double start_velocity;
         double start_time;
         
