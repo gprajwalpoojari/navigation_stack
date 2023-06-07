@@ -1,4 +1,5 @@
 #include <trajectory_publisher.hpp>
+#include <rviz_visualization.hpp>
 #include <converters/converters.hpp>
 #include <spline_generation/cubic_spline_generator.hpp>
 #include <common_ros2/msg/spline.hpp>

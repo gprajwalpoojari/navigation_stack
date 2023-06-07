@@ -10,32 +10,6 @@
 #include <string>
 #include <iostream>
 
-
-/**
- * @brief Class to publish trajectory in Rviz
- * 
- */
-class RvizPublisher 
-{
-public:
-  RvizPublisher(rclcpp::Node* node,
-                  std::string frame_id,
-                  float point_scale,
-                  float line_scale);
-
-  void publish();
-
-  void add_point(const geometry_msgs::msg::Point& p);
-
-  void add_line(const geometry_msgs::msg::Point& p);
-
-private:
-  rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr visualize_;
-  visualization_msgs::msg::Marker points;
-  visualization_msgs::msg::Marker line_strip;
-};
-
-
 /** 
  * @brief Trajectory Publisher class for publishing trajectories
  * 
@@ -67,7 +41,7 @@ class TrajectoryPublisher : public rclcpp::Node{
     core_datastructures::Posture start_;
     core_datastructures::Posture goal_;
     bool callback_executed = false;
-    RvizPublisher rviz;
+
 };
 
 

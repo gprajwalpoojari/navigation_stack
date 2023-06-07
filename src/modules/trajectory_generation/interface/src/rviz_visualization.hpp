@@ -34,7 +34,7 @@ public:
      * @brief publish to the Marker topic
      * 
      */
-    void publish() const;
+    void publish();
 
     /**
      * @brief adds the passed point to Marker.points to be published

@@ -6,8 +6,8 @@
 #include <core_datastructures/dynamic_posture.hpp>
 
 TrajectoryPublisher::TrajectoryPublisher(core_datastructures::Posture& start, core_datastructures::Posture& goal)
-                                        : Node("trajectory_publisher"), start_(start), goal_(goal),
-                                          rviz(RvizPublisher(this, "map", 0.05, 0.01))
+                                        : Node("trajectory_publisher"), start_(start), goal_(goal)
+                                          // rviz(RvizPublisher(this, "map", 0.05, 0.01))
 {
   auto spline_generator = std::make_shared<trajectory_generation::spline_generation::CubicSplineGenerator>(start, goal);
 
@@ -33,7 +33,7 @@ void TrajectoryPublisher::timer_callback() {
       }
       splines_ros.splines.push_back(spline_ros);
     }
-      publisher_->publish();
+      publisher_->publish(splines_ros);
       RCLCPP_INFO(this->get_logger(), "Published");
       callback_executed = false;
   }
