@@ -21,20 +21,27 @@ find_package(rclcpp REQUIRED)
 find_package(common_ros2 REQUIRED)
 find_package(common_domain REQUIRED)
 find_package(trajectory_generation_domain REQUIRED)
-
+find_package(visualization_msgs REQUIRED)
 
 add_executable(main src/main.cpp src/trajectory_publisher.cpp)
+# add_executable(trajectory_rviz2 src/main.cpp src/rviz_visualization.cpp)
 
 # Specify where the files to build are and where the include directory is
 target_include_directories(main PUBLIC  
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>  
     $<INSTALL_INTERFACE:include/>  # <prefix>/include/mylib
 )
-ament_target_dependencies(main rclcpp common_ros2 std_msgs trajectory_generation_domain)
+# target_include_directories(trajectory_rviz2 PUBLIC  
+#     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>  
+#     $<INSTALL_INTERFACE:include/>  # <prefix>/include/mylib
+# )
+ament_target_dependencies(main rclcpp common_ros2 std_msgs trajectory_generation_domain visualization_msgs)
+# ament_target_dependencies(trajectory_rviz2 rclcpp common_ros2 std_msgs trajectory_generation_domain visualization_msgs)
 
 
 install(TARGETS 
   main
+  # trajectory_rviz2
   DESTINATION lib/${PROJECT_NAME}
 )
 install(

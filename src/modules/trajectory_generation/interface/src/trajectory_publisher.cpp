@@ -3,21 +3,21 @@
 #include <spline_generation/cubic_spline_generator.hpp>
 #include <common_ros2/msg/spline.hpp>
 #include <trajectory_generation/lattice_trajectory_generator.hpp>
-#include <core_datastructures/DynamicPosture.hpp>
+#include <core_datastructures/dynamic_posture.hpp>
 
 TrajectoryPublisher::TrajectoryPublisher(core_datastructures::Posture& start, core_datastructures::Posture& goal)
-                                        : Node("trajectory_publisher"), start_(start), goal_(goal) {
-      
-      
-      auto spline_generator = std::make_shared<trajectory_generation::spline_generation::CubicSplineGenerator>(start, goal);
-      auto trajectory_generation::trajectory::generation::LatticeTrajectoryGenerator temp(start, goal);
-      core_datastructures::DynamicPosture
-      auto var = temp.generate_trajectory()
-      auto road_center = spline_generator->get_spline(start_, goal_);
-      graph_generator_ = std::make_shared<trajectory_generation::graph_generation::GraphGenerator>(spline_generator, road_center);                        
-      publisher_ = this->create_publisher<common_ros2::msg::Splines>("/trajectory", 10);
-      timer_ = this->create_wall_timer(std::chrono::milliseconds(500), std::bind(&TrajectoryPublisher::timer_callback, this));
-    }
+                                        : Node("trajectory_publisher"), start_(start), goal_(goal)
+                                          // rviz(RvizPublisher(this, "map", 0.05, 0.01))
+{
+  auto spline_generator = std::make_shared<trajectory_generation::spline_generation::CubicSplineGenerator>(start, goal);
+
+  auto road_center = spline_generator->get_spline(start_, goal_);
+  graph_generator_ = std::make_shared<trajectory_generation::graph_generation::GraphGenerator>(spline_generator, road_center);                        
+  publisher_ = this->create_publisher<common_ros2::msg::Splines>("/trajectory", 10);      
+  
+  timer_ = this->create_wall_timer(std::chrono::milliseconds(500), std::bind(&TrajectoryPublisher::timer_callback, this));
+
+}
 
 
 void TrajectoryPublisher::timer_callback() {
@@ -25,6 +25,7 @@ void TrajectoryPublisher::timer_callback() {
     auto splines_ros = common_ros2::msg::Splines();
     graph_generator_->search_graph();
     auto splines = graph_generator_->get_spline_lattice();
+
     for (auto spline : splines) {
       auto spline_ros = common_ros2::msg::Spline();
       for(unsigned int i=0; i<spline.size(); i++){
@@ -34,7 +35,7 @@ void TrajectoryPublisher::timer_callback() {
     }
       publisher_->publish(splines_ros);
       RCLCPP_INFO(this->get_logger(), "Published");
-      callback_executed = true;
+      callback_executed = false;
   }
       
 

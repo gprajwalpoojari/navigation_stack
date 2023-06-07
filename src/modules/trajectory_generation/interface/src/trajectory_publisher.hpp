@@ -6,12 +6,15 @@
 #include <core_datastructures/posture.hpp>
 #include <spline_generation/i_spline_generator.hpp>
 #include <graph_generation/graph_generator.hpp>
+#include <visualization_msgs/msg/marker.hpp>
+#include <string>
+#include <iostream>
 
 /** 
  * @brief Trajectory Publisher class for publishing trajectories
  * 
 */
-class TrajectoryPublisher : public rclcpp::Node {
+class TrajectoryPublisher : public rclcpp::Node{
   public:
     /** @brief Constructor for the class
      * 
@@ -34,9 +37,11 @@ class TrajectoryPublisher : public rclcpp::Node {
     // TODO(PP) - Convert "Splines" Publisher into trajectory publisher.
     // TODO(PP) - Remove "Splines.msg" file from common as it is required only for debugging
     rclcpp::Publisher<common_ros2::msg::Splines>::SharedPtr publisher_;
+    
     core_datastructures::Posture start_;
     core_datastructures::Posture goal_;
     bool callback_executed = false;
+
 };
 
 
