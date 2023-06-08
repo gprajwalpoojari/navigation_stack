@@ -51,24 +51,26 @@ namespace trajectory_generation::graph_generation {
         road_center = downsampled_road_center;
     }
 
+    //TODO(PP): Uncomment and complete the code once Cost function for trajectory is developed 
     void GraphGenerator::search_graph() {
-            for (int h = 0; h < h_max; h++) {
-                for (int i = 0; i < i_max; i++) {
-                    core_datastructures::Posture start = to_cartesian(h, i);
-                    if (h==0) {
-                        start = to_cartesian(h, 2);
-                    }
-                    for (int h_prime = h + 1; h_prime < h_max; h_prime++) {
-                        for (int i_prime = 0; i_prime < i_max; i_prime++) {
-                            core_datastructures::Posture goal = to_cartesian(h_prime, i_prime);
-                            splines.push_back(spline_generator->get_spline(start, goal));
-                        }
-                    }
-                    if (h==0) {
-                        break;
-                    }
-                }
-            }
+        
+            // for (int h = 0; h < h_max; h++) {
+            //     for (int i = 0; i < i_max; i++) {
+            //         core_datastructures::Posture start = to_cartesian(h, i);
+            //         if (h==0) {
+            //             start = to_cartesian(h, 2);
+            //         }
+            //         for (int h_prime = h + 1; h_prime < h_max; h_prime++) {
+            //             for (int i_prime = 0; i_prime < i_max; i_prime++) {
+            //                 core_datastructures::Posture goal = to_cartesian(h_prime, i_prime);
+            //                 splines.push_back(spline_generator->get_spline(start, goal));
+            //             }
+            //         }
+            //         if (h==0) {
+            //             break;
+            //         }
+            //     }
+            // }
     }
 
 }
