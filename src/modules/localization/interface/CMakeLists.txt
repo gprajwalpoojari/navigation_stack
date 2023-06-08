@@ -22,12 +22,19 @@ find_package(localization_domain REQUIRED)
 
 add_executable(localization_publisher src/localization_publisher.cpp)
 add_executable(check_kf dev_tools/check_kf.cpp)
+add_executable(check_ekf dev_tools/check_ekf.cpp)
 ament_target_dependencies(check_kf localization_domain)
+ament_target_dependencies(check_ekf localization_domain)
 
 ament_target_dependencies(localization_publisher rclcpp std_msgs)
 
 install(TARGETS 
 check_kf
+DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/dev_tools
+)
+
+install(TARGETS 
+check_ekf
 DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/dev_tools
 )
 

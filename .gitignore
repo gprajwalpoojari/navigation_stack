@@ -1,5 +1,6 @@
 build/
 install/
 log/
-check_kf
 **/.vscode/
+check_kf
+check_ekf
