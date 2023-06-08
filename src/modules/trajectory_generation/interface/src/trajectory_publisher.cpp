@@ -1,62 +1,38 @@
-#include <chrono>
-#include <functional>
-#include <memory>
-#include <string>
-
-#include <rclcpp/rclcpp.hpp>
-#include <std_msgs/msg/string.hpp>
-#include <common_ros2/msg/posture.hpp>
-#include <common_ros2/msg/spline.hpp>
-#include <core_datastructures/Posture.hpp>
+#include <trajectory_publisher.hpp>
+#include <converters/converters.hpp>
 #include <spline_generation/cubic_spline_generator.hpp>
+#include <common_ros2/msg/spline.hpp>
+#include <trajectory_generation/lattice_trajectory_generator.hpp>
+#include <core_datastructures/dynamic_posture.hpp>
+#include <common_ros2/msg/trajectory.hpp>
 
-using namespace std::chrono_literals;
 
-/* This example creates a subclass of Node and uses std::bind() to register a
-* member function as a callback from the timer. */
+TrajectoryPublisher::TrajectoryPublisher(core_datastructures::Posture& start, core_datastructures::Posture& goal)
+                                        : Node("trajectory_publisher"), start_(start), goal_(goal) {
+  trajectory_generator_ = std::make_shared<trajectory_generation::trajectory_generation::LatticeTrajectoryGenerator>(start, goal);                        
+  publisher_ = this->create_publisher<common_ros2::msg::Trajectory>("/trajectory", 10);      
+  
+  timer_ = this->create_wall_timer(std::chrono::milliseconds(500), std::bind(&TrajectoryPublisher::timer_callback, this));
 
-class TrajectoryPublisher : public rclcpp::Node
-{
-  public:
-    TrajectoryPublisher()
-    : Node("trajectory_publisher"), count_(0)
-    {
-      publisher_ = this->create_publisher<common_ros2::msg::Spline>("/trajectory", 10);
-      timer_ = this->create_wall_timer(
-      500ms, std::bind(&TrajectoryPublisher::timer_callback, this));
+}
+
+
+void TrajectoryPublisher::timer_callback() {
+  if (!callback_executed) {
+    auto trajectory_ros = common_ros2::msg::Trajectory();
+
+    double velocity = 0;
+    double time = 0;
+    double acceleration = 1;
+    core_datastructures::DynamicPosture start_dyn_posture{start_.x, start_.y, start_.theta, start_.kappa, velocity, time};
+
+    std::vector<core_datastructures::DynamicPosture> trajectory_core = trajectory_generator_->
+                                                                      generate_trajectory(start_dyn_posture, goal_, acceleration);
+    for (std::size_t i = 0; i < trajectory_core.size(); i++) {
+      trajectory_ros.trajectory_points.push_back(converters::to_ros2(trajectory_core[i]));
     }
-
-  private:
-    void timer_callback()
-    {
-    //   auto message = std_msgs::msg::String();
-    //   message.data = "Hello, world! " + std::to_string(count_++);
-    //   RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", message.data.c_str());
-    //   publisher_->publish(message);
-        
-        auto message = common_ros2::msg::Spline();
-        // message.splin_points
-        for(int i=0; i<10; i++){
-            common_ros2::msg::Posture temp;
-            temp.x =i;
-            temp.y = i;
-            message.spline_points.push_back(temp);
-        }
-        // common_ros2::msg::Spline s;
-        // s.spline_points = test;
-        RCLCPP_INFO(this->get_logger(), "Published");
-        publisher_->publish(message);
-
-
-    }
-    rclcpp::TimerBase::SharedPtr timer_;
-    rclcpp::Publisher<common_ros2::msg::Spline>::SharedPtr publisher_;
-    size_t count_;
-};
-int main(int argc, char * argv[])
-{
-  rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<TrajectoryPublisher>());
-  rclcpp::shutdown();
-  return 0;
+    publisher_->publish(trajectory_ros);
+    RCLCPP_INFO(this->get_logger(), "Published");
+      callback_executed = true;
+  }
 }

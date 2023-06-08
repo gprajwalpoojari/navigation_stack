@@ -1,11 +1,16 @@
-#include <localization_publisher.hpp>
+#include <extended_kalman_filter/measurement_package.hpp>
+#include <extended_kalman_filter/track_filter.hpp>
+#include <iostream>
+#include <fstream>
+#include <vector>
 
-using namespace std::chrono_literals;
 
 
-std::vector<localization::extended_kalman_filter::MeasurementPackage> read_data(){
+int main(){
     std::vector<localization::extended_kalman_filter::MeasurementPackage> measure_pack_list;
-    std::string filename = "/home/pinak/Tensor Robotics/navigation_stack/src/modules/localization/interface/dev_tools/obj_pose-laser-radar-synthetic-input.txt";
+
+    std::string filename = "obj_pose-laser-radar-synthetic-input.txt";
+
     std::ifstream ifs;
     ifs.open(filename.c_str(),std::ifstream::in);
 
@@ -14,6 +19,8 @@ std::vector<localization::extended_kalman_filter::MeasurementPackage> read_data(
     }
 
     std::string line;
+    int i =0;
+
     while(getline(ifs,line)){
         localization::extended_kalman_filter::MeasurementPackage packet;
         std::istringstream iss(line);
@@ -45,42 +52,19 @@ std::vector<localization::extended_kalman_filter::MeasurementPackage> read_data(
             measure_pack_list.push_back(packet);
 
         }
+        ++i;
     }
-    return measure_pack_list;
-}
 
-
-
-  EKFPublisher::EKFPublisher(std::vector<localization::extended_kalman_filter::MeasurementPackage>& measurements): Node("ekf_publisher"), count_(0)
-  {
-    publisher_ = this->create_publisher<nav_msgs::msg::Path>("/ekf_states", 1000);
-    msg = load_msg(measurements);
-    timer_ = this->create_wall_timer(
-    500ms, std::bind(&EKFPublisher::timer_callback, this));
-
-  }
-
-  nav_msgs::msg::Path EKFPublisher::load_msg(std::vector<localization::extended_kalman_filter::MeasurementPackage>& measurements)
-  {
-    nav_msgs::msg::Path message;
-    geometry_msgs::msg::PoseStamped pose1;
-    size_t N = measurements.size();
+    size_t N = measure_pack_list.size();
     localization::extended_kalman_filter::Tracker t;
+
     for(size_t k = 0;k<N;++k){
-        t.measurement_update(measurements[k]);
-        pose1.pose.position.x = t.states(0);
-        pose1.pose.position.y = t.states(1);
-        message.poses.push_back(pose1);
+        t.measurement_update(measure_pack_list[k]);
     }
-    return message;
-  }
 
-  void EKFPublisher::timer_callback(){
-    msg.header.frame_id = "Path";
-    msg.header.stamp = this->get_clock()->now();
-    RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", msg.header.frame_id.c_str());
-    publisher_->publish(msg);
-  }
-
-
-
+    if(ifs.is_open()){
+        ifs.close();
+    }
+    
+    return 0;
+}
