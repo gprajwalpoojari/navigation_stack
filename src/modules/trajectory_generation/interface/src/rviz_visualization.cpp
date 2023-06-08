@@ -58,3 +58,4 @@ void RvizPublisher::add_point(const geometry_msgs::msg::Point& p)
 void RvizPublisher::add_line(const geometry_msgs::msg::Point& p){
   line_strip.points.push_back(p);
 }
+

@@ -1,0 +1,1 @@
+DynamicPosture[] trajectory_points

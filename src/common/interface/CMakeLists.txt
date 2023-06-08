@@ -26,6 +26,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "interface_msgs/msg/DynamicPosture.msg"
   "interface_msgs/msg/Spline.msg"
   "interface_msgs/msg/Splines.msg"
+  "interface_msgs/msg/Trajectory.msg"
 )
 
 # Export message so that other packages can find it
@@ -38,15 +39,13 @@ file(GLOB hpp_files "${LIB_DIR}/*.hpp")
 
 add_library(${LIB_DIR} SHARED ${cpp_files})
 
-# Add the generated messages as a dependency to this library
-# This has been depreceated
-# rosidl_target_interfaces(${LIB_DIR}
-#   ${PROJECT_NAME} "rosidl_typesupport_cpp")
+# For ROS2 foxy, use the following line:
+rosidl_target_interfaces(${LIB_DIR}
+  ${PROJECT_NAME} "rosidl_typesupport_cpp")
 
-# Instead use the following
-rosidl_get_typesupport_target(cpp_typesupport_target "${PROJECT_NAME}" "rosidl_typesupport_cpp")
-
-target_link_libraries(${LIB_DIR} "${cpp_typesupport_target}" )
+# For ROS2 Humble and above, use the following two lines:
+# rosidl_get_typesupport_target(cpp_typesupport_target "${PROJECT_NAME}" "rosidl_typesupport_cpp")
+# target_link_libraries(${LIB_DIR} "${cpp_typesupport_target}" )
 
 target_include_directories(${LIB_DIR} PUBLIC  
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/${LIB_DIR}>  
