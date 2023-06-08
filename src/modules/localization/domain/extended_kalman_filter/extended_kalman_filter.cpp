@@ -103,4 +103,8 @@ namespace localization::extended_kalman_filter {
     
         return H;
     }
+
+    Eigen::VectorXd ExtendedKalmanFilter::get_states() const{
+        return x_;
+    }
 }

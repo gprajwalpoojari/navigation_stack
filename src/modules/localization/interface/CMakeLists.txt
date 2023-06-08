@@ -19,14 +19,25 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(localization_domain REQUIRED)
+find_package(nav_msgs REQUIRED)
 
-add_executable(localization_publisher src/localization_publisher.cpp)
+add_executable(main src/main.cpp src/localization_publisher.cpp)
+add_executable(publisher src/publisher.cpp)
+
+
 add_executable(check_kf dev_tools/check_kf.cpp)
 add_executable(check_ekf dev_tools/check_ekf.cpp)
 ament_target_dependencies(check_kf localization_domain)
 ament_target_dependencies(check_ekf localization_domain)
 
-ament_target_dependencies(localization_publisher rclcpp std_msgs)
+target_include_directories(main PUBLIC  
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>  
+    $<INSTALL_INTERFACE:include/>  # <prefix>/include/mylib
+)
+
+ament_target_dependencies(main rclcpp std_msgs nav_msgs localization_domain)
+ament_target_dependencies(publisher rclcpp std_msgs)
+
 
 install(TARGETS 
 check_kf
@@ -39,7 +50,18 @@ DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/dev_tools
 )
 
 install(TARGETS 
-localization_publisher
+  main
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+install(
+  FILES src/localization_publisher.hpp
+  DESTINATION include/
+)
+
+
+install(TARGETS 
+publisher
 DESTINATION lib/${PROJECT_NAME}
 )
 
