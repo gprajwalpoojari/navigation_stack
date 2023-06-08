@@ -2,14 +2,15 @@
 #define TRAJECTORY_PUBLISHER_HPP
 
 #include <rclcpp/rclcpp.hpp>
-#include <common_ros2/msg/spline.hpp>
-#include <core_datastructures/Posture.hpp>
+#include <common_ros2/msg/trajectory.hpp>
+#include <core_datastructures/posture.hpp>
+#include <trajectory_generation/i_trajectory_generator.hpp>
 
 /** 
  * @brief Trajectory Publisher class for publishing trajectories
  * 
 */
-class TrajectoryPublisher : public rclcpp::Node {
+class TrajectoryPublisher : public rclcpp::Node{
   public:
     /** @brief Constructor for the class
      * 
@@ -27,10 +28,12 @@ class TrajectoryPublisher : public rclcpp::Node {
     void timer_callback();
     
     rclcpp::TimerBase::SharedPtr timer_;
-    rclcpp::Publisher<common_ros2::msg::Spline>::SharedPtr publisher_;
-    size_t count_;
+    std::shared_ptr<trajectory_generation::trajectory_generation::ITrajectoryGenerator> trajectory_generator_;
+    // TODO(PP) - Remove "Splines.msg" file from common as it is required only for debugging
+    rclcpp::Publisher<common_ros2::msg::Trajectory>::SharedPtr publisher_;
     core_datastructures::Posture start_;
     core_datastructures::Posture goal_;
+    bool callback_executed = false;
 };
 
 

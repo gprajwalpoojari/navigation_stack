@@ -4,7 +4,8 @@
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
-  core_datastructures::Posture start{0,0,0,0}, goal{10,1,0,0};
+  core_datastructures::Posture start{0,0,0,0}; 
+  core_datastructures::Posture goal{10,3,0,0};
   if(argc == 9){
     start.x = atof(argv[1]);
     start.y = atof(argv[2]);

@@ -1,35 +1,47 @@
 #include <cubic_spline_generator.hpp>
-#include <core_datastructures/Posture.hpp>
+#include <core_datastructures/posture.hpp>
 #include <vector>
 #include <cmath>
 #include <eigen3/Eigen/Dense>
 #include <iostream>
+#include <math_utils/geometry.hpp>
 
 
-namespace trajectory_generation{
+namespace trajectory_generation::spline_generation{
 
     CubicSplineGenerator::CubicSplineGenerator(const core_datastructures::Posture& start, 
-                                                    const core_datastructures::Posture& goal) {       
-        this->goal.x = goal.x - start.x;
-        this->goal.y = goal.y - start.y;
-        this->goal.theta = goal.theta - start.theta;
-        this->goal.kappa = goal.kappa - start.kappa;
-        
-        P0 = start.kappa;
-        P3 = goal.kappa;
-
-        perturb_params << 0.1, 0.1, get_distance(start, goal);
+                                                    const core_datastructures::Posture& goal) : start(start), goal(goal) {
+        P0 = 0;
+        P3 = goal.kappa - start.kappa;
         q_thresh << 0.01, 0.01, 0.01;
     }
 
 
-    std::vector<core_datastructures::Posture> CubicSplineGenerator::get_spline(){
+    core_datastructures::Posture CubicSplineGenerator::get_relative_goal() const {
+        core_datastructures::Posture relative_goal;
+        relative_goal.x = goal.x - start.x;
+        relative_goal.y = goal.y - start.y;
+        relative_goal.theta = goal.theta -start.theta;
+        relative_goal.kappa = goal.kappa - start.kappa;
+        return relative_goal;
+    }
+
+    void CubicSplineGenerator::reinitialize(const core_datastructures::Posture& start, const core_datastructures::Posture& goal) {
+        this->start = start;
+        this->goal = goal;
+        P0 = 0;
+        P3 = goal.kappa - start.kappa;
+        perturb_params << 0.1, 0.1, common::math_utils::get_distance(start, goal);
+    }
+
+    std::vector<core_datastructures::Posture> CubicSplineGenerator::get_spline(const core_datastructures::Posture& start, 
+                                                    const core_datastructures::Posture& goal){
+        reinitialize(start, goal);
         run_gradient_descent();   
-        std::cout << "Final Spline Parmaeters : " << perturb_params[0] << " " << perturb_params[1] << std::endl;
         return generate_splines();
     }
 
-    const std::vector<double> CubicSplineGenerator::calculate_spline_coefficients() const{
+    const std::vector<double> CubicSplineGenerator::calculate_spline_coefficients() const {
         double P1 = perturb_params[0];
         double P2 = perturb_params[1];
         double SG = perturb_params[2];
@@ -109,24 +121,30 @@ namespace trajectory_generation{
         Eigen::Vector3d q_delta(std::numeric_limits<int>::max(), std::numeric_limits<int>::max(), 
                                 std::numeric_limits<int>::max());
         int iter = 0;
-        while(!is_less_than_threshold(q_delta) && iter < 1000){
+        core_datastructures::Posture relative_goal = get_relative_goal();
+
+        while(!is_less_than_threshold(q_delta) && iter < 500){
             iter++;
             std::vector<double> coeffs = calculate_spline_coefficients();
             core_datastructures::Posture estimate_goal = get_next_state(coeffs,perturb_params[2]);
             Eigen::Matrix3d J = calculate_Jacobian(coeffs);
-            q_delta = get_diff(estimate_goal, goal);
+            q_delta = get_diff(estimate_goal, relative_goal);
             Eigen::Vector3d delta_p = J.completeOrthogonalDecomposition().pseudoInverse() * q_delta;
             perturb_params += delta_p;
         }
         
     }
 
-    const std::vector<core_datastructures::Posture> CubicSplineGenerator::generate_splines() const{
+    const std::vector<core_datastructures::Posture> CubicSplineGenerator::generate_splines() const {
+        
         std::vector<core_datastructures::Posture> spline_points;
         std::vector<double> coeffs = calculate_spline_coefficients();
-        
         for(double i=0; i<=perturb_params[2]; i+=0.1){
             core_datastructures::Posture state = get_next_state(coeffs, i);
+            state.x += start.x;
+            state.y += start.y;
+            state.theta += start.theta;
+            state.kappa += start.kappa;
             spline_points.push_back(state);
         }
         return spline_points;
@@ -143,11 +161,6 @@ namespace trajectory_generation{
             return false;
         }
         return true;
-    }
-
-    double CubicSplineGenerator::get_distance(const core_datastructures::Posture& start, 
-                                                const core_datastructures::Posture& goal) const{
-        return std::sqrt(std::pow(goal.x - start.x,2) + std::pow(goal.y - start.y, 2));
     }
 
 }

@@ -19,6 +19,11 @@
   
   <depend>rclcpp</depend>
   <depend>common_ros2</depend>
+  <!-- <depend>visualization_msgs</depend> -->
+
+  <build_export_depend>visualization_msgs</build_export_depend>
+  <exec_depend>visualization_msgs</exec_depend>
+  <exec_depend>ros2launch</exec_depend>
 
 
   <export>

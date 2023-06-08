@@ -22,8 +22,8 @@ find_package(common_ros2 REQUIRED)
 find_package(common_domain REQUIRED)
 find_package(trajectory_generation_domain REQUIRED)
 
-
 add_executable(main src/main.cpp src/trajectory_publisher.cpp)
+# add_executable(trajectory_rviz2 src/main.cpp src/rviz_visualization.cpp)
 
 # Specify where the files to build are and where the include directory is
 target_include_directories(main PUBLIC  
@@ -35,6 +35,7 @@ ament_target_dependencies(main rclcpp common_ros2 std_msgs trajectory_generation
 
 install(TARGETS 
   main
+  # trajectory_rviz2
   DESTINATION lib/${PROJECT_NAME}
 )
 install(
