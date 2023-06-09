@@ -6,6 +6,9 @@ Here are some preliminary results for motion planning based on state lattice in 
 ![spline_with_lattice](https://github.com/Tensor-Robotics/navigation_stack/assets/53962958/ba3d15e8-a010-451f-8978-22912e787a23)
 
 
+![localization_output](https://github.com/Tensor-Robotics/navigation_stack/assets/63463655/18a39018-ae2d-4705-82d5-c99e589dee5b)
+
+
 
 ## Goal
 The goal of this project is to build a navigation stack from ground up consisting of perception, prediction, localization, planning and controls modules. 
