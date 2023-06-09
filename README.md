@@ -1,11 +1,12 @@
 # navigation_stack
 
-## Demo
+## Motion Planning Demo
 Here are some preliminary results for motion planning based on state lattice in Frenet frame and parametric curve in the form of cubic splines:
 
 ![spline_with_lattice](https://github.com/Tensor-Robotics/navigation_stack/assets/53962958/ba3d15e8-a010-451f-8978-22912e787a23)
 
-
+## Sensor Fusion Demo
+Here are some preliminry results for sensor fusion of data from Laser and Radar using Extended Kalman Filter:
 ![localization_output](https://github.com/Tensor-Robotics/navigation_stack/assets/63463655/18a39018-ae2d-4705-82d5-c99e589dee5b)
 
 
