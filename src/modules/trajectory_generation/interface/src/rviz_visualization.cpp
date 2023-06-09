@@ -1,10 +1,4 @@
-#include <trajectory_publisher.hpp>
 #include <rviz_visualization.hpp>
-#include <converters/converters.hpp>
-#include <spline_generation/cubic_spline_generator.hpp>
-#include <common_ros2/msg/spline.hpp>
-#include <trajectory_generation/lattice_trajectory_generator.hpp>
-#include <core_datastructures/dynamic_posture.hpp>
 
 RvizPublisher::RvizPublisher(rclcpp::Node* node,
                   std::string frame_id,
@@ -41,8 +35,21 @@ RvizPublisher::RvizPublisher(rclcpp::Node* node,
 
 }
 
-void RvizPublisher::publish()
-{
+void RvizPublisher::publish(const common_ros2::msg::Trajectory& trajectory)
+{ 
+  geometry_msgs::msg::Point start_point;
+  start_point.x = trajectory.trajectory_points[0].x;
+  start_point.y = trajectory.trajectory_points[0].y;
+  start_point.z = trajectory.trajectory_points[0].v;
+  points.points.push_back(start_point);
+
+  for (unsigned int i = 0; i < trajectory.trajectory_points.size(); i++) {
+    geometry_msgs::msg::Point point;
+    point.x = trajectory.trajectory_points[i].x;
+    point.y = trajectory.trajectory_points[i].y;
+    point.z = 0;
+    line_strip.points.push_back(point);
+  }
   visualize_->publish(line_strip);
   visualize_->publish(points);
   line_strip.points.clear();

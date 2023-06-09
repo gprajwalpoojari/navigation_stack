@@ -2,13 +2,9 @@
 #define RVIZ_VISUALIZE_HPP
 
 #include <rclcpp/rclcpp.hpp>
-#include <common_ros2/msg/splines.hpp>
-#include <core_datastructures/posture.hpp>
-#include <spline_generation/i_spline_generator.hpp>
-#include <graph_generation/graph_generator.hpp>
 #include <visualization_msgs/msg/marker.hpp>
 #include <string>
-
+#include <common_ros2/msg/trajectory.hpp>
 
 /**
  * @brief Class to publish trajectory in Rviz
@@ -26,15 +22,15 @@ public:
      * @param line_scale visualization scale for line
      */
     RvizPublisher(rclcpp::Node* node,
-                    std::string frame_id,
-                    float point_scale,
-                    float line_scale);
+                    std::string frame_id="map",
+                    float point_scale=0.1,
+                    float line_scale=0.05);
 
     /**
      * @brief publish to the Marker topic
      * 
      */
-    void publish();
+    void publish(const common_ros2::msg::Trajectory& trajectory);
 
     /**
      * @brief adds the passed point to Marker.points to be published
