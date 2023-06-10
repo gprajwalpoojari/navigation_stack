@@ -61,5 +61,30 @@ install(TARGETS ${MATH_UTILS}
 )
 
 
+set(SENSOR_DATASTRUCTURES sensor_datastructures)
+
+file(GLOB cpp_files "${SENSOR_DATASTRUCTURES}/*.cpp")
+file(GLOB hpp_files "${SENSOR_DATASTRUCTURES}/*.hpp")
+
+add_library(${SENSOR_DATASTRUCTURES} ${cpp_files})
+
+ament_export_targets(${SENSOR_DATASTRUCTURES}Targets HAS_LIBRARY_TARGET)
+
+target_include_directories(${SENSOR_DATASTRUCTURES} PUBLIC  
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/${SENSOR_DATASTRUCTURES}>  
+    $<INSTALL_INTERFACE:include/${SENSOR_DATASTRUCTURES}>  # <prefix>/include/mylib
+)
+
+install(
+        FILES ${hpp_files}
+        DESTINATION include/${SENSOR_DATASTRUCTURES}
+)
+
+install(TARGETS ${SENSOR_DATASTRUCTURES}
+        EXPORT ${SENSOR_DATASTRUCTURES}Targets
+        LIBRARY DESTINATION lib/
+        INCLUDES DESTINATION include/
+)
+
 ament_package()
 
