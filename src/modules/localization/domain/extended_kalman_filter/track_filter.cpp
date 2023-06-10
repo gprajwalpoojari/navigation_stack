@@ -1,5 +1,5 @@
 
-#include<eigen3/Eigen/Dense>
+#include <eigen3/Eigen/Dense>
 #include <track_filter.hpp>
 #include <iostream>
 
@@ -48,5 +48,6 @@ namespace localization::extended_kalman_filter {
         Eigen::MatrixXd H = kf.get_H(measurement_pack.sensor_type);
         Eigen::MatrixXd R = kf.get_R(measurement_pack.sensor_type);
         kf.update(measurement_pack.raw_measurements_, H, R);
+        states = kf.get_states();
     }
 }
