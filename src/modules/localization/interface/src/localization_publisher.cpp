@@ -1,9 +1,44 @@
 #include <localization_publisher.hpp>
+#include <iostream>
+#include <fstream>
+
 
 using namespace std::chrono_literals;
 
 
-std::vector<localization::extended_kalman_filter::MeasurementPackage> read_data(){
+  EKFPublisher::EKFPublisher(): Node("ekf_publisher"), count_(0)
+  {
+    publisher_ = this->create_publisher<nav_msgs::msg::Path>("/ekf_states", 1000);
+    measurements = read_data();
+    msg = load_msg(measurements);
+    timer_ = this->create_wall_timer(
+    500ms, std::bind(&EKFPublisher::timer_callback, this));
+
+  }
+
+  nav_msgs::msg::Path EKFPublisher::load_msg(const std::vector<localization::extended_kalman_filter::MeasurementPackage>& measurements) const
+  {
+    nav_msgs::msg::Path message;
+    geometry_msgs::msg::PoseStamped pose1;
+    size_t N = measurements.size();
+    localization::extended_kalman_filter::Tracker t;
+    for(size_t k = 0;k<N;++k){
+        t.measurement_update(measurements[k]);
+        pose1.pose.position.x = t.states(0);
+        pose1.pose.position.y = t.states(1);
+        message.poses.push_back(pose1);
+    }
+    return message;
+  }
+
+  void EKFPublisher::timer_callback(){
+    msg.header.frame_id = "Path";
+    msg.header.stamp = this->get_clock()->now();
+    RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", msg.header.frame_id.c_str());
+    publisher_->publish(msg);
+  }
+
+  std::vector<localization::extended_kalman_filter::MeasurementPackage> EKFPublisher::read_data() const{
     std::vector<localization::extended_kalman_filter::MeasurementPackage> measure_pack_list;
     std::string filename = "/home/pinak/Tensor Robotics/navigation_stack/src/modules/localization/interface/dev_tools/obj_pose-laser-radar-synthetic-input.txt";
     std::ifstream ifs;
@@ -47,39 +82,6 @@ std::vector<localization::extended_kalman_filter::MeasurementPackage> read_data(
         }
     }
     return measure_pack_list;
-}
-
-
-
-  EKFPublisher::EKFPublisher(std::vector<localization::extended_kalman_filter::MeasurementPackage>& measurements): Node("ekf_publisher"), count_(0)
-  {
-    publisher_ = this->create_publisher<nav_msgs::msg::Path>("/ekf_states", 1000);
-    msg = load_msg(measurements);
-    timer_ = this->create_wall_timer(
-    500ms, std::bind(&EKFPublisher::timer_callback, this));
-
-  }
-
-  nav_msgs::msg::Path EKFPublisher::load_msg(std::vector<localization::extended_kalman_filter::MeasurementPackage>& measurements)
-  {
-    nav_msgs::msg::Path message;
-    geometry_msgs::msg::PoseStamped pose1;
-    size_t N = measurements.size();
-    localization::extended_kalman_filter::Tracker t;
-    for(size_t k = 0;k<N;++k){
-        t.measurement_update(measurements[k]);
-        pose1.pose.position.x = t.states(0);
-        pose1.pose.position.y = t.states(1);
-        message.poses.push_back(pose1);
-    }
-    return message;
-  }
-
-  void EKFPublisher::timer_callback(){
-    msg.header.frame_id = "Path";
-    msg.header.stamp = this->get_clock()->now();
-    RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", msg.header.frame_id.c_str());
-    publisher_->publish(msg);
   }
 
 

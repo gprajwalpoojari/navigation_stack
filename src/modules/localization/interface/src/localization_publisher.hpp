@@ -4,11 +4,7 @@
 
 #include <extended_kalman_filter/measurement_package.hpp>
 #include <extended_kalman_filter/track_filter.hpp>
-#include <iostream>
-#include <fstream>
 #include <vector>
-#include <chrono>
-#include <functional>
 #include <memory>
 #include <string>
 #include <rclcpp/rclcpp.hpp>
@@ -16,12 +12,6 @@
 #include "nav_msgs/msg/path.hpp"
 
 
-/**
- * @brief This function loads the EKF Data in a vector
- * 
- * @return std::vector<localization::extended_kalman_filter::MeasurementPackage> 
- */
-std::vector<localization::extended_kalman_filter::MeasurementPackage> read_data();
 
 /**
  * @brief EKF Publisher Node that performs ekf and publishes over a topic.
@@ -35,7 +25,8 @@ private:
     nav_msgs::msg::Path msg;
     rclcpp::TimerBase::SharedPtr timer_;
     rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr publisher_;
-    size_t count_;  
+    size_t count_;
+    std::vector<localization::extended_kalman_filter::MeasurementPackage> measurements;  
 
     /**
      * @brief This is a timer callback for the /ekf_states topic publisher
@@ -49,7 +40,7 @@ private:
      * 
      * @param measurements 
      */
-    EKFPublisher(std::vector<localization::extended_kalman_filter::MeasurementPackage>& measurements);
+    EKFPublisher();
     
     /**
      * @brief Perform EKF and sensor data and load it in ROS2 navigation Path message
@@ -57,7 +48,15 @@ private:
      * @param measurements 
      * @return nav_msgs::msg::Path 
      */
-    nav_msgs::msg::Path load_msg(std::vector<localization::extended_kalman_filter::MeasurementPackage>& measurements);
+    nav_msgs::msg::Path load_msg(const std::vector<localization::extended_kalman_filter::MeasurementPackage>& measurements) const;
+
+
+    /**
+     * @brief This function loads the EKF Data in a vector
+     * 
+     * @return std::vector<localization::extended_kalman_filter::MeasurementPackage> 
+     */
+    std::vector<localization::extended_kalman_filter::MeasurementPackage> read_data() const;
 
 
 };

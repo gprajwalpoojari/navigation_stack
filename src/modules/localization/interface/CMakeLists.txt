@@ -22,7 +22,6 @@ find_package(localization_domain REQUIRED)
 find_package(nav_msgs REQUIRED)
 
 add_executable(main src/main.cpp src/localization_publisher.cpp)
-add_executable(publisher src/publisher.cpp)
 
 
 add_executable(check_kf dev_tools/check_kf.cpp)
@@ -36,7 +35,6 @@ target_include_directories(main PUBLIC
 )
 
 ament_target_dependencies(main rclcpp std_msgs nav_msgs localization_domain)
-ament_target_dependencies(publisher rclcpp std_msgs)
 
 
 install(TARGETS 
@@ -60,10 +58,6 @@ install(
 )
 
 
-install(TARGETS 
-publisher
-DESTINATION lib/${PROJECT_NAME}
-)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
