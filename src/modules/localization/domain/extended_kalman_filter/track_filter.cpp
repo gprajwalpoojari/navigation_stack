@@ -19,6 +19,9 @@ namespace localization::extended_kalman_filter {
     void Tracker::measurement_update_IMU(const sensor_datastructures::IMUData& imu_data, float timestamp){
         if(!is_initialized){
             // initialization
+            Eigen::VectorXd initial_state(9, 1);
+            initial_state.setZero();
+            kf.init_state(initial_state);
             previous_timestamp = timestamp;
             is_initialized = true;
             return;
@@ -40,6 +43,9 @@ namespace localization::extended_kalman_filter {
     void Tracker::measurement_update_Odom(const sensor_datastructures::OdomData& odom_data, float timestamp){
         if(!is_initialized){
             // initialization
+            Eigen::VectorXd initial_state(9, 1);
+            initial_state.setZero();
+            kf.init_state(initial_state);
             previous_timestamp = timestamp;
             is_initialized = true;
             return;
