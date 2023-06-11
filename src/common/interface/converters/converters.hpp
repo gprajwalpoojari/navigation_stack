@@ -1,5 +1,5 @@
-#ifndef CONVERTERS__CONVERTERS_HPP
-#define CONVERTERS__CONVERTERS_HPP
+#ifndef COMMON_INTERFACE__CONVERTERS__CONVERTERS_HPP
+#define COMMON_INTERFACE__CONVERTERS__CONVERTERS_HPP
 
 #include <common_ros2/msg/posture.hpp>
 #include <common_ros2/msg/dynamic_posture.hpp>
@@ -75,4 +75,4 @@ namespace converters{
 
 }
 
-#endif // CONVERTERS__CONVERTERS_HPP
+#endif // COMMON_INTERFACE__CONVERTERS__CONVERTERS_HPP
