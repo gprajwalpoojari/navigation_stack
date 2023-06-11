@@ -1,6 +1,4 @@
 #include <converters.hpp>
-#include <iostream>
-#include <eigen3/Eigen/Core>
 
 namespace converters{
     core_datastructures::Posture to_domain(const common_ros2::msg::Posture& posture){
