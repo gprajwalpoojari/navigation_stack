@@ -55,14 +55,6 @@ namespace converters{
     sensor_datastructures::IMUData to_domain(const sensor_msgs::msg::Imu& imu_data);
 
     /**
-     * @brief Convert domain Odom Data to ros2
-     * 
-     * @param odom_data
-     * @return sensor_msgs::msg::Imu::SharedPtr
-     */
-    sensor_msgs::msg::Imu::SharedPtr to_ros2(const sensor_datastructures::IMUData& imu_data);
-
-    /**
      * @brief Convert ros2 Odom Data to domain
      * 
      * @param odom_data
@@ -70,13 +62,6 @@ namespace converters{
      */
     sensor_datastructures::OdomData to_domain(const nav_msgs::msg::Odometry& odom_data);
 
-    /**
-     * @brief Convert domain Odom Data to ros2
-     * 
-     * @param odom_data
-     * @return nav_msgs::msg::Odometry::SharedPtr
-     */
-    nav_msgs::msg::Odometry::SharedPtr to_ros2(const sensor_datastructures::OdomData& odom_data);
 }
 
 #endif // CONVERTERS__CONVERTERS_HPP
