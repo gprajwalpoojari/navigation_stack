@@ -70,7 +70,7 @@ namespace localization::dynamics {
         /**
          * @brief Get the measurement covariance matrix object
          * 
-         * @param[in] odom_data          The Odom Data
+         * @param[in] odom_data          The odom Data
          * @return Eigen::MatrixXd 
          */
         Eigen::MatrixXd get_measurement_covariance_matrix(const sensor_datastructures::OdomData& odom_data) const;
