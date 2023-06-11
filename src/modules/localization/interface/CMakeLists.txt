@@ -22,6 +22,7 @@ find_package(localization_domain REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(common_domain REQUIRED)
+find_package(common_ros2 REQUIRED)
 
 add_executable(main src/main.cpp src/localization_publisher.cpp)
 
@@ -36,7 +37,7 @@ target_include_directories(main PUBLIC
     $<INSTALL_INTERFACE:include/>  # <prefix>/include/mylib
 )
 
-ament_target_dependencies(main rclcpp std_msgs nav_msgs sensor_msgs localization_domain common_domain)
+ament_target_dependencies(main rclcpp std_msgs nav_msgs sensor_msgs localization_domain common_domain common_ros2)
 
 
 install(TARGETS 
