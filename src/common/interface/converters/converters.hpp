@@ -5,7 +5,6 @@
 #include <common_ros2/msg/dynamic_posture.hpp>
 #include <core_datastructures/posture.hpp>
 #include <core_datastructures/dynamic_posture.hpp>
-#include <core_datastructures/euler_axis.hpp>
 #include <sensor_datastructures/imu.hpp>
 #include <sensor_datastructures/odom.hpp>
 #include <sensor_msgs/msg/imu.hpp>
@@ -64,14 +63,6 @@ namespace converters{
      * @return sensor_datastructures::OdomData
      */
     sensor_datastructures::OdomData to_domain(const nav_msgs::msg::Odometry& odom_data);
-
-    /**
-     * @brief Quaternion to euler angles
-     * 
-     * @param q 
-     * @return core_datastructures::EulerAngle 
-     */
-    core_datastructures::EulerAngle quat_to_eul(const Eigen::Quaterniond& q);
 
 }
 
