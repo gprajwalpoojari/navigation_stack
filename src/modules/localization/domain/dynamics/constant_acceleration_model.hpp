@@ -50,10 +50,37 @@ namespace localization::dynamics {
          */
         void update_state_matrix(Eigen::MatrixXd& F, double dt);
 
-        Eigen::MatrixXd get_observation_matrix(const sensor_datastructures::OdomData& odom_data);
-        Eigen::MatrixXd get_observation_matrix(const sensor_datastructures::IMUData& imu_data);
-        Eigen::MatrixXd get_measurement_covariance_matrix(const sensor_datastructures::OdomData& odom_data);
-        Eigen::MatrixXd get_measurement_covariance_matrix(const sensor_datastructures::IMUData& odom_data);
+        /**
+         * @brief Get the observation matrix object
+         * 
+         * @param odom_data         The odom data
+         * @return Eigen::MatrixXd 
+         */
+        Eigen::MatrixXd get_observation_matrix(const sensor_datastructures::OdomData& odom_data) const;
+
+        /**
+         * @brief Get the observation matrix object
+         * 
+         * @param imu_data          The IMU data
+         * @return Eigen::MatrixXd 
+         */
+        Eigen::MatrixXd get_observation_matrix(const sensor_datastructures::IMUData& imu_data) const;
+
+        /**
+         * @brief Get the measurement covariance matrix object
+         * 
+         * @param odom_data          The Odom Data
+         * @return Eigen::MatrixXd 
+         */
+        Eigen::MatrixXd get_measurement_covariance_matrix(const sensor_datastructures::OdomData& odom_data) const;
+
+        /**
+         * @brief Get the measurement covariance matrix object
+         * 
+         * @param imu_data            The IMU data
+         * @return Eigen::MatrixXd 
+         */
+        Eigen::MatrixXd get_measurement_covariance_matrix(const sensor_datastructures::IMUData& imu_data) const;
 
 
 
