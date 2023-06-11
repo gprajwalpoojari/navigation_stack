@@ -5,11 +5,10 @@ RvizPublisher::RvizPublisher(rclcpp::Node* node,
                   float point_scale,
                   float line_scale)
 {
-  rclcpp::Clock clock;
 
   points.header.frame_id = line_strip.header.frame_id = frame_id;
 
-  points.header.stamp = line_strip.header.stamp = clock.now();
+  points.header.stamp = line_strip.header.stamp = node->get_clock()->now();
 
   points.ns = line_strip.ns = "points_and_lines";
   points.action = line_strip.action = visualization_msgs::msg::Marker::ADD;
@@ -43,10 +42,10 @@ void RvizPublisher::publish(const common_ros2::msg::Trajectory& trajectory)
   start_point.z = trajectory.trajectory_points[0].v;
   points.points.push_back(start_point);
 
-  for (unsigned int i = 0; i < trajectory.trajectory_points.size(); i++) {
+  for (const auto& trajectory_point :trajectory.trajectory_points) {
     geometry_msgs::msg::Point point;
-    point.x = trajectory.trajectory_points[i].x;
-    point.y = trajectory.trajectory_points[i].y;
+    point.x = trajectory_point.x;
+    point.y = trajectory_point.y;
     point.z = 0;
     line_strip.points.push_back(point);
   }
