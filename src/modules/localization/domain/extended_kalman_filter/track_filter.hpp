@@ -27,19 +27,21 @@ namespace localization::extended_kalman_filter {
        * @brief Update measurement using IMU Data
        * 
        * @param[in] imu_data IMU data from Subscriber callback
+       * @param[in] timestamp Timestamp received from ROS Message header
        * 
        * @return void
       */
-      void measurement_update_IMU(const sensor_datastructures::IMUData& imu_data);
+      void measurement_update_IMU(const sensor_datastructures::IMUData& imu_data, float timestamp);
 
       /**
        * @brief Update measurement using Odometry Data
        * 
        * @param[in] odom_data Odometry data from Subscriber callback
+       * @param[in] timestamp Timestamp received from ROS Message header
        * 
        * @return void
       */
-      void measurement_update_Odom(const sensor_datastructures::OdomData& odom_data);
+      void measurement_update_Odom(const sensor_datastructures::OdomData& odom_data, float timestamp);
 
       bool is_initialized;
       int64_t previous_timestamp;

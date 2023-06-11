@@ -16,12 +16,15 @@ namespace localization::extended_kalman_filter {
         // kf.print_matrices();
     }
 
-    void Tracker::measurement_update_IMU(const sensor_datastructures::IMUData& imu_data){
+    void Tracker::measurement_update_IMU(const sensor_datastructures::IMUData& imu_data, float timestamp){
         if(!is_initialized){
             // initialization
+            previous_timestamp = timestamp;
+            is_initialized = true;
             return;
         }
-        float dt;
+        float dt = (timestamp-previous_timestamp)/1000000.0;
+        previous_timestamp = timestamp;
 
         kf.update_timestamp_changes(dt,noise_ax,noise_ay);
         kf.predict();
@@ -34,12 +37,15 @@ namespace localization::extended_kalman_filter {
         states = kf.get_states();
     }
 
-    void Tracker::measurement_update_Odom(const sensor_datastructures::OdomData& odom_data){
+    void Tracker::measurement_update_Odom(const sensor_datastructures::OdomData& odom_data, float timestamp){
         if(!is_initialized){
             // initialization
+            previous_timestamp = timestamp;
+            is_initialized = true;
             return;
         }
-        float dt;
+        float dt = (timestamp-previous_timestamp)/1000000.0;
+        previous_timestamp = timestamp;
 
         kf.update_timestamp_changes(dt,noise_ax,noise_ay);
         kf.predict();
