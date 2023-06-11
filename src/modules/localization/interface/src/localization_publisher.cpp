@@ -19,13 +19,14 @@ using namespace std::chrono_literals;
 
   }
 
-  void EKFPublisher::imu_callback(const sensor_msgs::msg::Imu::SharedPtr& msg){
+  void EKFPublisher::imu_callback(const sensor_msgs::msg::Imu::SharedPtr msg){
     std::cout << "IMU: "<< msg->header.frame_id << std::endl;
     sensor_datastructures::IMUData imu_data;
   }
 
-  void EKFPublisher::odom_callback(const nav_msgs::msg::Odometry::SharedPtr& msg){
+  void EKFPublisher::odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg){
     std::cout << "Odom: " << msg->header.frame_id << std::endl;
+    sensor_datastructures::OdomData odom_data;
   }
 
   nav_msgs::msg::Path EKFPublisher::load_msg(const std::vector<localization::extended_kalman_filter::MeasurementPackage>& measurements) const

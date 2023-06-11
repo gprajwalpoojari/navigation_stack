@@ -12,8 +12,8 @@
 #include <nav_msgs/msg/path.hpp>
 #include <sensor_msgs/msg/imu.hpp>
 #include <nav_msgs/msg/odometry.hpp>
-#include "sensor_datastructures/imu.hpp"
-#include "sensor_datastructures/odom.hpp"
+#include <sensor_datastructures/imu.hpp>
+#include <sensor_datastructures/odom.hpp>
 
 
 
@@ -40,9 +40,9 @@ private:
      */
     void timer_callback();
 
-    void imu_callback(sensor_msgs::msg::Imu::SharedPtr msg);
+    void imu_callback(const sensor_msgs::msg::Imu::SharedPtr msg);
 
-    void odom_callback(nav_msgs::msg::Odometry::SharedPtr msg);
+    void odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg);
   
   public:
     /**

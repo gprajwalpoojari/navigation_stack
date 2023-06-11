@@ -36,7 +36,7 @@ target_include_directories(main PUBLIC
     $<INSTALL_INTERFACE:include/>  # <prefix>/include/mylib
 )
 
-ament_target_dependencies(main rclcpp std_msgs nav_msgs sensor_msgs localization_domain)
+ament_target_dependencies(main rclcpp std_msgs nav_msgs sensor_msgs localization_domain common_domain)
 
 
 install(TARGETS 
