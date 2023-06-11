@@ -16,6 +16,42 @@ namespace localization::extended_kalman_filter {
         // kf.print_matrices();
     }
 
+    void Tracker::measurement_update_IMU(const sensor_datastructures::IMUData& imu_data){
+        if(!is_initialized){
+            // initialization
+            return;
+        }
+        float dt;
+
+        kf.update_timestamp_changes(dt,noise_ax,noise_ay);
+        kf.predict();
+        
+        Eigen::MatrixXd H;
+        Eigen::MatrixXd R;
+        Eigen::MatrixXd z;
+
+        kf.update(z, H, R);
+        states = kf.get_states();
+    }
+
+    void Tracker::measurement_update_Odom(const sensor_datastructures::OdomData& odom_data){
+        if(!is_initialized){
+            // initialization
+            return;
+        }
+        float dt;
+
+        kf.update_timestamp_changes(dt,noise_ax,noise_ay);
+        kf.predict();
+
+        Eigen::MatrixXd H;
+        Eigen::MatrixXd R;
+        Eigen::MatrixXd z;
+
+        kf.update(z, H, R);
+        states = kf.get_states();
+    }
+
     void Tracker::measurement_update(const MeasurementPackage& measurement_pack){
        
         if(!is_initialized){
