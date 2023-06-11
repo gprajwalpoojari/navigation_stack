@@ -1,5 +1,5 @@
 #include <constant_acceleration_model.hpp>
-
+#include <converters/converters.hpp>
 namespace localization::dynamics {
 
     ConstantAccelerationModel::ConstantAccelerationModel(double noise_ax, double noise_ay, double noise_atheta) :
@@ -84,7 +84,6 @@ namespace localization::dynamics {
 
     Eigen::MatrixXd ConstantAccelerationModel::get_observation_matrix(const sensor_datastructures::IMUData& imu_data) const{
         Eigen::Matrix<double, 4, 9> H;
-
         H << 0, 0, 1, 0, 0, 0, 0, 0, 0,
              0, 0, 0, 0, 0, 1, 0, 0, 0,
              0, 0, 0, 0, 0, 0, 1, 0, 0,
@@ -95,6 +94,7 @@ namespace localization::dynamics {
 
     Eigen::MatrixXd ConstantAccelerationModel::get_measurement_covariance_matrix(const sensor_datastructures::IMUData& imu_data) const{
         Eigen::Matrix<double, 4, 4> R;
+        
         R << imu_data.orientation_covariance(2, 2), 0, 0, 0,
              0, imu_data.angular_velocity_covariance(2, 2), 0, 0,
              0, 0, imu_data.linear_acceleration_covariance(0, 0), imu_data.linear_acceleration_covariance(0, 1),

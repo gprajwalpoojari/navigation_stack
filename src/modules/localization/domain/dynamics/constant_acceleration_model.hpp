@@ -4,6 +4,7 @@
 #include<eigen3/Eigen/Dense>
 #include <sensor_datastructures/odom.hpp>
 #include <sensor_datastructures/imu.hpp>
+#include <core_datastructures/euler_axis.hpp>
 
 
 namespace localization::dynamics {
