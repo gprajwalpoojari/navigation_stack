@@ -5,13 +5,13 @@
 
 namespace trajectory_generation::graph_generation {
     
-    GraphGenerator::GraphGenerator(std::shared_ptr<trajectory_generation::spline_generation::ISplineGenerator> spline_generator, 
+    GraphGenerator::GraphGenerator(std::shared_ptr<trajectory_generation::ITrajectoryGenerator> trajectory_generator, 
                                     const std::vector<core_datastructures::Posture>& road_center, 
                                     double long_sampling_dist, double lane_width) 
                                     :road_center(road_center), a_s(long_sampling_dist), a_l(-(lane_width/2.0)) {
         
         downsample();
-        this->spline_generator = std::move(spline_generator);
+        this->trajectory_generator = std::move(trajectory_generator);
         h_max = this->road_center.size();
         i_max = 5;
         b_l = lane_width / i_max;
