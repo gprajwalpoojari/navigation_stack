@@ -5,6 +5,10 @@
 #include <common_ros2/msg/dynamic_posture.hpp>
 #include <core_datastructures/posture.hpp>
 #include <core_datastructures/dynamic_posture.hpp>
+#include <sensor_datastructures/imu.hpp>
+#include <sensor_datastructures/odom.hpp>
+#include <sensor_msgs/msg/imu.hpp>
+#include <nav_msgs/msg/odometry.hpp>
 
 namespace converters{
     /**
@@ -42,6 +46,37 @@ namespace converters{
      */
     common_ros2::msg::DynamicPosture to_ros2(const core_datastructures::DynamicPosture& dyn_posture);
 
+    /**
+     * @brief Convert ros2 IMU Data to domain
+     * 
+     * @param imu_data
+     * @return sensor_datastructures::IMUData
+     */
+    sensor_datastructures::IMUData to_domain(const sensor_msgs::msg::Imu::SharedPtr& imu_data);
+
+    /**
+     * @brief Convert domain Odom Data to ros2
+     * 
+     * @param odom_data
+     * @return sensor_msgs::msg::Imu::SharedPtr
+     */
+    sensor_msgs::msg::Imu::SharedPtr to_ros2(const sensor_datastructures::IMUData& imu_data);
+
+    /**
+     * @brief Convert ros2 Odom Data to domain
+     * 
+     * @param odom_data
+     * @return sensor_datastructures::OdomData
+     */
+    sensor_datastructures::OdomData to_domain(const nav_msgs::msg::Odometry::SharedPtr& odom_data);
+
+    /**
+     * @brief Convert domain Odom Data to ros2
+     * 
+     * @param odom_data
+     * @return nav_msgs::msg::Odometry::SharedPtr
+     */
+    nav_msgs::msg::Odometry::SharedPtr to_ros2(const sensor_datastructures::OdomData& odom_data);
 }
 
 #endif // CONVERTERS__CONVERTERS_HPP

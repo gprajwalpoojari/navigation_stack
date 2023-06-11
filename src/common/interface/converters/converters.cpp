@@ -1,6 +1,5 @@
 #include <converters.hpp>
-
-#include <core_datastructures/posture.hpp>
+#include <iostream>
 
 namespace converters{
     core_datastructures::Posture to_domain(const common_ros2::msg::Posture& posture){
@@ -32,5 +31,46 @@ namespace converters{
         new_dyn_posture.v = dyn_posture.v;
         new_dyn_posture.t = dyn_posture.t;
         return new_dyn_posture;
+    }
+
+    sensor_datastructures::IMUData to_domain(const sensor_msgs::msg::Imu::SharedPtr& imu_data){
+        sensor_datastructures::IMUData new_imu_data;
+        new_imu_data.angular_velocity<<imu_data->angular_velocity.x, imu_data->angular_velocity.y, imu_data->angular_velocity.z;
+
+        new_imu_data.linear_acceleration<<imu_data->linear_acceleration.x, imu_data->linear_acceleration.y, imu_data->linear_acceleration.z;
+        
+        // Eigen::Quaterniond quat;
+        // quat = Eigen::Quaternion.new(imu_data->orientation.x, imu_data->orientation.y, imu_data->orientation.z, imu_data->orientation.w);
+        // new_imu_data.orientation = (imu_data->orientation.x, imu_data->orientation.y, imu_data->orientation.z, imu_data->orientation.w);
+        // new_imu_data.orientation.x = imu_data->orientation.x;
+        // new_imu_data.orientation.y = imu_data->orientation.y;
+        // new_imu_data.orientation.z = imu_data->orientation.z;
+        // new_imu_data.orientation.w = imu_data->orientation.w;
+        
+        std::cout << new_imu_data.angular_velocity << std::endl;
+
+        // These will need reshaping to (3, 3)
+        // new_imu_data.angular_velocity_covariance = imu_data->angular_velocity_covariance;
+        // new_imu_data.linear_acceleration_covariance = imu_data->linear_acceleration_covariance;
+        // new_imu_data.orientation_covariance = imu_data->orientation_covariance;
+        return new_imu_data;
+    }
+
+    sensor_msgs::msg::Imu::SharedPtr to_ros2(const sensor_datastructures::IMUData& imu_data){
+        sensor_msgs::msg::Imu::SharedPtr new_imu_data;
+        
+        return new_imu_data;
+    }
+
+    sensor_datastructures::OdomData to_domain(const nav_msgs::msg::Odometry::SharedPtr& odom_data){
+        sensor_datastructures::OdomData new_odom_data;
+
+        return new_odom_data;
+    }
+
+    nav_msgs::msg::Odometry::SharedPtr to_ros2(const sensor_datastructures::OdomData& odom_data){
+        nav_msgs::msg::Odometry::SharedPtr new_odom_data;
+
+        return new_odom_data;
     }
 }
