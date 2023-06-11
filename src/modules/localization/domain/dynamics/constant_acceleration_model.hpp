@@ -2,6 +2,9 @@
 #define LOCALIZATION__DYNAMICS__DYNAMICS_HPP
 
 #include<eigen3/Eigen/Dense>
+#include <sensor_datastructures/odom.hpp>
+#include <sensor_datastructures/imu.hpp>
+
 
 namespace localization::dynamics {
     /**
@@ -46,6 +49,13 @@ namespace localization::dynamics {
          * @param[in] dt    the time step
          */
         void update_state_matrix(Eigen::MatrixXd& F, double dt);
+
+        Eigen::MatrixXd get_observation_matrix(const sensor_datastructures::OdomData& odom_data);
+        Eigen::MatrixXd get_observation_matrix(const sensor_datastructures::IMUData& imu_data);
+        Eigen::MatrixXd get_measurement_covariance_matrix(const sensor_datastructures::OdomData& odom_data);
+        Eigen::MatrixXd get_measurement_covariance_matrix(const sensor_datastructures::IMUData& odom_data);
+
+
 
         private:
             const double noise_ax;    // acceleration process noise in x
