@@ -20,6 +20,8 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(localization_domain REQUIRED)
 find_package(nav_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(common_domain REQUIRED)
 
 add_executable(main src/main.cpp src/localization_publisher.cpp)
 
@@ -34,7 +36,7 @@ target_include_directories(main PUBLIC
     $<INSTALL_INTERFACE:include/>  # <prefix>/include/mylib
 )
 
-ament_target_dependencies(main rclcpp std_msgs nav_msgs localization_domain)
+ament_target_dependencies(main rclcpp std_msgs nav_msgs sensor_msgs localization_domain)
 
 
 install(TARGETS 

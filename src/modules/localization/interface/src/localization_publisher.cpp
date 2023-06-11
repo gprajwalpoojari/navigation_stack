@@ -1,7 +1,7 @@
 #include <localization_publisher.hpp>
 #include <iostream>
 #include <fstream>
-
+using std::placeholders::_1;
 
 using namespace std::chrono_literals;
 
@@ -9,11 +9,23 @@ using namespace std::chrono_literals;
   EKFPublisher::EKFPublisher(): Node("ekf_publisher"), count_(0)
   {
     publisher_ = this->create_publisher<nav_msgs::msg::Path>("/ekf_states", 1000);
-    measurements = read_data();
-    msg = load_msg(measurements);
-    timer_ = this->create_wall_timer(
-    500ms, std::bind(&EKFPublisher::timer_callback, this));
+    imu_subscriber = this->create_subscription<sensor_msgs::msg::Imu>("imu", 1000, std::bind(&EKFPublisher::imu_callback, this, _1));
+    odom_subscriber = this->create_subscription<nav_msgs::msg::Odometry>("odom", 1000, std::bind(&EKFPublisher::odom_callback, this, _1));
+    // measurement = get_measurement();
+    // measurements = read_data();
+    // msg = load_msg(measurements);
+    // timer_ = this->create_wall_timer(
+    // 500ms, std::bind(&EKFPublisher::timer_callback, this));
 
+  }
+
+  void EKFPublisher::imu_callback(const sensor_msgs::msg::Imu::SharedPtr& msg){
+    std::cout << "IMU: "<< msg->header.frame_id << std::endl;
+    sensor_datastructures::IMUData imu_data;
+  }
+
+  void EKFPublisher::odom_callback(const nav_msgs::msg::Odometry::SharedPtr& msg){
+    std::cout << "Odom: " << msg->header.frame_id << std::endl;
   }
 
   nav_msgs::msg::Path EKFPublisher::load_msg(const std::vector<localization::extended_kalman_filter::MeasurementPackage>& measurements) const
@@ -83,6 +95,8 @@ using namespace std::chrono_literals;
     }
     return measure_pack_list;
   }
+
+  
 
 
 

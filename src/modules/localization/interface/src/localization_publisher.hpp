@@ -8,8 +8,12 @@
 #include <memory>
 #include <string>
 #include <rclcpp/rclcpp.hpp>
-#include "std_msgs/msg/string.hpp"
-#include "nav_msgs/msg/path.hpp"
+#include <std_msgs/msg/string.hpp>
+#include <nav_msgs/msg/path.hpp>
+#include <sensor_msgs/msg/imu.hpp>
+#include <nav_msgs/msg/odometry.hpp>
+#include "sensor_datastructures/imu.hpp"
+#include "sensor_datastructures/odom.hpp"
 
 
 
@@ -25,6 +29,8 @@ private:
     nav_msgs::msg::Path msg;
     rclcpp::TimerBase::SharedPtr timer_;
     rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr publisher_;
+    rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr imu_subscriber;
+    rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_subscriber;
     size_t count_;
     std::vector<localization::extended_kalman_filter::MeasurementPackage> measurements;  
 
@@ -33,6 +39,10 @@ private:
      * 
      */
     void timer_callback();
+
+    void imu_callback(sensor_msgs::msg::Imu::SharedPtr msg);
+
+    void odom_callback(nav_msgs::msg::Odometry::SharedPtr msg);
   
   public:
     /**
