@@ -42,8 +42,8 @@ namespace localization::dynamics {
              0,               dt_3*noise_ay/2, 0,                   0,               dt_2*noise_ay,   0,                   0,               dt*noise_ay,     0,
              0,               0,               dt_3*noise_atheta/2, 0,               0,               dt_2*noise_atheta,   0,               0,               dt*noise_atheta,
              dt_2*noise_ax/2, 0,               0,                   dt*noise_ax,     0,               0,                   noise_ax,        0,               0,
-             0,               dt_2*noise_ay,   0,                   0,               dt*noise_ay,     0,                   0,               noise_ay,        0,
-             0,               0,               dt_2*noise_atheta,   0,               0,               dt*noise_atheta,     0,               0,               noise_atheta;
+             0,               dt_2*noise_ay/2, 0,                   0,               dt*noise_ay,     0,                   0,               noise_ay,        0,
+             0,               0,               dt_2*noise_atheta/2, 0,               0,               dt*noise_atheta,     0,               0,               noise_atheta;
 
      }
 

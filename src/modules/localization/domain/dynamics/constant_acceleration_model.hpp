@@ -13,14 +13,11 @@ namespace localization::dynamics {
         /**
          * @brief Construct a new Constant Acceleration Model object
          * 
-         * @param[in] state_covariance_x 
-         * @param[in] state_covariance_y 
-         * @param[in] state_covariance_theta 
-         * @param[in] process_noise_x 
-         * @param[in] process_noise_y 
-         * @param[in] process_noise_theta 
+         * @param[in] process_noise_ax      Acceleration process noise in x
+         * @param[in] process_noise_ay      Acceleration process noise in y
+         * @param[in] process_noise_atheta  Acceleration process noise in theta
          */
-        ConstantAccelerationModel(double process_noise_x=5, double process_noise_y=5, double process_noise_theta=5);
+        ConstantAccelerationModel(double process_noise_ax=5, double process_noise_ay=5, double process_noise_atheta=5);
 
         /** @brief sets the matrix values depending on the dynamic model
          * 
