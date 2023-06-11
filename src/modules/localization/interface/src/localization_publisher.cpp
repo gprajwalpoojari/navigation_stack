@@ -20,11 +20,13 @@ EKFPublisher::EKFPublisher(): Node("ekf_publisher"), count_(0)
 void EKFPublisher::imu_callback(const sensor_msgs::msg::Imu::SharedPtr msg){
   std::cout << "IMU: "<< msg->header.frame_id << std::endl;
   sensor_datastructures::IMUData imu_data;
+  imu_data = converters::to_domain(*msg);
 }
 
 void EKFPublisher::odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg){
   std::cout << "Odom: " << msg->header.frame_id << std::endl;
   sensor_datastructures::OdomData odom_data;
+  odom_data = converters::to_domain(*msg);
 }
 
 nav_msgs::msg::Path EKFPublisher::load_msg(const std::vector<localization::extended_kalman_filter::MeasurementPackage>& measurements) const

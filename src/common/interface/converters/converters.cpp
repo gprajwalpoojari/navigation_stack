@@ -33,19 +33,16 @@ namespace converters{
         return new_dyn_posture;
     }
 
-    sensor_datastructures::IMUData to_domain(const sensor_msgs::msg::Imu::SharedPtr& imu_data){
+    sensor_datastructures::IMUData to_domain(const sensor_msgs::msg::Imu& imu_data){
         sensor_datastructures::IMUData new_imu_data;
-        new_imu_data.angular_velocity<<imu_data->angular_velocity.x, imu_data->angular_velocity.y, imu_data->angular_velocity.z;
+        new_imu_data.angular_velocity<<imu_data.angular_velocity.x, imu_data.angular_velocity.y, imu_data.angular_velocity.z;
 
-        new_imu_data.linear_acceleration<<imu_data->linear_acceleration.x, imu_data->linear_acceleration.y, imu_data->linear_acceleration.z;
+        new_imu_data.linear_acceleration<<imu_data.linear_acceleration.x, imu_data.linear_acceleration.y, imu_data.linear_acceleration.z;
         
-        // Eigen::Quaterniond quat;
-        // quat = Eigen::Quaternion.new(imu_data->orientation.x, imu_data->orientation.y, imu_data->orientation.z, imu_data->orientation.w);
-        // new_imu_data.orientation = (imu_data->orientation.x, imu_data->orientation.y, imu_data->orientation.z, imu_data->orientation.w);
-        // new_imu_data.orientation.x = imu_data->orientation.x;
-        // new_imu_data.orientation.y = imu_data->orientation.y;
-        // new_imu_data.orientation.z = imu_data->orientation.z;
-        // new_imu_data.orientation.w = imu_data->orientation.w;
+        new_imu_data.orientation.x() = imu_data.orientation.x;
+        new_imu_data.orientation.y() = imu_data.orientation.y;
+        new_imu_data.orientation.z() = imu_data.orientation.z;
+        new_imu_data.orientation.w() = imu_data.orientation.w;
         
         std::cout << new_imu_data.angular_velocity << std::endl;
 
@@ -62,7 +59,7 @@ namespace converters{
         return new_imu_data;
     }
 
-    sensor_datastructures::OdomData to_domain(const nav_msgs::msg::Odometry::SharedPtr& odom_data){
+    sensor_datastructures::OdomData to_domain(const nav_msgs::msg::Odometry& odom_data){
         sensor_datastructures::OdomData new_odom_data;
 
         return new_odom_data;
