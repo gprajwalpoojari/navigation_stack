@@ -14,7 +14,7 @@ namespace converters{
     /**
      * @brief Convert ros2 Posture to domain
      * 
-     * @param posture 
+     * @param[in] posture 
      * @return core_datastructures::Posture 
      */
     core_datastructures::Posture to_domain(const common_ros2::msg::Posture& posture);
@@ -23,7 +23,7 @@ namespace converters{
     /**
      * @brief Convert domain Posture to ros2
      * 
-     * @param posture
+     * @param[in] posture
      * @return common_ros2::msg::Posture 
      */
     common_ros2::msg::Posture to_ros2(const core_datastructures::Posture& posture);
@@ -32,7 +32,7 @@ namespace converters{
     /**
      * @brief Convert ros2 Posture to domain
      * 
-     * @param dyn_posture 
+     * @param[in] dyn_posture 
      * @return core_datastructures::DynamicPosture 
      */
     core_datastructures::DynamicPosture to_domain(const common_ros2::msg::DynamicPosture& dyn_posture);
@@ -41,7 +41,7 @@ namespace converters{
     /**
      * @brief Convert domain Posture to ros2
      * 
-     * @param posture
+     * @param[in] posture
      * @return common_ros2::msg::DynamicPosture 
      */
     common_ros2::msg::DynamicPosture to_ros2(const core_datastructures::DynamicPosture& dyn_posture);
@@ -49,7 +49,7 @@ namespace converters{
     /**
      * @brief Convert ros2 IMU Data to domain
      * 
-     * @param imu_data
+     * @param[in] imu_data
      * @return sensor_datastructures::IMUData
      */
     sensor_datastructures::IMUData to_domain(const sensor_msgs::msg::Imu& imu_data);
@@ -57,7 +57,7 @@ namespace converters{
     /**
      * @brief Convert ros2 Odom Data to domain
      * 
-     * @param odom_data
+     * @param[in] odom_data
      * @return sensor_datastructures::OdomData
      */
     sensor_datastructures::OdomData to_domain(const nav_msgs::msg::Odometry& odom_data);
