@@ -3,6 +3,7 @@
 
 #include<eigen3/Eigen/Dense>
 #include <measurement_package.hpp>
+#include <constant_acceleration_model.hpp>
 
 
 namespace localization::extended_kalman_filter{
@@ -14,6 +15,10 @@ namespace localization::extended_kalman_filter{
 class ExtendedKalmanFilter{
     
     public:
+
+
+        // Object of Dynamic Model
+        localization::dynamic_model::ConstantAccelerationModel dynamic_model;
 
         /**
          * @brief Constructor for the KalmanFilter object
@@ -33,12 +38,10 @@ class ExtendedKalmanFilter{
          * @brief Update the process noise matrix depending on the time stamp
          * 
          * @param[in]   dt    The time stamp
-         * @param[in]   noise_ax    Process x noise
-         * @param[in]   noise_ay    Process y noise
          * 
          * @return void
         */
-        void update_timestamp_changes(const double dt, const int noise_ax, const int noise_ay);
+        void update_timestamp_changes(const double dt);
 
         // Uncomment the following lines during testing
 
@@ -111,6 +114,7 @@ class ExtendedKalmanFilter{
 
         // Process Covariance Matrix
         Eigen::MatrixXd Q_;
+
 
 };
 
