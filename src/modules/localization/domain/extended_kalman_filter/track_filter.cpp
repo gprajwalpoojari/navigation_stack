@@ -1,6 +1,8 @@
 
 #include <eigen3/Eigen/Dense>
 #include <track_filter.hpp>
+#include <converters/converters.hpp>
+#include <core_datastructures/euler_axis.hpp>
 #include <iostream>
 
 namespace localization::extended_kalman_filter {
@@ -32,9 +34,13 @@ namespace localization::extended_kalman_filter {
         kf.update_timestamp_changes(dt,noise_ax,noise_ay);
         kf.predict();
         
-        Eigen::MatrixXd H;
-        Eigen::MatrixXd R;
-        Eigen::MatrixXd z;
+        Eigen::MatrixXd H = dynamic_model.get_observation_matrix(imu_data);
+        Eigen::MatrixXd R = dynamic_model.get_measurement_covariance_matrix(imu_data);
+
+        core_datastructures::EulerAngle euler_angle = common_domain::converters::quat_to_eul(imu_data.orientation);
+
+        Eigen::VectorXd z(10);
+        z << euler_angle.yaw, imu_data.angular_velocity(2), imu_data.linear_acceleration(0), imu_data.linear_acceleration(1);
 
         kf.update(z, H, R);
         states = kf.get_states();
@@ -56,9 +62,13 @@ namespace localization::extended_kalman_filter {
         kf.update_timestamp_changes(dt,noise_ax,noise_ay);
         kf.predict();
 
-        Eigen::MatrixXd H;
-        Eigen::MatrixXd R;
-        Eigen::MatrixXd z;
+        Eigen::MatrixXd H = dynamic_model.get_observation_matrix(odom_data);
+        Eigen::MatrixXd R = dynamic_model.get_measurement_covariance_matrix(odom_data);
+
+        core_datastructures::EulerAngle euler_angle = common_domain::converters::quat_to_eul(odom_data.orientation);
+
+        Eigen::VectorXd z(13);
+        z << odom_data.position(0), odom_data.position(1), euler_angle.yaw, odom_data.linear_velocity(0), odom_data.linear_velocity(1), odom_data.angular_velocity(2);
 
         kf.update(z, H, R);
         states = kf.get_states();
