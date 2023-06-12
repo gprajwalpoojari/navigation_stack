@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 project(common_domain)
 
 find_package(ament_cmake REQUIRED)
+find_package(Eigen3 REQUIRED)
 
 set(CORE_DATASTRUCTURES core_datastructures)
 
@@ -82,6 +83,37 @@ install(
 
 install(TARGETS ${SENSOR_DATASTRUCTURES}
         EXPORT ${SENSOR_DATASTRUCTURES}Targets
+        LIBRARY DESTINATION lib/
+        INCLUDES DESTINATION include/
+)
+
+
+
+set(CONVERTERS converters)
+
+file(GLOB cpp_files "${CONVERTERS}/*.cpp")
+file(GLOB hpp_files "${CONVERTERS}/*.hpp")
+
+add_library(${CONVERTERS} ${cpp_files})
+
+ament_target_dependencies(${CONVERTERS} Eigen3)
+
+target_link_libraries(${CONVERTERS} ${MATH_UTILS} ${CORE_DATASTRUCTURES})
+
+ament_export_targets(${CONVERTERS}Targets HAS_LIBRARY_TARGET)
+
+target_include_directories(${CONVERTERS} PUBLIC  
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/${CONVERTERS}>  
+    $<INSTALL_INTERFACE:include/${CONVERTERS}>  # <prefix>/include/mylib
+)
+
+install(
+        FILES ${hpp_files}
+        DESTINATION include/${CONVERTERS}
+)
+
+install(TARGETS ${CONVERTERS}
+        EXPORT ${CONVERTERS}Targets
         LIBRARY DESTINATION lib/
         INCLUDES DESTINATION include/
 )
