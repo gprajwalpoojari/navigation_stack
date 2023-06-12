@@ -1,6 +1,6 @@
 #include <constant_acceleration_model.hpp>
 #include <converters/converters.hpp>
-namespace localization::dynamics {
+namespace localization::dynamic_model {
 
     ConstantAccelerationModel::ConstantAccelerationModel(double noise_ax, double noise_ay, double noise_atheta) :
                                                          noise_ax(noise_ax), noise_ay(noise_ay), 

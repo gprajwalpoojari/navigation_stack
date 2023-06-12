@@ -2,6 +2,7 @@
 #define LOCALIZATION__EXTENDED_KALMAN_FILTER_TRACKER_HPP
 
 #include <extended_kalman_filter.hpp>
+#include <constant_acceleration_model.hpp>
 #include <sensor_datastructures/imu.hpp>
 #include <sensor_datastructures/odom.hpp>
 

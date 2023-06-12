@@ -1,5 +1,5 @@
-#ifndef LOCALIZATION__DYNAMICS__DYNAMICS_HPP
-#define LOCALIZATION__DYNAMICS__DYNAMICS_HPP
+#ifndef LOCALIZATION__DYNAMIC_MODEL__CONSTANT_ACCELERATION_MODEL_HPP
+#define LOCALIZATION__DYNAMIC_MODEL__CONSTANT_ACCELERATION_MODEL_HPP
 
 #include<eigen3/Eigen/Dense>
 #include <sensor_datastructures/odom.hpp>
@@ -7,7 +7,7 @@
 #include <core_datastructures/euler_axis.hpp>
 
 
-namespace localization::dynamics {
+namespace localization::dynamic_model {
     /**
      * @brief A constant acceleleration model based on particle physics
      * 
