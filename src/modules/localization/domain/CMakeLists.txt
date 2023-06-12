@@ -29,7 +29,7 @@ add_library(${DYNAMICS} ${dynamics_cpp_files})
 # # Add all dependencies of this library
 ament_target_dependencies(${KALMAN_FILTER} Eigen3)
 ament_target_dependencies(${EXTENDED_KALMAN_FILTER} common_domain Eigen3)
-ament_target_dependencies(${DYNAMICS} Eigen3)
+ament_target_dependencies(${DYNAMICS} common_domain Eigen3)
 
 # # Export target and also its dependencies so that you don't have to call 
 # # find_package() for each of the dependencies
