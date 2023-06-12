@@ -50,7 +50,7 @@ namespace localization::extended_kalman_filter {
       Eigen::Vector4d states;
       int noise_ax;
       int noise_ay;
-      localization::dynamic_model::ConstantAccelerationModel dynamic_model;
+      // localization::dynamic_model::ConstantAccelerationModel dynamic_model;
   };
 }
 
