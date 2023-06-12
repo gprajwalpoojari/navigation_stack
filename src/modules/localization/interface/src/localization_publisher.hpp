@@ -32,7 +32,17 @@ private:
     rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr imu_subscriber;
     rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_subscriber;
     size_t count_;
-    std::vector<localization::extended_kalman_filter::MeasurementPackage> measurements;  
+    localization::extended_kalman_filter::Tracker tracker;
+    // std::vector<localization::extended_kalman_filter::MeasurementPackage> measurements;  
+  
+  public:
+    /**
+     * @brief Construct a new EKFPublisher object
+     * 
+     * @param measurements 
+     */
+    EKFPublisher();
+    
 
     /**
      * @brief This is a timer callback for the /ekf_states topic publisher
@@ -44,29 +54,21 @@ private:
 
     void odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg);
   
-  public:
-    /**
-     * @brief Construct a new EKFPublisher object
-     * 
-     * @param measurements 
-     */
-    EKFPublisher();
-    
-    /**
-     * @brief Perform EKF and sensor data and load it in ROS2 navigation Path message
-     * 
-     * @param measurements 
-     * @return nav_msgs::msg::Path 
-     */
-    nav_msgs::msg::Path load_msg(const std::vector<localization::extended_kalman_filter::MeasurementPackage>& measurements) const;
+    // /**
+    //  * @brief Perform EKF and sensor data and load it in ROS2 navigation Path message
+    //  * 
+    //  * @param measurements 
+    //  * @return nav_msgs::msg::Path 
+    //  */
+    // nav_msgs::msg::Path load_msg(const std::vector<localization::extended_kalman_filter::MeasurementPackage>& measurements) const;
 
 
-    /**
-     * @brief This function loads the EKF Data in a vector
-     * 
-     * @return std::vector<localization::extended_kalman_filter::MeasurementPackage> 
-     */
-    std::vector<localization::extended_kalman_filter::MeasurementPackage> read_data() const;
+    // /**
+    //  * @brief This function loads the EKF Data in a vector
+    //  * 
+    //  * @return std::vector<localization::extended_kalman_filter::MeasurementPackage> 
+    //  */
+    // std::vector<localization::extended_kalman_filter::MeasurementPackage> read_data() const;
 
 
 };
