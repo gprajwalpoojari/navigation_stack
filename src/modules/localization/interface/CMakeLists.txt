@@ -27,30 +27,30 @@ find_package(common_ros2 REQUIRED)
 add_executable(main src/main.cpp src/localization_publisher.cpp)
 
 
-add_executable(check_kf dev_tools/check_kf.cpp)
-add_executable(check_ekf dev_tools/check_ekf.cpp)
-ament_target_dependencies(check_kf localization_domain)
-ament_target_dependencies(check_ekf localization_domain)
+# add_executable(check_kf dev_tools/check_kf.cpp)
+# add_executable(check_ekf dev_tools/check_ekf.cpp)
+# ament_target_dependencies(check_kf localization_domain)
+# ament_target_dependencies(checsk_ekf localization_domain)
 
-target_include_directories(main PUBLIC  
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>  
+target_include_directories(main PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
     $<INSTALL_INTERFACE:include/>  # <prefix>/include/mylib
 )
 
 ament_target_dependencies(main rclcpp std_msgs nav_msgs sensor_msgs localization_domain common_domain common_ros2)
 
 
-install(TARGETS 
-check_kf
-DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/dev_tools
-)
+# install(TARGETS
+# check_kf
+# DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/dev_tools
+# )
 
-install(TARGETS 
-check_ekf
-DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/dev_tools
-)
+# install(TARGETS
+# check_ekf
+# DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/dev_tools
+# )
 
-install(TARGETS 
+install(TARGETS
   main
   DESTINATION lib/${PROJECT_NAME}
 )
