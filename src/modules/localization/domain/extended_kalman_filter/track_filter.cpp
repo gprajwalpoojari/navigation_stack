@@ -44,6 +44,7 @@ namespace localization::extended_kalman_filter {
 
         kf.update(z, H, R);
         states = kf.get_states();
+        // std::cout << states << std::endl;
     }
 
     void Tracker::measurement_update_Odom(const sensor_datastructures::OdomData& odom_data, float timestamp){

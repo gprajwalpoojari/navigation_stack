@@ -47,7 +47,7 @@ namespace localization::extended_kalman_filter {
       bool is_initialized;
       int64_t previous_timestamp;
       ExtendedKalmanFilter kf;
-      Eigen::Vector4d states;
+      Eigen::VectorXd states;
       int noise_ax;
       int noise_ay;
       // localization::dynamic_model::ConstantAccelerationModel dynamic_model;

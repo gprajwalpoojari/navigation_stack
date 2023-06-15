@@ -1,8 +1,10 @@
 #include <localization_publisher.hpp>
 #include <iostream>
 #include <fstream>
+#include <chrono>
 using std::placeholders::_1;
 
+using namespace std::chrono_literals;
 
 EKFPublisher::EKFPublisher(): Node("ekf_publisher"), count_(0)
 {
@@ -12,22 +14,24 @@ EKFPublisher::EKFPublisher(): Node("ekf_publisher"), count_(0)
   // measurement = get_measurement();
   // measurements = read_data();
   // msg = load_msg(measurements);
-  // timer_ = this->create_wall_timer(
-  // 500ms, std::bind(&EKFPublisher::timer_callback, this));
+  timer_ = this->create_wall_timer(
+  500ms, std::bind(&EKFPublisher::timer_callback, this));
 
 }
 
 void EKFPublisher::imu_callback(const sensor_msgs::msg::Imu::SharedPtr msg){
   sensor_datastructures::IMUData imu_data = converters::to_domain(*msg);
-  RCLCPP_INFO(this->get_logger(),"Recieving IMU DATA");
-  // tracker.measurement_update_IMU(imu_data,0.00);
+  // RCLCPP_INFO(this->get_logger(),"Recieving IMU DATA");
+    double time_stamp = msg->header.stamp.sec + msg->header.stamp.nanosec * 1e-9;
+  tracker.measurement_update_IMU(imu_data,time_stamp);
 
 }
 
 void EKFPublisher::odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg){
   sensor_datastructures::OdomData odom_data = converters::to_domain(*msg);
-  RCLCPP_INFO(this->get_logger(),"Recieving ODOM DATA");
-  // tracker.measurement_update_Odom(odom_data,0.00);
+  double time_stamp = msg->header.stamp.sec + msg->header.stamp.nanosec * 1e-9;
+  // RCLCPP_INFO(this->get_logger(),"Recieving ODOM DATA %f",time_stamp);
+  tracker.measurement_update_Odom(odom_data, time_stamp);
 }
 
 // nav_msgs::msg::Path EKFPublisher::load_msg(const std::vector<localization::extended_kalman_filter::MeasurementPackage>& measurements) const
@@ -49,6 +53,7 @@ void EKFPublisher::timer_callback(){
   msg.header.frame_id = "Path";
   msg.header.stamp = this->get_clock()->now();
   RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", msg.header.frame_id.c_str());
+  std::cout << tracker.states << std::endl;
   publisher_->publish(msg);
 }
 
