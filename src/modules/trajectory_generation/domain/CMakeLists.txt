@@ -9,7 +9,7 @@ find_package(Eigen3 REQUIRED)
 set(SPLINE_GENERATION spline_generation)
 set(TRAJECTORY_GENERATION trajectory_generation)
 set(GRAPH_GENERATION graph_generation)
-set(COST_CALCULATION COST_CALCULATION)
+set(COST_CALCULATION cost_calculation)
 
 # Store all .cpp and .hpp files in a variable
 file(GLOB spline_cpp_files "${SPLINE_GENERATION}/*.cpp")
