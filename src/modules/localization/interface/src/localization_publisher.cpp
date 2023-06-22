@@ -11,6 +11,7 @@ EKFPublisher::EKFPublisher(): Node("ekf_publisher"), count_(0)
   publisher_ = this->create_publisher<nav_msgs::msg::Path>("/ekf_states", 1000);
   imu_subscriber = this->create_subscription<sensor_msgs::msg::Imu>("/imu", 1000, std::bind(&EKFPublisher::imu_callback, this, _1));
   odom_subscriber = this->create_subscription<nav_msgs::msg::Odometry>("/odom", 1000, std::bind(&EKFPublisher::odom_callback, this, _1));
+  control_subscriber = this->create_subscription<geometry_msgs::msg::Twist>("/cmd_vel", 1000, std::bind(&EKFPublisher::control_callback, this, _1));
   // measurement = get_measurement();
   // measurements = read_data();
   // msg = load_msg(measurements);
@@ -32,6 +33,12 @@ void EKFPublisher::odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg){
   double time_stamp = msg->header.stamp.sec + msg->header.stamp.nanosec * 1e-9;
   // RCLCPP_INFO(this->get_logger(),"Recieving ODOM DATA %f",time_stamp);
   tracker.measurement_update_Odom(odom_data, time_stamp);
+}
+
+void EKFPublisher::control_callback(const geometry_msgs::msg::Twist::SharedPtr msg){
+  RCLCPP_INFO(this->get_logger(),"Recieving cmd_vel DATA %f");
+  Eigen::Vector3d u_input = converters::to_domain(*msg);
+  tracker.update_control_input(u_input);
 }
 
 // nav_msgs::msg::Path EKFPublisher::load_msg(const std::vector<localization::extended_kalman_filter::MeasurementPackage>& measurements) const

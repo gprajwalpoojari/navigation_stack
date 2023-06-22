@@ -11,6 +11,7 @@
 #include <nav_msgs/msg/path.hpp>
 #include <sensor_msgs/msg/imu.hpp>
 #include <nav_msgs/msg/odometry.hpp>
+#include <geometry_msgs/msg/twist.hpp>
 #include <sensor_datastructures/imu.hpp>
 #include <sensor_datastructures/odom.hpp>
 #include <converters/converters.hpp>
@@ -31,6 +32,7 @@ private:
     rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr publisher_;
     rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr imu_subscriber;
     rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_subscriber;
+    rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr control_subscriber;
     size_t count_;
     localization::extended_kalman_filter::Tracker tracker;
     // std::vector<localization::extended_kalman_filter::MeasurementPackage> measurements;  
@@ -53,6 +55,8 @@ private:
     void imu_callback(const sensor_msgs::msg::Imu::SharedPtr msg);
 
     void odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg);
+
+    void control_callback(const geometry_msgs::msg::Twist::SharedPtr msg);
   
     // /**
     //  * @brief Perform EKF and sensor data and load it in ROS2 navigation Path message
