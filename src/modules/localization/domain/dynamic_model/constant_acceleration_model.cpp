@@ -51,7 +51,7 @@ namespace localization::dynamic_model {
 
         double temp = 0.5 * std::pow(dt, 2);
         F << 1, 0, 0, dt, 0, 0, temp, 0, 0,     // x
-             0, 1. 0, 0, dt, 0, 0, temp, 0,     // y 
+             0, 1, 0, 0, dt, 0, 0, temp, 0,     // y 
              0, 0, 1, 0, 0, dt, 0, 0, temp,     // theta (yaw)
              0, 0, 0, 1, 0, 0, dt, 0, 0,        // x_dot
              0, 0, 0, 0, 1, 0, 0, dt, 0,        // y_dot
