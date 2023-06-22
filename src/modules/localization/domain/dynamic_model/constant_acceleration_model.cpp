@@ -50,21 +50,22 @@ namespace localization::dynamic_model {
     void ConstantAccelerationModel::update_state_matrix(Eigen::MatrixXd& F, double dt) {
 
         double temp = 0.5 * std::pow(dt, 2);
-        F << 1, dt, temp, 0, 0,  0,    0, 0,  0,         // x
-                0, 0,  0,    1, dt, temp, 0, 0,  0,         // y
-                0, 0,  0,    0, 0,  0,    1, dt, temp,      // theta (yaw)
-                0, 1,  dt,   0, 0,  0,    0, 0,  0,         // x_dot
-                0, 0,  0,    0, 1,  dt,   0, 0,  0,         // y_dot
-                0, 0,  0,    0, 0,  0,    0, 1,  dt,        // theta_dot    
-                0, 0,  1,    0, 0,  0,    0, 0,  0,         // x_dot_dot
-                0, 0,  0,    0, 0,  1,    0, 0,  0,         // y_dot_dot
-                0, 0,  0,    0, 0,  0,    0, 0,  1;         // theta_dot_dot
+        F << 1, 0, 0, dt, 0, 0, temp, 0, 0,     // x
+             0, 1. 0, 0, dt, 0, 0, temp, 0,     // y 
+             0, 0, 1, 0, 0, dt, 0, 0, temp,     // theta (yaw)
+             0, 0, 0, 1, 0, 0, dt, 0, 0,        // x_dot
+             0, 0, 0, 0, 1, 0, 0, dt, 0,        // y_dot
+             0, 0, 0, 0, 0, 1, 0, 0, dt,        // theta_dot
+             0, 0, 0, 0, 0, 0, 1, 0, 0,         // x_dot_dot
+             0, 0, 0, 0, 0, 0, 0, 1, 0,         // y_dot_dot
+             0, 0, 0, 0, 0, 0, 0, 0, 1;         // theta_dot_dot
+        
     }
 
     Eigen::MatrixXd ConstantAccelerationModel::get_observation_matrix(const sensor_datastructures::OdomData& odom_data) const{
         //z_predicted = [x y z yaw x_dot, y_dot, yaw_dot] 6x1
 
-        // x = [x y yaw x_dot y_dot_theta_dot x_dot_dot y_dot_dot theta_dot_dot]  9x1
+        // x = [x y theta x_dot y_dot_theta_dot x_dot_dot y_dot_dot theta_dot_dot]  9x1
         // z_predicted = H * x;
         Eigen::Matrix<double, 6, 9> H = Eigen::MatrixXd::Zero(6, 9);
         H.topLeftCorner(6, 6) = Eigen::MatrixXd::Identity(6, 6);
