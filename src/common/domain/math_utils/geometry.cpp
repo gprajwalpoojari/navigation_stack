@@ -2,6 +2,11 @@
 #include <cmath>
 
 namespace common::math_utils {
+    double get_distance(const core_datastructures::Point& start, 
+                                                const core_datastructures::Point& goal) {
+        return std::sqrt(std::pow(goal.x - start.x,2) + std::pow(goal.y - start.y, 2));
+    }
+
     double get_distance(const core_datastructures::Posture& start, 
                                                 const core_datastructures::Posture& goal) {
         return std::sqrt(std::pow(goal.x - start.x,2) + std::pow(goal.y - start.y, 2));
@@ -16,4 +21,9 @@ namespace common::math_utils {
         double root_2 = (-b - std::sqrt(radical)) / (2 * a);
         return std::make_pair(root_1, root_2);
     }
+
+    double compute_slope(const core_datastructures::Point& p1, const core_datastructures::Point& p2) {
+        return (p2.y - p1.y) / (p2.x - p1.x);
+    }
+
 }
