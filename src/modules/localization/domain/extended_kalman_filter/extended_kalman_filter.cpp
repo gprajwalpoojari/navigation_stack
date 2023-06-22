@@ -5,11 +5,12 @@
 namespace localization::extended_kalman_filter {
 
     ExtendedKalmanFilter::ExtendedKalmanFilter(){
-        dynamic_model.set_matrix_values(x_,F_,P_,Q_);
+        dynamic_model.set_matrix_values(x_,F_, G_, P_,Q_);
     }
 
     void ExtendedKalmanFilter::init_state(Eigen::VectorXd start){
         x_ = start;
+        u_ = Eigen::Vector3d(0.01, 0, 0);
     }
 
     void ExtendedKalmanFilter::update_timestamp_changes(const double dt){
@@ -20,7 +21,7 @@ namespace localization::extended_kalman_filter {
     }
 
     void ExtendedKalmanFilter::predict(){
-        x_ = F_*x_;
+        x_ = F_*x_ + G_ * u_;
         Eigen::MatrixXd Ft = F_.transpose();
         P_ = F_*P_*Ft + Q_;
 

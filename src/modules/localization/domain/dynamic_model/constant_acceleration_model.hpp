@@ -30,7 +30,7 @@ namespace localization::dynamic_model {
          * @param[in] P The covariance matrix of the current state
          * @param[in] Q The process noise matrix
         */
-        void set_matrix_values(Eigen::VectorXd &x, Eigen::MatrixXd &F, Eigen::MatrixXd &P, 
+        void set_matrix_values(Eigen::VectorXd &x, Eigen::MatrixXd &F, Eigen::MatrixXd& G, Eigen::MatrixXd &P, 
                                 Eigen::MatrixXd &Q);
 
 
@@ -50,6 +50,15 @@ namespace localization::dynamic_model {
          * @param[in] dt    the time step
          */
         void update_state_matrix(Eigen::MatrixXd& F, double dt);
+
+
+        /**
+         * @brief       Updates the control input matrix
+         * 
+         * @param G     The control matrix
+         * @param dt    The time step
+         */
+        void update_control_matrix(Eigen::MatrixXd& G, double dt);
 
         /**
          * @brief Get the observation matrix object
