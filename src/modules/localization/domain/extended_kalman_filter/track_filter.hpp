@@ -16,6 +16,15 @@ namespace localization::extended_kalman_filter {
       Tracker();
 
       /**
+       * @brief Update control input from callback
+       * 
+       * @param[in] u_input IMU data from Subscriber callback
+       * 
+       * @return void
+      */
+      void update_control_input(const Eigen::VectorXd& u_input);
+
+      /**
        * @brief Update measurement
        * 
        * @param[in] measurement_pack The measurement package

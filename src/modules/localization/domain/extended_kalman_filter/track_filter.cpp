@@ -18,6 +18,10 @@ namespace localization::extended_kalman_filter {
         // kf.print_matrices();
     }
 
+    void Tracker::update_control_input(const Eigen::VectorXd& u_input){
+        kf.update_control_input(u_input);
+    }
+
     void Tracker::measurement_update_IMU(const sensor_datastructures::IMUData& imu_data, float timestamp){
         if(!is_initialized){
             // initialization
