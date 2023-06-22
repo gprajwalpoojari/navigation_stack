@@ -20,6 +20,10 @@ namespace localization::extended_kalman_filter {
 
     }
 
+    void ExtendedKalmanFilter::update_control_input(const Eigen::VectorXd& u_input){
+        u_ = u_input;
+    }
+
     void ExtendedKalmanFilter::predict(){
         x_ = F_*x_ + G_*u_;
         Eigen::MatrixXd Ft = F_.transpose();
