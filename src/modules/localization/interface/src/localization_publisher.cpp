@@ -22,8 +22,8 @@ EKFPublisher::EKFPublisher(): Node("ekf_publisher"), count_(0)
 
 void EKFPublisher::imu_callback(const sensor_msgs::msg::Imu::SharedPtr msg){
   sensor_datastructures::IMUData imu_data = converters::to_domain(*msg);
+  double time_stamp = msg->header.stamp.sec + msg->header.stamp.nanosec * 1e-9;
   // RCLCPP_INFO(this->get_logger(),"Recieving IMU DATA");
-    double time_stamp = msg->header.stamp.sec + msg->header.stamp.nanosec * 1e-9;
   tracker.measurement_update_IMU(imu_data,time_stamp);
 
 }
@@ -36,7 +36,7 @@ void EKFPublisher::odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg){
 }
 
 void EKFPublisher::control_callback(const geometry_msgs::msg::Twist::SharedPtr msg){
-  RCLCPP_INFO(this->get_logger(),"Recieving cmd_vel DATA %f");
+  // RCLCPP_INFO(this->get_logger(),"Recieving cmd_vel DATA %f");
   Eigen::Vector3d u_input = converters::to_domain(*msg);
   tracker.update_control_input(u_input);
 }

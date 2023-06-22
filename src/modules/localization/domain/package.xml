@@ -6,6 +6,7 @@
   <description>Core Logic for localization</description>
   <maintainer email="pinakjani99@gmail.com">Pinak</maintainer>
   <maintainer email="gprajwalpoojari@gmail.com">Prajwal</maintainer>
+  <maintainer email="aniketp1597@gmail.com">Aniket</maintainer>
   <license>Tensor Robotics</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
