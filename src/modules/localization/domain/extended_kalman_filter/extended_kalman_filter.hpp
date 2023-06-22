@@ -106,8 +106,14 @@ class ExtendedKalmanFilter{
         // State Vector
         Eigen::VectorXd x_;
 
+        // Control Input
+        Eigen::VectorXd u_;
+
         // State Transition Matrix
         Eigen::MatrixXd F_;
+
+        // Control Input Matrix
+        Eigen::MatrixXd G_;
 
         // State Covariance Matrix
         Eigen::MatrixXd P_;

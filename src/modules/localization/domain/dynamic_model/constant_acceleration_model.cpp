@@ -50,15 +50,41 @@ namespace localization::dynamic_model {
     void ConstantAccelerationModel::update_state_matrix(Eigen::MatrixXd& F, double dt) {
 
         double temp = 0.5 * std::pow(dt, 2);
-        F << 1, 0, 0, dt, 0, 0, temp, 0, 0,     // x
-             0, 1, 0, 0, dt, 0, 0, temp, 0,     // y 
-             0, 0, 1, 0, 0, dt, 0, 0, temp,     // theta (yaw)
-             0, 0, 0, 1, 0, 0, dt, 0, 0,        // x_dot
-             0, 0, 0, 0, 1, 0, 0, dt, 0,        // y_dot
-             0, 0, 0, 0, 0, 1, 0, 0, dt,        // theta_dot
+        // F << 1, 0, 0, dt, 0, 0, temp, 0, 0,     // x
+        //      0, 1, 0, 0, dt, 0, 0, temp, 0,     // y 
+        //      0, 0, 1, 0, 0, dt, 0, 0, temp,     // theta (yaw)
+        //      0, 0, 0, 1, 0, 0, dt, 0, 0,        // x_dot
+        //      0, 0, 0, 0, 1, 0, 0, dt, 0,        // y_dot
+        //      0, 0, 0, 0, 0, 1, 0, 0, dt,        // theta_dot
+        //      0, 0, 0, 0, 0, 0, 1, 0, 0,         // x_dot_dot
+        //      0, 0, 0, 0, 0, 0, 0, 1, 0,         // y_dot_dot
+        //      0, 0, 0, 0, 0, 0, 0, 0, 1;         // theta_dot_dot
+
+        F << 1, 0, 0, 0, 0, 0, temp, 0, 0,     // x
+             0, 1, 0, 0, 0, 0, 0, temp, 0,     // y 
+             0, 0, 1, 0, 0, 0, 0, 0, temp,     // theta (yaw)
+             0, 0, 0, 0, 0, 0, dt, 0, 0,        // x_dot
+             0, 0, 0, 0, 0, 0, 0, dt, 0,        // y_dot
+             0, 0, 0, 0, 0, 0, 0, 0, dt,        // theta_dot
              0, 0, 0, 0, 0, 0, 1, 0, 0,         // x_dot_dot
              0, 0, 0, 0, 0, 0, 0, 1, 0,         // y_dot_dot
              0, 0, 0, 0, 0, 0, 0, 0, 1;         // theta_dot_dot
+        
+    }
+
+    void ConstantAccelerationModel::update_control_matrix(Eigen::MatrixXd& G, double dt) {
+
+        double temp = 0.5 * std::pow(dt, 2);
+        // u = [x_dot y_dot theta_dot]
+        G << dt, 0, 0,    // x
+             0, dt, 0,   // y 
+             0, 0, dt,     // theta (yaw)
+             1, 0, 0,        // x_dot
+             0, 1, 0,      // y_dot
+             0, 0, 1,      // theta_dot
+             0, 0, 0,     // x_dot_dot
+             0, 0, 0,       // y_dot_dot
+             0, 0, 0;       // theta_dot_dot
         
     }
 

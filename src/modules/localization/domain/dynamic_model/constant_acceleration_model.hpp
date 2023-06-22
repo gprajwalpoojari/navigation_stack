@@ -52,6 +52,14 @@ namespace localization::dynamic_model {
         void update_state_matrix(Eigen::MatrixXd& F, double dt);
 
         /**
+         * @brief       Updates the control input matrix
+         * 
+         * @param G     The control matrix
+         * @param dt    The time step
+         */
+        void update_control_matrix(Eigen::MatrixXd& G, double dt);
+
+        /**
          * @brief Get the observation matrix object
          * 
          * @param[in] odom_data         The odom data
