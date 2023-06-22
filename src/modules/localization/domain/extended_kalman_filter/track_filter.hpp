@@ -22,7 +22,7 @@ namespace localization::extended_kalman_filter {
        * 
        * @return void
       */
-      void update_control_input(const Eigen::VectorXd& u_input);
+      void update_control_input(const Eigen::Vector3d& u_input);
 
       /**
        * @brief Update measurement

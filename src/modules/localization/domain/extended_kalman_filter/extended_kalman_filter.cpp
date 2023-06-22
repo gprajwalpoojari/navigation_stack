@@ -20,7 +20,7 @@ namespace localization::extended_kalman_filter {
 
     }
 
-    void ExtendedKalmanFilter::update_control_input(const Eigen::VectorXd& u_input){
+    void ExtendedKalmanFilter::update_control_input(const Eigen::Vector3d& u_input){
         u_ = u_input;
     }
 
