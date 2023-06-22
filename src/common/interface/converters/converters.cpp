@@ -82,4 +82,10 @@ namespace converters{
 
         return new_odom_data;
     }
+
+    Eigen::Vector3d to_domain(const geometry_msgs::msg::Twist& cmd_vel_msg){
+        Eigen::Vector3d control_input;
+        control_input << cmd_vel_msg.linear.x, cmd_vel_msg.linear.y, cmd_vel_msg.angular.z;
+        return control_input;
+    }
 }
