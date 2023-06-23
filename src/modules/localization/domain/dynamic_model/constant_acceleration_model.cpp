@@ -6,7 +6,7 @@ namespace localization::dynamic_model {
                                                          noise_ax(noise_ax), noise_ay(noise_ay), 
                                                          noise_atheta(noise_atheta) {}
 
-    void ConstantAccelerationModel::set_matrix_values(Eigen::VectorXd &x, Eigen::MatrixXd &F, Eigen::MatrixXd &P, Eigen::MatrixXd &Q){
+    void ConstantAccelerationModel::set_matrix_values(Eigen::VectorXd& x, Eigen::MatrixXd& F, Eigen::MatrixXd& G, Eigen::MatrixXd& P, Eigen::MatrixXd& Q) {
         // Set Matrix Values
 
         x = Eigen::VectorXd(9);
@@ -28,6 +28,9 @@ namespace localization::dynamic_model {
         update_state_matrix(F, dt);
         Q = Eigen::MatrixXd(9, 9);
         update_process_noise_matrix(Q, dt);
+
+        G = Eigen::MatrixXd(9, 3);
+        update_control_matrix(G, dt);
     }
 
     void ConstantAccelerationModel::update_process_noise_matrix(Eigen::MatrixXd& Q, double dt) {
@@ -50,17 +53,17 @@ namespace localization::dynamic_model {
     void ConstantAccelerationModel::update_state_matrix(Eigen::MatrixXd& F, double dt) {
 
         double temp = 0.5 * std::pow(dt, 2);
-        // F << 1, 0, 0, dt, 0, 0, temp, 0, 0,     // x
-        //      0, 1, 0, 0, dt, 0, 0, temp, 0,     // y 
-        //      0, 0, 1, 0, 0, dt, 0, 0, temp,     // theta (yaw)
-        //      0, 0, 0, 1, 0, 0, dt, 0, 0,        // x_dot
-        //      0, 0, 0, 0, 1, 0, 0, dt, 0,        // y_dot
-        //      0, 0, 0, 0, 0, 1, 0, 0, dt,        // theta_dot
-        //      0, 0, 0, 0, 0, 0, 1, 0, 0,         // x_dot_dot
-        //      0, 0, 0, 0, 0, 0, 0, 1, 0,         // y_dot_dot
-        //      0, 0, 0, 0, 0, 0, 0, 0, 1;         // theta_dot_dot
-
-        F << 1, 0, 0, 0, 0, 0, temp, 0, 0,     // x
+        // F << 1, dt, temp, 0, 0,  0,    0, 0,  0,         // x
+        //         0, 0,  0,    1, dt, temp, 0, 0,  0,         // y
+        //         0, 0,  0,    0, 0,  0,    1, dt, temp,      // theta (yaw)
+        //         0, 1,  dt,   0, 0,  0,    0, 0,  0,         // x_dot
+        //         0, 0,  0,    0, 1,  dt,   0, 0,  0,         // y_dot
+        //         0, 0,  0,    0, 0,  0,    0, 1,  dt,        // theta_dot    
+        //         0, 0,  1,    0, 0,  0,    0, 0,  0,         // x_dot_dot
+        //         0, 0,  0,    0, 0,  1,    0, 0,  0,         // y_dot_dot
+        //         0, 0,  0,    0, 0,  0,    0, 0,  1;         // theta_dot_dot
+        temp = 0;
+         F << 1, 0, 0, 0, 0, 0, temp, 0, 0,     // x
              0, 1, 0, 0, 0, 0, 0, temp, 0,     // y 
              0, 0, 1, 0, 0, 0, 0, 0, temp,     // theta (yaw)
              0, 0, 0, 0, 0, 0, dt, 0, 0,        // x_dot
@@ -85,7 +88,6 @@ namespace localization::dynamic_model {
              0, 0, 0,     // x_dot_dot
              0, 0, 0,       // y_dot_dot
              0, 0, 0;       // theta_dot_dot
-        
     }
 
     Eigen::MatrixXd ConstantAccelerationModel::get_observation_matrix(const sensor_datastructures::OdomData& odom_data) const{
