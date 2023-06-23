@@ -64,6 +64,14 @@ namespace converters{
      */
     sensor_datastructures::OdomData to_domain(const nav_msgs::msg::Odometry& odom_data);
 
+    /**
+     * @brief Convert ros2 cmd_vel Data to domain
+     * 
+     * @param[in] cmd_vel_msg
+     * @return Eigen::Vector3d
+     */
+    Eigen::Vector3d to_domain(const geometry_msgs::msg::Twist& cmd_vel_msg);
+
 }
 
 #endif // COMMON_INTERFACE__CONVERTERS__CONVERTERS_HPP

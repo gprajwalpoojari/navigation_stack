@@ -43,6 +43,15 @@ class ExtendedKalmanFilter{
         */
         void update_timestamp_changes(const double dt);
 
+        /**
+         * @brief Update the private control input variable
+         * 
+         * @param[in]   u_input    Control Input
+         * 
+         * @return void
+        */
+        void update_control_input(const Eigen::Vector3d& u_input);
+
         // Uncomment the following lines during testing
 
         // /**
