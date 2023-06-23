@@ -51,7 +51,6 @@ namespace localization::dynamic_model {
     }
 
     void ConstantAccelerationModel::update_state_matrix(Eigen::MatrixXd& F, double dt) {
-
         double temp = 0.5 * std::pow(dt, 2);
         // F << 1, dt, temp, 0, 0,  0,    0, 0,  0,         // x
         //         0, 0,  0,    1, dt, temp, 0, 0,  0,         // y
@@ -76,7 +75,6 @@ namespace localization::dynamic_model {
     }
 
     void ConstantAccelerationModel::update_control_matrix(Eigen::MatrixXd& G, double dt) {
-
         double temp = 0.5 * std::pow(dt, 2);
         // u = [x_dot y_dot theta_dot]
         G << dt, 0, 0,    // x

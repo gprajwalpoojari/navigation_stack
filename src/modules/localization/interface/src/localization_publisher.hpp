@@ -52,10 +52,31 @@ private:
      */
     void timer_callback();
 
+    /**
+     * @brief This is a callback function for the /imu topic
+     * 
+     * @param[in] msg IMU message
+     * 
+     * @return void 
+     */
     void imu_callback(const sensor_msgs::msg::Imu::SharedPtr msg);
 
+    /**
+     * @brief This is a callback function for the /odom topic
+     * 
+     * @param[in] msg Odometry message
+     * 
+     * @return void 
+     */
     void odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg);
 
+    /**
+     * @brief This is a callback function for the /cmd_vel topic
+     * 
+     * @param[in] msg Twist data
+     * 
+     * @return void 
+     */
     void control_callback(const geometry_msgs::msg::Twist::SharedPtr msg);
   
     // /**
