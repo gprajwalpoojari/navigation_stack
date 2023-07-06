@@ -80,12 +80,45 @@ class TrajectoryCostCalculator : public ICostCalculator {
      */
     double get_static_obstacle_cost() const;
 
+    /**
+     * @brief Get the dynamic obstacle cost
+     * 
+     * @return double 
+     */
+    double get_dynamic_obstacle_cost() const;
+
+    /**
+     * @brief Get the speed limit cost
+     * 
+     * @param[in] speed_limit the speed limit
+     * @return double 
+     */
+    double get_speed_limit_cost(double speed_limit) const;
+
+    /**
+     * @brief Get the lateral acceleration cost
+     * 
+     * @return double 
+     */
+    double get_lateral_acceleration_cost() const;
+
+    /**
+     * @brief Get the curvature rate cost
+     * 
+     * @return double 
+     */
+    double get_curvature_rate_cost() const;
+
     private:
     std::vector<core_datastructures::Posture> lane_center;
     std::vector<core_datastructures::DynamicPosture> trajectory;
     double lane_center_cost;
     double lane_deviation_cost;
+    double speed_limit_cost;
     double lane_width;
+    double lateral_acceleration_limit;
+    double lateral_acceleration_linear_cost;
+    double curvature_rate_limit;
     int init_idx;
 };
 

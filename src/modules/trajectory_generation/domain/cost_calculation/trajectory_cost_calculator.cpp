@@ -5,11 +5,16 @@
 #include <limits>
 
 namespace trajectory_generation::cost_calculation {
-    TrajectoryCostCalculator::TrajectoryCostCalculator(const std::vector<core_datastructures::Posture>& trajectory, 
+    TrajectoryCostCalculator::TrajectoryCostCalculator(const std::vector<core_datastructures::Posture>& lane_center, 
                                                         double lane_width) : lane_center(lane_center),
                                                         lane_width(lane_width) {
         lane_center_cost = 0;
         lane_deviation_cost = 1;
+        speed_limit_cost = 1;
+        lateral_acceleration_cost = 1;
+        lateral_acceleration_limit = 5;
+        lateral_acceleration_linear_cost = 1;
+        curvature_rate_limit = 5;
         init_idx = 0;
     }
 
@@ -22,7 +27,8 @@ namespace trajectory_generation::cost_calculation {
     }
 
     double TrajectoryCostCalculator::get_dynamic_cost() const {
-        return 0;
+        return get_dynamic_obstacle_cost() + get_speed_limit_cost(speed_limit) + 
+                get_lateral_acceleration_cost() + get_curvature_rate_cost();
     }
 
     void TrajectoryCostCalculator::set(const std::vector<core_datastructures::DynamicPosture>& trajectory) {
@@ -59,6 +65,43 @@ namespace trajectory_generation::cost_calculation {
     }
 
     double TrajectoryCostCalculator::get_static_obstacle_cost() const {
+        return 0;
+    }
+
+    double TrajectoryCostCalculator::get_dynamic_obstacle_cost() const {
+        return 0;
+    }
+
+    double TrajectoryCostCalculator::get_speed_limit_cost(double speed_limit) const {
+        double cost = 0;
+        for (const auto& traj_pt : trajectory) {
+            if (traj_pt.v > speed_limit) {
+                cost += speed_limit_cost;
+            }
+        }
+        return cost;
+    }
+
+    double TrajectoryCostCalculator::get_lateral_acceleration_cost() const {
+        double cost = 0;
+        double max_lat_accel = 0;
+        for (const auto& traj_pt : trajectory) {
+            double lateral_acceleration = traj_pt.kappa * pow(traj_pt.v, 2);
+            max_lat_accel = std::max(max_lat_accel, std::abs(lateral_acceleration));
+            if (lateral_acceleration > lateral_acceleration_limit) {
+                cost += lateral_acceleration_cost;
+            }
+        }
+        cost += lateral_acceleration_linear_cost * max_lat_accel;
+        return cost;
+    }
+
+    double TrajectoryCostCalculator::get_curvature_rate_cost() const {
+        for (const auto& traj_pt : trajectory) {
+            if (std::abs(traj_pt.kappa_dot) > curvature_rate_limit) {
+                return std::numeric_limits<double>::infinity();
+            }
+        }
         return 0;
     }
 }
